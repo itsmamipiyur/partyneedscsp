@@ -11,7 +11,7 @@
 	<div class="ui inverted left fixed vertical menu" id="menu">
 	  <div class="item">
 	  	PARTY NEEDS MANAGEMENT SYSTEM
-	  </div>	  
+	  </div>
 	  <a href="{{url('/home')}}" class="item" id="dashboard">
 	  	<i class="inverted blue dashboard icon"></i> DASHBOARD
 	  </a>
@@ -26,7 +26,7 @@
 		    <div class="content" id="menu_content">
 		      <a href="{{url('/menuType')}}" class="item" id="menuType">Menu Type</a>
 		      <a href="#" class="item">Food Category</a>
-		      <a href="#" class="item">Menu</a>
+		      <a href="{{url('/menu')}}" class="item" id="menu">Menu</a>
 		    </div>
 
 		    <div class="title">
