@@ -25,7 +25,7 @@
 		    </div>
 		    <div class="content" id="menu_content">
 		      <a href="{{url('/menuType')}}" class="item" id="menuType">Menu Type</a>
-		      <a href="#" class="item">Food Category</a>
+		      <a href="{{url('/foodCategory')}}" class="item" id="foodCategory">Food Category</a>
 		      <a href="#" class="item">Menu</a>
 		    </div>
 
