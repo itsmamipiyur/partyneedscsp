@@ -78,10 +78,14 @@
 	  	UTILITY
 	  </div>
 
-	  <a class="item" href="#">
+	  <a class="item" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
 	  	<i class="inverted blue sign out icon"></i>
 	  	SIGN OUT
 	  </a>
+
+	  <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+        {{ csrf_field() }}
+	  </form>
 	</div>
 
 	<div id="content" class="ui container">
