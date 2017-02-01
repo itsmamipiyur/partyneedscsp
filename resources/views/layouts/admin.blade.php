@@ -29,12 +29,12 @@
 		      <a href="{{url('/menu')}}" class="item" id="menu">Menu</a>
 		    </div>
 
-		    <div class="title">
+		    <div class="title" id="inventory">
 		      <i class="dropdown icon"></i>
 		      Inventory
 		    </div>
-		    <div class="content">
-		      <a href="#" class="item">Equipment Type</a>
+		    <div class="content" id="inventory_content">
+		      <a href="{{url('/equipmentType')}}" class="item" id="equipmentType">Equipment Type</a>
 		      <a href="#" class="item">Equipment</a>
 		      <a href="#" class="item">Equipment Rate</a>
 		      <a href="#" class="item">Unit</a>
