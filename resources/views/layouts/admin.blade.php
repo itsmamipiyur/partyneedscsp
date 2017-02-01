@@ -3,6 +3,7 @@
 <head>
 	<title>@yield('title') - PNMS</title>
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/semantic.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.semanticui.css' )}}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
@@ -11,19 +12,19 @@
 	  <div class="item">
 	  	PARTY NEEDS MANAGEMENT SYSTEM
 	  </div>	  
-	  <a href="#" class="item">
+	  <a href="{{url('/home')}}" class="item" id="dashboard">
 	  	<i class="inverted blue dashboard icon"></i> DASHBOARD
 	  </a>
 	  <div class="item">
 	  	<i class="inverted blue folder open icon"></i>
 	  	MAINTENANCE
 	  	<div class="ui inverted accordion">
-		    <div class="title">
+		    <div class="title" id="menu">
 		      <i class="dropdown icon"></i>
 		      Menu
 		    </div>
-		    <div class="content">
-		      <a href="#" class="item">Menu Type</a>
+		    <div class="content" id="menu_content">
+		      <a href="{{url('/menuType')}}" class="item" id="menuType">Menu Type</a>
 		      <a href="#" class="item">Food Category</a>
 		      <a href="#" class="item">Menu</a>
 		    </div>
@@ -94,6 +95,8 @@
 
 	<script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
   	<script type="text/javascript" src="{{asset('js/semantic.js')}}"></script>
+  	<script src="{{ asset('js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/dataTables.semanticui.js') }}" type="text/javascript"></script>
   	<script type="text/javascript" src="{{asset('js/admin.js')}}"></script>
   	@yield('js')
 </body>

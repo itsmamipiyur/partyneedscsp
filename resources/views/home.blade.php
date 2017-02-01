@@ -49,3 +49,11 @@
     </div>
 </div>
 @endsection
+
+@section('js')
+<script>
+  $(document).ready( function(){
+    $('#dashboard').addClass("active grey");
+  });
+</script>
+@endsection
