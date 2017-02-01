@@ -14,7 +14,8 @@ class AddTimestampsToTblPenaltyType extends Migration
     public function up()
     {
         Schema::table('tblPenaltyType', function (Blueprint $table) {
-            //
+          $table->timestamps();
+          $table->SoftDeletes();
         });
     }
 
