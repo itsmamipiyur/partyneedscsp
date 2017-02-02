@@ -35,19 +35,19 @@
 		    </div>
 		    <div class="content" id="inventory_content">
 		      <a href="{{url('/equipmentType')}}" class="item" id="equipmentType">Equipment Type</a>
-		      <a href="#" class="item">Equipment</a>
-		      <a href="#" class="item">Equipment Rate</a>
-		      <a href="#" class="item">Unit</a>
+		      <a href="{{url('/equipment')}}" class="item" id="equipment">Equipment</a>
+		      <a href="{{url('/equipmentRate')}}" class="item" id="equipmentRate">Equipment Rate</a>
+		      <a href="{{url('/unit')}}" class="item" id="unit">Unit</a>
 		    </div>
 
-		    <div class="title">
+		    <div class="title" id="event">
 		      <i class="dropdown icon"></i>
 		      Event
 		    </div>
-		    <div class="content">
-		      <a href="#" class="item">Event Type</a>
-		      <a href="#" class="item">Motif</a>
-		      <a href="#" class="item">Serving Type</a>
+		    <div class="content" id="event_content">
+		      <a href="{{url('/eventType')}}" class="item" id="eventType">Event Type</a>
+		      <a href="{{url('/motif')}}" class="item" id="motif">Motif</a>
+		      <a href="{{url('/servingType')}}" class="item" id="servingType">Serving Type</a>
 		    </div>
 
 		    <div class="title">
@@ -55,7 +55,7 @@
 		      Fees
 		    </div>
 		    <div class="content">
-		      <a href="#" class="item">Delivery</a>
+		      <a href="{{url('/delivery')}}" class="item">Delivery</a>
 		      <a href="#" class="item">Penalty Type</a>
 		      <a href="#" class="item">Penalty</a>
 		    </div>

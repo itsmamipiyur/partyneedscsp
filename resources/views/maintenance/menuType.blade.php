@@ -13,7 +13,7 @@
   	@endif
 
 	<div class="row">
-		<h1>Food Type</h1>
+		<h1>Menu Type</h1>
 		<hr>
 	</div>
 
@@ -63,7 +63,7 @@
 @if(count($menuTypes) > 0)
 @foreach($menuTypes as $menuType)
 	<div class="ui modal" id="update{{$menuType->strMenuTypeCode}}">
-	  <div class="header">Update Food Type</div>
+	  <div class="header">Update Menu Type</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/menuType/menuType_update']) !!}
 	    	<div class="ui form">
@@ -96,9 +96,9 @@
 	</div>
 
 	<div class="ui modal" id="delete{{$menuType->strMenuTypeCode}}">
-	  <div class="header">Delete Food Type</div>
+	  <div class="header">Delete Menu Type</div>
 	  <div class="content">
-	    <p>Do you want to delete this food type?</p>
+	    <p>Do you want to delete this menu type?</p>
 	  </div>
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/menuType/' . $menuType->strMenuTypeCode, 'method' => 'delete']) !!}
@@ -109,9 +109,9 @@
 	</div>
 
 	<div class="ui modal" id="restore{{$menuType->strMenuTypeCode}}">
-	  <div class="header">Restore Food Type</div>
+	  <div class="header">Restore Menu Type</div>
 	  <div class="content">
-	    <p>Do you want to Restore this food type?</p>
+	    <p>Do you want to Restore this menu type?</p>
 	  </div>
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/menuType/menuType_restore']) !!}
@@ -125,7 +125,7 @@
 @endif
 
 	<div class="ui modal" id="create">
-	  <div class="header">Add Food Type</div>
+	  <div class="header">Add Menu Type</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/menuType']) !!}
 	    	<div class="ui form">
