@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Menu extends Model
 {
   use SoftDeletes;
-  protected $table = 'tblmenu';
-  protected $primaryKey = 'strMenuCode';
-  protected $fillable = ['strMenuName', 'txtMenuDesc', 'strMenuMenuTypeCode','strMenuFoodCateCode'];
+  protected $table = 'tblMenu';
+  protected $primaryKey = 'menuCode';
+  protected $fillable = ['menuName', 'menuType', 'menuDesc',];
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-  protected $casts = ['strMenuCode' => 'string'];
+  protected $casts = ['menuCode' => 'string'];
 
   public function MenuType()
   {
