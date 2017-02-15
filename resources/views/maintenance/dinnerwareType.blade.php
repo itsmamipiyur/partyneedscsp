@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-	Equipment Type
+	Dinnerware Type
 @endsection
 
 @section('content')
@@ -13,38 +13,38 @@
   	@endif
 
 	<div class="row">
-		<h1>Equipment Type</h1>
+		<h1>Dinnerware Type</h1>
 		<hr>
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Equipment Type</button>
+		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Dinnerware Type</button>
 	</div>
 	<div class="row">
-		<table class="ui table" id="tblequipmenttype">
+		<table class="ui table" id="tbldinnerwaretype">
 		  <thead>
 		    <tr>
-			    <th>Equipment Type</th>
+			    <th>Dinnerware Type</th>
 			    <th>Description</th>
 			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
 		  <tbody>
-		  	@if(count($equipmentTypes) < 0)
+		  	@if(count($dinnerwareTypes) < 0)
 		  	<tr>
 		  		<td colspan="3"><strong>Nothing to show.</strong></td>
 		  	</tr>
 		  	@else
-		  		@foreach($equipmentTypes as $equipmentType)
+		  		@foreach($dinnerwareTypes as $dinnerwareType)
 			  	<tr>
-			      <td>{{$equipmentType->equipmentTypeName}}</td>
-			      <td>{{$equipmentType->equipmentTypeDesc}}</td>
+			      <td>{{$dinnerwareType->dinnerwareTypeName}}</td>
+			      <td>{{$dinnerwareType->dinnerwareTypeDesc}}</td>
 			      <td class="center aligned">
-					<button class="ui blue button" onclick="$('#update{{$equipmentType->equipmentTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
-					@if($equipmentType->deleted_at == null)
-			      	<button class="ui red button" onclick="$('#delete{{$equipmentType->equipmentTypeCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
+					<button class="ui blue button" onclick="$('#update{{$dinnerwareType->dinnerwareTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+					@if($dinnerwareType->deleted_at == null)
+			      	<button class="ui red button" onclick="$('#delete{{$dinnerwareType->dinnerwareTypeCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
-			      	<button class="ui orange button" onclick="$('#restore{{$equipmentType->equipmentTypeCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$dinnerwareType->dinnerwareTypeCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
