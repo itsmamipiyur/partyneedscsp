@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Penalty extends Model
 {
   use SoftDeletes;
-  protected $table = 'tblpenalty';
-  protected $primaryKey = 'strPenaCode';
-  protected $fillable = ['strPenaName', 'strPenaPenaTypeCode','txtPenaDesc','dblPenaFee'];
+  protected $table = 'tblPenalty';
+  protected $primaryKey = 'penaltyCode';
+  protected $fillable = ['penaltyDesc','penaltyType'];
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-  protected $casts = ['strPenaCode' => 'string'];
+  protected $casts = ['penaltyCode' => 'string'];
 
   public function PenaltyType()
   {

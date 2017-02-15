@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EquipmentType extends Model
 {
   use SoftDeletes;
-  protected $table = 'tblequipmenttype';
-  protected $primaryKey = 'strEquiTypeCode';
-  protected $fillable = ['strEquiTypeName', 'txtEquiTypeDesc'];
+  protected $table = 'tblEquipmentType';
+  protected $primaryKey = 'equipmentTypeCode';
+  protected $fillable = ['equipmentTypeName', 'equipmentTypeDesc'];
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-  protected $casts = ['strEquiTypeCode' => 'string'];
+  protected $casts = ['equipmentTypeCode' => 'string'];
 }

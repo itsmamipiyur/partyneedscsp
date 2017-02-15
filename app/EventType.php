@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EventType extends Model
 {
   use SoftDeletes;
-  protected $table = 'tbleventtype';
-  protected $primaryKey = 'strEvenTypeCode';
-  protected $fillable = ['strEvenTypeName', 'txtEvenTypeDesc'];
+  protected $table = 'tblEventType';
+  protected $primaryKey = 'eventTypeCode';
+  protected $fillable = ['eventTypeName', 'eventTypeDesc'];
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-  protected $casts = ['strEvenTypeCode' => 'string'];
+  protected $casts = ['eventTypeCode' => 'string'];
 }

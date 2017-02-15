@@ -9,8 +9,8 @@ class WaiterRatio extends Model
 {
   use SoftDeletes;
   protected $table = 'tblWaiterRatio';
-  protected $primaryKey = 'strWaitRatiCode';
-  protected $fillable = ['intWaitRatiMaxPax','intWaitRatiNoOfWaiter'];
+  protected $primaryKey = 'waiterRatioCode';
+  protected $fillable = ['waiterRatioMinPax','waiterRatioMaxPax','waiterRatioWaiterCount'];
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-  protected $casts = ['strWaitRatiCode' => 'string'];
+  protected $casts = ['waiterRatioCode' => 'string'];
 }
