@@ -18,18 +18,15 @@
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>Add Unit</button>
+		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Unit</button>
 	</div>
 	<div class="row">
-		<table class="ui inverted table" id="tblUnit">
+		<table class="ui table" id="tblUnit">
 		  <thead>
 		    <tr>
 			    <th>Unit</th>
 			    <th>Description</th>
-			    <th>Created At</th>
-			    <th>Updated At</th>
-			    <th>Deleted At</th>
-			    <th class="right aligned">Action</th>
+			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
 		  <tbody>
@@ -42,15 +39,12 @@
 			  	<tr>
 			      <td>{{$unit->strUnitName}}</td>
 			      <td>{{$unit->txtUnitDesc}}</td>
-			      <td>{{$unit->created_at}}</td>
-			      <td>{{$unit->updated_at}}</td>
-			      <td>{{$unit->deleted_at}}</td>
-			      <td class="right aligned">
-					<button class="ui inverted blue button" onclick="$('#update{{$unit->strUnitCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+			      <td class="center aligned">
+					<button class="ui blue button" onclick="$('#update{{$unit->strUnitCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($unit->deleted_at == null)
-			      	<button class="ui inverted red button" onclick="$('#delete{{$unit->strUnitCode}}').modal('show');"><i class="delete icon"></i> Delete</button>
+			      	<button class="ui red button" onclick="$('#delete{{$unit->strUnitCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
-			      	<button class="ui inverted orange button" onclick="$('#restore{{$unit->strUnitCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$unit->strUnitCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
@@ -96,7 +90,7 @@
 	</div>
 
 	<div class="ui modal" id="delete{{$unit->strUnitCode}}">
-	  <div class="header">Delete Unit</div>
+	  <div class="header">Deactivate Unit</div>
 	  <div class="content">
 	    <p>Do you want to delete this food type?</p>
 	  </div>
@@ -125,7 +119,7 @@
 @endif
 
 	<div class="ui modal" id="create">
-	  <div class="header">Add Unit</div>
+	  <div class="header">New Unit</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/unit']) !!}
 	    	<div class="ui form">
@@ -140,7 +134,7 @@
 				</div>
 				@endif
 
-	    		<div class="required field">
+	    		<div class="disabled field">
 	    			{{ Form::label('unit_code', 'Unit Code') }}
          			{{ Form::text('unit_code', $newID, ['placeholder' => 'Type Unit Code']) }}
 	    		</div>

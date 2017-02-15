@@ -27,7 +27,7 @@ class UnitController extends Controller
           $newID = $this->smartCounter($ids->strUnitCode);
         }
 
-        $units = Unit::withTrashed()->get();
+        $units = Unit::all();
         return view('maintenance.unit')
             ->with('units', $units)
             ->with('newID', $newID);

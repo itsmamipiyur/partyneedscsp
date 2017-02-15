@@ -27,7 +27,7 @@ class DeliveryController extends Controller
           $newID = $this->smartCounter($ids->strDeliCode);
         }
 
-        $deliveries = Delivery::withTrashed()->get();
+        $deliveries = Delivery::all();
         return view('maintenance.delivery')
             ->with('deliveries', $deliveries)
             ->with('newID', $newID);

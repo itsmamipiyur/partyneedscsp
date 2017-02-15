@@ -21,15 +21,12 @@
 		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>Add Food Category</button>
 	</div>
 	<div class="row">
-		<table class="ui inverted table" id="tblFoodCategory">
+		<table class="ui table" id="tblFoodCategory">
 		  <thead>
 		    <tr>
 			    <th>Food Category</th>
 			    <th>Description</th>
-			    <th>Created At</th>
-			    <th>Updated At</th>
-			    <th>Deleted At</th>
-			    <th class="right aligned">Action</th>
+			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
 		  <tbody>
@@ -42,15 +39,12 @@
 			  	<tr>
 			      <td>{{$foodCategory->strFoodCateName}}</td>
 			      <td>{{$foodCategory->txtFoodCateDesc}}</td>
-			      <td>{{$foodCategory->created_at}}</td>
-			      <td>{{$foodCategory->updated_at}}</td>
-			      <td>{{$foodCategory->deleted_at}}</td>
-			      <td class="right aligned">
-					<button class="ui inverted blue button" onclick="$('#update{{$foodCategory->strFoodCateCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+			      <td class="center aligned">
+					<button class="ui blue button" onclick="$('#update{{$foodCategory->strFoodCateCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($foodCategory->deleted_at == null)
-			      	<button class="ui inverted red button" onclick="$('#delete{{$foodCategory->strFoodCateCode}}').modal('show');"><i class="delete icon"></i> Delete</button>
+			      	<button class="ui red button" onclick="$('#delete{{$foodCategory->strFoodCateCode}}').modal('show');"><i class="delete icon"></i> Delete</button>
 			      	@else
-			      	<button class="ui inverted orange button" onclick="$('#restore{{$foodCategory->strFoodCateCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$foodCategory->strFoodCateCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
@@ -140,7 +134,7 @@
 				</div>
 				@endif
 
-	    		<div class="required field">
+	    		<div class="disabled field">
 	    			{{ Form::label('category_code', 'Food Category Code') }}
          			{{ Form::text('category_code', $newID, ['placeholder' => 'Type Food Category Code']) }}
 	    		</div>
@@ -169,14 +163,7 @@
     $('#menu_content').addClass("active");
     $('#menu').addClass("active");
 
-    var table = $('#tblFoodCategory').DataTable({
-        "columnDefs": [
-            {
-                "targets": [ 2, 3, 4 ],
-                "visible": false,
-            }
-        ]
-    });
+    var table = $('#tblFoodCategory').DataTable();
   });
 </script>
 @endsection

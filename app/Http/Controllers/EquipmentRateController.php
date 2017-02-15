@@ -31,7 +31,7 @@ class EquipmentRateController extends Controller
 
        $equipments = Equipment::orderBy('strEquiName')->pluck('strEquiName', 'strEquiCode');
        $units = Unit::orderBy('strUnitName')->pluck('strUnitName', 'strUnitCode');
-       $equipmentRates = EquipmentRate::withTrashed()->get();
+       $equipmentRates = EquipmentRate::all();
 
       return view('maintenance/equipmentRate')
         ->with('newID', $newID)

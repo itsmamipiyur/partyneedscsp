@@ -27,7 +27,7 @@ class ServingTypeController extends Controller
           $newID = $this->smartCounter($ids->strServTypeCode);
         }
 
-        $servingTypes = ServingType::withTrashed()->get();
+        $servingTypes = ServingType::all();
         return view('maintenance.servingType')
             ->with('servingTypes', $servingTypes)
             ->with('newID', $newID);

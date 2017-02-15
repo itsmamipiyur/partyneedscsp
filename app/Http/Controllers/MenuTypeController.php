@@ -27,7 +27,7 @@ class MenuTypeController extends Controller
           $newID = $this->smartCounter($ids->strMenuTypeCode);
         }
 
-        $menuTypes = MenuType::withTrashed()->get();
+        $menuTypes = MenuType::all();
         return view('maintenance.menuType')
             ->with('menuTypes', $menuTypes)
             ->with('newID', $newID);

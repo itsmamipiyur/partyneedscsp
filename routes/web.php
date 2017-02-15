@@ -34,6 +34,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('menuType', 'MenuTypeController');
     Route::resource('unit', 'UnitController');
     Route::resource('delivery', 'DeliveryController');
+    Route::resource('penaltyType', 'PenaltyTypeController');
+    Route::resource('penalty', 'PenaltyController');
+    Route::resource('waiterRatio', 'WaiterRatioController');
 
 
     Route::post('/equipmentType/equipmentType_update', 'EquipmentTypeController@equipmentType_update');
@@ -66,7 +69,16 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/servingType/servingType_update', 'ServingTypeController@servingType_update');
     Route::post('/servingType/servingType_restore', 'ServingTypeController@servingType_restore');
 
-    Route::post('/delivery/delivery_update', 'ServingTypeController@delivery_update');
-    Route::post('/delivery/delivery_restore', 'ServingTypeController@delivery_restore');
+    Route::post('/delivery/delivery_update', 'DeliveryController@delivery_update');
+    Route::post('/delivery/delivery_restore', 'DeliveryController@delivery_restore');
+
+    Route::post('/penaltyType/penaltyType_update', 'PenaltyTypeController@penaltyType_update');
+    Route::post('/penaltyType/penaltyType_restore', 'PenaltyTypeController@penaltyType_restore');
+
+    Route::post('/penalty/penalty_update', 'PenaltyController@penalty_update');
+    Route::post('/penalty/penalty_restore', 'PenaltyController@penalty_restore');
+
+    Route::post('/waiterRatio/waiterRatio_update', 'WaiterRatioController@waiterRatio_update');
+    Route::post('/waiterRatio/waiterRatio_restore', 'WaiterRatioController@waiterRatio_restore');
 });
 

@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<div class="ui inverted left fixed vertical menu" id="menu">
+	<div class="ui inverted left fixed vertical menu" id="sidebar">
 	  <div class="item">
 	  	PARTY NEEDS MANAGEMENT SYSTEM
 	  </div>
@@ -19,16 +19,6 @@
 	  	<i class="inverted blue folder open icon"></i>
 	  	MAINTENANCE
 	  	<div class="ui inverted accordion">
-		    <div class="title" id="menu">
-		      <i class="dropdown icon"></i>
-		      Menu
-		    </div>
-		    <div class="content" id="menu_content">
-		      <a href="{{url('/menuType')}}" class="item" id="menuType">Menu Type</a>
-		      <a href="{{url('/foodCategory')}}" class="item" id="foodCategory">Food Category</a>
-		      <a href="{{url('/menu')}}" class="item" id="menu">Menu</a>
-		    </div>
-
 		    <div class="title" id="inventory">
 		      <i class="dropdown icon"></i>
 		      Inventory
@@ -36,9 +26,19 @@
 		    <div class="content" id="inventory_content">
 		      <a href="{{url('/equipmentType')}}" class="item" id="equipmentType">Equipment Type</a>
 		      <a href="{{url('/equipment')}}" class="item" id="equipment">Equipment</a>
-		      <a href="{{url('/equipmentRate')}}" class="item" id="equipmentRate">Equipment Rate</a>
 		      <a href="{{url('/unit')}}" class="item" id="unit">Unit</a>
+		      <a href="{{url('/equipmentRate')}}" class="item" id="equipmentRate">Equipment Rate</a>
 		    </div>
+
+		    <div class="title" id="menu">
+		      <i class="dropdown icon"></i>
+		      Menu
+		    </div>
+		    <div class="content" id="menu_content">
+		      <a href="{{url('/menuType')}}" class="item" id="menuType">Menu Type</a>
+		      <a href="{{url('/menu')}}" class="item" id="menus">Menu</a>
+		    </div>
+
 
 		    <div class="title" id="event">
 		      <i class="dropdown icon"></i>
@@ -47,17 +47,18 @@
 		    <div class="content" id="event_content">
 		      <a href="{{url('/eventType')}}" class="item" id="eventType">Event Type</a>
 		      <a href="{{url('/motif')}}" class="item" id="motif">Motif</a>
+		      <a href="{{url('/waiterRatio')}}" class="item" id="waiterRatio">Waiter Ratio</a>
 		      <a href="{{url('/servingType')}}" class="item" id="servingType">Serving Type</a>
 		    </div>
 
-		    <div class="title">
+		    <div class="title" id="fees">
 		      <i class="dropdown icon"></i>
 		      Fees
 		    </div>
-		    <div class="content">
-		      <a href="{{url('/delivery')}}" class="item">Delivery</a>
-		      <a href="#" class="item">Penalty Type</a>
-		      <a href="#" class="item">Penalty</a>
+		    <div class="content" id="fees_content">
+		      <a href="{{url('/delivery')}}" class="item" id="delivery">Delivery</a>
+		      <a href="{{url('/penaltyType')}}" class="item" id="penaltyType">Penalty Type</a>
+		      <a href="{{url('/penalty')}}" class="item" id="penalty">Penalty</a>
 		    </div>
 	  	</div>
 	  </div>
@@ -65,6 +66,35 @@
 	  <div class="item">
 	  	<i class="inverted blue file text icon"></i>
 	  	TRANSACTION
+	  	<div class="ui inverted accordion">
+		    <div class="title" id="eventtrans">
+		      <i class="dropdown icon"></i>
+		      Event
+		    </div>
+		    <div class="content" id="eventtrans_content">
+		      <a href="#" class="item" id="eventBook">Create Event</a>
+		      <a href="#" class="item" id="foodCategory">Cancel Event</a>
+		    </div>
+
+		    <div class="title" id="inventorytrans">
+		      <i class="dropdown icon"></i>
+		      Inventory
+		    </div>
+		    <div class="content" id="inventorytrans_content">
+		      <a href="#" class="item" id="equipmentType">Create Invetory Transaction</a>
+		      <a href="#" class="item" id="equipment">Release Equipment</a>
+		      <a href="#" class="item" id="unit">Audit Equipment</a>
+		    </div>
+
+		    <div class="title" id="rental">
+		      <i class="dropdown icon"></i>
+		      Rental
+		    </div>
+		    <div class="content" id="rental_content">
+		      <a href="#" class="item" id="eventType">Create Rental Transaction</a>
+		      <a href="#" class="item" id="motif">Extend Rent</a>
+		    </div>
+	  	</div>
 	  </div>
 	  <div class="item">
 	  	<i class="inverted blue search icon"></i>

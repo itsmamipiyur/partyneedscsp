@@ -19,6 +19,7 @@ return array(
     'AddTimestampsToTblPenalty' => $baseDir . '/database/migrations/2017_02_01_180533_add_timestamps_to_tblPenalty.php',
     'AddTimestampsToTblPenaltyType' => $baseDir . '/database/migrations/2017_02_01_180514_add_timestamps_to_tblPenaltyType.php',
     'AddTimestampsToTblServeType' => $baseDir . '/database/migrations/2017_02_01_175914_add_timestamps_to_tblServeType.php',
+    'AddTimestampsToTblWaiterRatio' => $baseDir . '/database/migrations/2017_02_10_233201_add_timestamps_to_tblWaiterRatio.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',

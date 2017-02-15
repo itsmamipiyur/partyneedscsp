@@ -27,7 +27,7 @@ class EventTypeController extends Controller
         $newID = $this->smartCounter($ids->strEvenTypeCode);
       }
 
-      $eventTypes = EventType::withTrashed()->get();
+      $eventTypes = EventType::all();
 
       return view('maintenance/eventType')
         ->with('newID', $newID)

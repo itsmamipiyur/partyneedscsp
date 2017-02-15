@@ -30,7 +30,7 @@ class EquipmentController extends Controller
        }
 
        $equiTypes = EquipmentType::orderBy('strEquiTypeName')->pluck('strEquiTypeName', 'strEquiTypeCode');
-       $equipments = Equipment::withTrashed()->get();
+       $equipments = Equipment::all();
 
       return view('maintenance/equipment')
         ->with('newID', $newID)

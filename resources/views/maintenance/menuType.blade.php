@@ -18,18 +18,15 @@
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>Add Menu Type</button>
+		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Menu Type</button>
 	</div>
 	<div class="row">
-		<table class="ui inverted table" id="tblMenuType">
+		<table class="ui table" id="tblMenuType">
 		  <thead>
 		    <tr>
 			    <th>Menu Type</th>
 			    <th>Description</th>
-			    <th>Created At</th>
-			    <th>Updated At</th>
-			    <th>Deleted At</th>
-			    <th class="right aligned">Action</th>
+			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
 		  <tbody>
@@ -42,15 +39,12 @@
 			  	<tr>
 			      <td>{{$menuType->strMenuTypeName}}</td>
 			      <td>{{$menuType->txtMenuTypeDesc}}</td>
-			      <td>{{$menuType->created_at}}</td>
-			      <td>{{$menuType->updated_at}}</td>
-			      <td>{{$menuType->deleted_at}}</td>
-			      <td class="right aligned">
-					<button class="ui inverted blue button" onclick="$('#update{{$menuType->strMenuTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+			      <td class="center aligned">
+					<button class="ui blue button" onclick="$('#update{{$menuType->strMenuTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($menuType->deleted_at == null)
-			      	<button class="ui inverted red button" onclick="$('#delete{{$menuType->strMenuTypeCode}}').modal('show');"><i class="delete icon"></i> Delete</button>
+			      	<button class="ui red button" onclick="$('#delete{{$menuType->strMenuTypeCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
-			      	<button class="ui inverted orange button" onclick="$('#restore{{$menuType->strMenuTypeCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$menuType->strMenuTypeCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
@@ -96,7 +90,7 @@
 	</div>
 
 	<div class="ui modal" id="delete{{$menuType->strMenuTypeCode}}">
-	  <div class="header">Delete Menu Type</div>
+	  <div class="header">Deactivate Menu Type</div>
 	  <div class="content">
 	    <p>Do you want to delete this menu type?</p>
 	  </div>
@@ -125,7 +119,7 @@
 @endif
 
 	<div class="ui modal" id="create">
-	  <div class="header">Add Menu Type</div>
+	  <div class="header">New Menu Type</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/menuType']) !!}
 	    	<div class="ui form">
@@ -140,7 +134,7 @@
 				</div>
 				@endif
 
-	    		<div class="required field">
+	    		<div class="disabled field">
 	    			{{ Form::label('menu_type_code', 'Menu Type Code') }}
          			{{ Form::text('menu_type_code', $newID, ['placeholder' => 'Type Menu Type Code']) }}
 	    		</div>

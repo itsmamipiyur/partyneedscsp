@@ -18,18 +18,15 @@
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>Add Event Type</button>
+		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Event Type</button>
 	</div>
 	<div class="row">
-		<table class="ui inverted table" id="tblEvenType">
+		<table class="ui table" id="tblEvenType">
 		  <thead>
 		    <tr>
 			    <th>Event Type</th>
 			    <th>Description</th>
-			    <th>Created At</th>
-			    <th>Updated At</th>
-			    <th>Deleted At</th>
-			    <th class="right aligned">Action</th>
+			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
 		  <tbody>
@@ -42,15 +39,12 @@
 			  	<tr>
 			      <td>{{$eventType->strEvenTypeName}}</td>
 			      <td>{{$eventType->txtEvenTypeDesc}}</td>
-			      <td>{{$eventType->created_at}}</td>
-			      <td>{{$eventType->updated_at}}</td>
-			      <td>{{$eventType->deleted_at}}</td>
-			      <td class="right aligned">
-					<button class="ui inverted blue button" onclick="$('#update{{$eventType->strEvenTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+			      <td class="center aligned">
+					<button class="ui blue button" onclick="$('#update{{$eventType->strEvenTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($eventType->deleted_at == null)
-			      	<button class="ui inverted red button" onclick="$('#delete{{$eventType->strEvenTypeCode}}').modal('show');"><i class="delete icon"></i> Delete</button>
+			      	<button class="ui red button" onclick="$('#delete{{$eventType->strEvenTypeCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
-			      	<button class="ui inverted orange button" onclick="$('#restore{{$eventType->strEvenTypeCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$eventType->strEvenTypeCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
@@ -96,7 +90,7 @@
 	</div>
 
 	<div class="ui modal" id="delete{{$eventType->strEvenTypeCode}}">
-	  <div class="header">Delete Event Type</div>
+	  <div class="header">Deactivate Event Type</div>
 	  <div class="content">
 	    <p>Do you want to delete this event type?</p>
 	  </div>
@@ -125,7 +119,7 @@
 @endif
 
 	<div class="ui modal" id="create">
-	  <div class="header">Add Event Type</div>
+	  <div class="header">New Event Type</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/eventType']) !!}
 	    	<div class="ui form">
@@ -140,7 +134,7 @@
 				</div>
 				@endif
 
-	    		<div class="required field">
+	    		<div class="disabled field">
 	    			{{ Form::label('event_type_code', 'Event Type Code') }}
          			{{ Form::text('event_type_code', $newID, ['placeholder' => 'Type Event Type Code']) }}
 	    		</div>

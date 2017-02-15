@@ -26,7 +26,7 @@ class MotifController extends Controller
         $newID = $this->smartCounter($ids->strMotiCode);
       }
 
-      $motifs = Motif::withTrashed()->get();
+      $motifs = Motif::all();
 
       return view('maintenance.motif')
         ->with('newID', $newID)

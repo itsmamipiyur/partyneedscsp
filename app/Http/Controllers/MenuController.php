@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Menu;
+use App\MenuType;
 
 class MenuController extends Controller
 {
@@ -25,12 +26,15 @@ class MenuController extends Controller
      if ($ids == null) {
        $newID = $this->smartCounter("MNU0000");
      }else{
-       $newID = $this->smartCounter($ids->strMenu);
+       $newID = $this->smartCounter($ids->strMenuCode);
      }
 
-     $menus = Menu::withTrashed()->get();
+     $menus = Menu::all();
+     $menuTypes = MenuType::orderBy('strMenuTypeName')->pluck('strMenuTypeName', 'strMenuTypeCode');
+
      return view('maintenance.menu')
          ->with('menus', $menus)
+         ->with('menuTypes', $menuTypes)
          ->with('newID', $newID);
  }
 
@@ -54,12 +58,14 @@ class MenuController extends Controller
  {
      //
      $rules = ['menu_code' => 'required',
-               'menu_name' => 'required'];
+               'menu_name' => 'required',
+               'menu_type' => 'required'];
 
      $this->validate($request, $rules);
-     $menu = new MenuType;
+     $menu = new Menu;
      $menu->strMenuCode = $request->menu_code;
      $menu->strMenuName = $request->menu_name;
+     $menu->strMenuMenuTypeCode = $request->menu_type;
      $menu->txtMenuDesc = $request->menu_description;
      $menu->save();
 
@@ -119,12 +125,14 @@ class MenuController extends Controller
 
  public function menu_update(Request $request)
   {
-    $rules = ['menu_name' => 'required | max:100'];
+    $rules = ['menu_name' => 'required | max:100',
+              'menu_type' => 'required'];
     $id = $request->menu_code;
 
     $this->validate($request, $rules);
     $menu = Menu::find($id);
     $menu->strMenuName = $request->menu_name;
+    $menu->strMenuMenuTypeCode = $request->menu_type;
     $menu->txtMenuDesc = $request->menu_description;
     $menu->save();
 

@@ -291,6 +291,7 @@ class ComposerStaticInit513c9b1aa0f64c94c2bb5622b6f39469
         'AddTimestampsToTblPenalty' => __DIR__ . '/../..' . '/database/migrations/2017_02_01_180533_add_timestamps_to_tblPenalty.php',
         'AddTimestampsToTblPenaltyType' => __DIR__ . '/../..' . '/database/migrations/2017_02_01_180514_add_timestamps_to_tblPenaltyType.php',
         'AddTimestampsToTblServeType' => __DIR__ . '/../..' . '/database/migrations/2017_02_01_175914_add_timestamps_to_tblServeType.php',
+        'AddTimestampsToTblWaiterRatio' => __DIR__ . '/../..' . '/database/migrations/2017_02_10_233201_add_timestamps_to_tblWaiterRatio.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',

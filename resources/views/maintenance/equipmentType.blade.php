@@ -18,18 +18,15 @@
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>Add Equipment Type</button>
+		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Equipment Type</button>
 	</div>
 	<div class="row">
-		<table class="ui inverted table" id="tblEquiType">
+		<table class="ui table" id="tblEquiType">
 		  <thead>
 		    <tr>
 			    <th>Equipment Type</th>
 			    <th>Description</th>
-			    <th>Created At</th>
-			    <th>Updated At</th>
-			    <th>Deleted At</th>
-			    <th class="right aligned">Action</th>
+			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
 		  <tbody>
@@ -42,15 +39,12 @@
 			  	<tr>
 			      <td>{{$equipmentType->strEquiTypeName}}</td>
 			      <td>{{$equipmentType->txtEquiTypeDesc}}</td>
-			      <td>{{$equipmentType->created_at}}</td>
-			      <td>{{$equipmentType->updated_at}}</td>
-			      <td>{{$equipmentType->deleted_at}}</td>
-			      <td class="right aligned">
-					<button class="ui inverted blue button" onclick="$('#update{{$equipmentType->strEquiTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+			      <td class="center aligned">
+					<button class="ui blue button" onclick="$('#update{{$equipmentType->strEquiTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($equipmentType->deleted_at == null)
-			      	<button class="ui inverted red button" onclick="$('#delete{{$equipmentType->strEquiTypeCode}}').modal('show');"><i class="delete icon"></i> Delete</button>
+			      	<button class="ui red button" onclick="$('#delete{{$equipmentType->strEquiTypeCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
-			      	<button class="ui inverted orange button" onclick="$('#restore{{$equipmentType->strEquiTypeCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$equipmentType->strEquiTypeCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
@@ -96,7 +90,7 @@
 	</div>
 
 	<div class="ui modal" id="delete{{$equipmentType->strEquiTypeCode}}">
-	  <div class="header">Delete Equipment Type</div>
+	  <div class="header">Deactivate Equipment Type</div>
 	  <div class="content">
 	    <p>Do you want to delete this Equipment type?</p>
 	  </div>
@@ -125,7 +119,7 @@
 @endif
 
 	<div class="ui modal" id="create">
-	  <div class="header">Add Equipment Type</div>
+	  <div class="header">New Equipment Type</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/equipmentType']) !!}
 	    	<div class="ui form">
@@ -140,7 +134,7 @@
 				</div>
 				@endif
 
-	    		<div class="required field">
+	    		<div class="disabled field">
 	    			{{ Form::label('equipment_type_code', 'Equipment Type Code') }}
          			{{ Form::text('equipment_type_code', $newID, ['placeholder' => 'Type Equipment Type Code']) }}
 	    		</div>

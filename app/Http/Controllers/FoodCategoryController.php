@@ -28,7 +28,7 @@ class FoodCategoryController extends Controller
           $newID = $this->smartCounter($ids->strFoodCateCode);
         }
 
-        $foodCategories = FoodCategory::withTrashed()->get();
+        $foodCategories = FoodCategory::all();
         return view('maintenance/foodCategory')
           ->with('foodCategories', $foodCategories)
           ->with('newID', $newID);

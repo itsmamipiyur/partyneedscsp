@@ -28,7 +28,7 @@ class EquipmentTypeController extends Controller
           $newID = $this->smartCounter($ids->strEquiTypeCode);
         }
 
-        $equipmentTypes = EquipmentType::withTrashed()->get();
+        $equipmentTypes = EquipmentType::all();
 
         return view('maintenance/equipmentType')
           ->with('newID', $newID)
