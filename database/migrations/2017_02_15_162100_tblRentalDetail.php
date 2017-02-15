@@ -13,7 +13,10 @@ class TblRentalDetail extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('TblRentalDetail', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**

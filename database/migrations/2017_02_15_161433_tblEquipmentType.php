@@ -13,7 +13,10 @@ class TblEquipmentType extends Migration
      */
     public function up()
     {
-        //
+         Schema::table('TblEquipmentType', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**
@@ -23,6 +26,8 @@ class TblEquipmentType extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('TblEquipmentType', function(Blueprint $table){
+
+        });
     }
 }

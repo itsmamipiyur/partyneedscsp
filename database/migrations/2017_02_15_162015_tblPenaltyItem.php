@@ -13,7 +13,10 @@ class TblPenaltyItem extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('TblPenaltyItem', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**

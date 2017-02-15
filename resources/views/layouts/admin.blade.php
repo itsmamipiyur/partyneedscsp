@@ -4,13 +4,9 @@
 
 	<title>@yield('title') - PNMS</title>
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/semantic.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.semanticui.css' )}}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.semanticui.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/semantic.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ asset('asset/semantic.css') }}">
-	<link rel="stylesheet" href="{{ ('assets/semantic.css') }}">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 </head>
 <body>
 	<div class="ui top attached menu">
@@ -46,7 +42,7 @@
 				    Menu
 				  </div>
 				  <div class="content">
-				    <a href="#" class="item">Dish Type</a>
+				    <a href="{{url('/dishType')}}" class="item">Dish Type</a>
 				    <a href="#" class="item">Dish</a>
 				    <a href="#" class="item">Menu</a>
 				  </div>
@@ -104,22 +100,14 @@
 	  </div>
 	  <div class="pusher">
 	    <div class="ui basic segment">
-	      <h3 class="ui header">Application Content</h3>
-	      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	      @yield('content')
 	    </div>
 	  </div>
 
-
-
-
-
-	<script type="text/javascript" src="assets/jquery-3.1.1.js"></script>
-	<script type="text/javascript" src="assets/semantic.js"></script>
+	<script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+	<script type="text/javascript" src="{{asset('js/semantic.js')}}"></script>
+	<script type="text/javascript" src="{{asset('js/jquery.dataTables.js')}}"></script>
+	<script type="text/javascript" src="{{asset('js/dataTables.semanticui.js')}}"></script>
 
 	<script type="text/javascript">
 		$('.ui.sidebar').sidebar({
@@ -128,5 +116,7 @@
 		  .sidebar('attach events', '#toggle');
 		$('.ui.accordion').accordion();
 	</script>
+
+	@yield('js')
 </body>
 </html>

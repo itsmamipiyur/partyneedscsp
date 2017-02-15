@@ -13,7 +13,10 @@ class TblItemRate extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('TblItemRate', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**

@@ -13,7 +13,10 @@ class TblWaiterRatio extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('TblWaiterRatio', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**

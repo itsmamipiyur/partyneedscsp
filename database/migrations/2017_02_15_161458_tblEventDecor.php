@@ -13,7 +13,10 @@ class TblEventDecor extends Migration
      */
     public function up()
     {
-        //
+         Schema::table('TblEventDecor', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**
@@ -23,6 +26,8 @@ class TblEventDecor extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('TblEventDecor', function(Blueprint $table){
+
+        });
     }
 }

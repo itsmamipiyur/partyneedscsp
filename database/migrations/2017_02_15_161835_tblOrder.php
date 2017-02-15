@@ -13,7 +13,10 @@ class TblOrder extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('TblOrder', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**

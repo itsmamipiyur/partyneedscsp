@@ -13,7 +13,10 @@ class TblMenuDetail extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('TblMenuDetail', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**

@@ -13,7 +13,10 @@ class TblPayment extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('TblPayment', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**

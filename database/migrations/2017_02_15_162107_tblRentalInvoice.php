@@ -13,7 +13,10 @@ class TblRentalInvoice extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('TblRentalInvoice', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**

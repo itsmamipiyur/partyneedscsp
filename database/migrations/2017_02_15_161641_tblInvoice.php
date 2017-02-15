@@ -13,7 +13,10 @@ class TblInvoice extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('TblInvoice', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**
@@ -23,6 +26,8 @@ class TblInvoice extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('TblInvoice', function(Blueprint $table){
+
+        });
     }
 }

@@ -13,7 +13,10 @@ class TblUOM extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('TblUOM', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**

@@ -13,7 +13,10 @@ class TblItemEquipment extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('TblItemEquipment', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**

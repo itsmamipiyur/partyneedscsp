@@ -13,7 +13,10 @@ class TblDish extends Migration
      */
     public function up()
     {
-        //
+         Schema::table('TblDish', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**
@@ -23,6 +26,8 @@ class TblDish extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('TblDish', function(Blueprint $table){
+
+        });
     }
 }

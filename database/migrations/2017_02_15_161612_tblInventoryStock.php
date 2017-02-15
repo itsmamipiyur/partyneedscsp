@@ -13,7 +13,10 @@ class TblInventoryStock extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('TblInventoryStock', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**
@@ -23,6 +26,8 @@ class TblInventoryStock extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('TblInventoryStock', function(Blueprint $table){
+
+        });
     }
 }

@@ -13,7 +13,10 @@ class TblDelivery extends Migration
      */
     public function up()
     {
-        //
+         Schema::table('TblDelivery', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**
@@ -23,6 +26,8 @@ class TblDelivery extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('TblDelivery', function(Blueprint $table){
+
+        });
     }
 }

@@ -13,7 +13,10 @@ class TblCustomer extends Migration
      */
     public function up()
     {
-        //
+         Schema::table('TblCustomer', function(Blueprint $table){
+            $table->timestamps();
+            $table->SoftDeletes();
+        });
     }
 
     /**
@@ -23,6 +26,8 @@ class TblCustomer extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('TblCustomer',function(Blueprint $table){
+
+        });
     }
 }
