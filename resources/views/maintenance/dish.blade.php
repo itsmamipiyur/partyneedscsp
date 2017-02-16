@@ -24,9 +24,9 @@
 		<table class="ui table" id="tblDish">
 		  <thead>
 		    <tr>
-			    <th>Dish</th>
+			    <th>Name</th>
 			    <th>Description</th>
-			    <th>Dish Type</th>
+			    <th>Type</th>
 			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
@@ -40,7 +40,7 @@
 			  	<tr>
 			      <td>{{$dish->dishName}}</td>
 			      <td>{{$dish->dishDesc}}</td>
-			      <td>{{$dish->dishTypeCode->dishTypeName}}</td>
+			      <td>{{$dish->dishType->dishTypeName}}</td>
 			      <td class="center aligned">
 					<button class="ui blue button" onclick="$('#update{{$dish->dishCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($dish->deleted_at == null)
@@ -75,15 +75,15 @@
 				@endif
 	    		{{ Form::hidden('dish_code', $dish->dishCode) }}
 	    		<div class="required field">
-	    			{{ Form::label('dish_name', 'Dish Name') }}
+	    			{{ Form::label('dish_name', 'Name') }}
          			{{ Form::text('dish_name', $dish->dishName, ['placeholder' => 'Type Dish Name']) }}
 	    		</div>
 	    		<div class="field">
-	    			{{ Form::label('dish_description', 'Dish Description') }}
+	    			{{ Form::label('dish_description', 'Description') }}
           			{{ Form::textarea('dish_description', $dish->dishDesc, ['placeholder' => 'Type Dish Description', 'rows' => '2']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('dish_type', 'Dish Type') }}
+	    			{{ Form::label('dish_type', 'Type') }}
          			{{ Form::select('dish_type', $dishTypes, $dish->dishTypeCode, ['placeholder' => 'Choose Dish Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    	</div>
@@ -141,19 +141,19 @@
 				@endif
 
 	    		<div class="disabled field">
-	    			{{ Form::label('dish_code', 'Dish Code') }}
+	    			{{ Form::label('dish_code', 'Code') }}
          			{{ Form::text('dish_code', $newID, ['placeholder' => 'Type Dish Code']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('dish_name', 'Dish Name') }}
-         			{{ Form::text('dish_name', '', ['placeholder' => 'Type Dish Name']) }}
+	    			{{ Form::label('dish_name', 'Name') }}
+         			{{ Form::text('dish_name', '', ['placeholder' => 'Type Dish Name', 'autofocus' => 'true']) }}
 	    		</div>
 	    		<div class="field">
-	    			{{ Form::label('dish_description', 'Dish Description') }}
+	    			{{ Form::label('dish_description', 'Description') }}
           			{{ Form::textarea('dish_description', '', ['placeholder' => 'Type Dish Description', 'rows' => '2']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('dish_type', 'Dish Type') }}
+	    			{{ Form::label('dish_type', 'Type') }}
          			{{ Form::select('dish_type', $dishTypes, null, ['placeholder' => 'Choose Dish Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    	</div>

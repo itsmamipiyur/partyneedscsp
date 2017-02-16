@@ -24,7 +24,7 @@
 		<table class="ui table" id="tblDishType">
 		  <thead>
 		    <tr>
-			    <th>Dish Type</th>
+			    <th>Name</th>
 			    <th>Description</th>
 			    <th class="center aligned">Action</th>
 		  	</tr>
@@ -73,11 +73,11 @@
 				@endif
 	    		{{ Form::hidden('dishtype_code', $dishtype->dishTypeCode) }}
 	    		<div class="required field">
-	    			{{ Form::label('dishtype_name', 'Dish Type Name') }}
+	    			{{ Form::label('dishtype_name', 'Name') }}
          			{{ Form::text('dishtype_name', $dishtype->dishTypeName, ['placeholder' => 'Type Dish Type Name']) }}
 	    		</div>
 	    		<div class="field">
-	    			{{ Form::label('dishtype_description', 'Dish Type Description') }}
+	    			{{ Form::label('dishtype_description', 'Description') }}
           			{{ Form::textarea('dishtype_description', $dishtype->dishTypeDesc, ['placeholder' => 'Type Dish Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
@@ -95,7 +95,7 @@
 	    <p>Do you want to delete this dish type?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/dishtype/' . $dishtype->dishTypeCode, 'method' => 'delete']) !!}
+	  	{!! Form::open(['url' => '/dishType/' . $dishtype->dishTypeCode, 'method' => 'delete']) !!}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
@@ -136,15 +136,15 @@
 				@endif
 
 	    		<div class="disabled field">
-	    			{{ Form::label('dishtype_code', 'Dish Type Code') }}
+	    			{{ Form::label('dishtype_code', 'Code') }}
          			{{ Form::text('dishtype_code', $newID, ['placeholder' => 'Type Dish Type Code']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('dishtype_name', 'Dish Type Name') }}
+	    			{{ Form::label('dishtype_name', 'Name') }}
          			{{ Form::text('dishtype_name', '', ['placeholder' => 'Type Dish Type Name', 'autofocus' => 'true']) }}
 	    		</div>
 	    		<div class="field">
-	    			{{ Form::label('dishtype_description', 'Dish Type Description') }}
+	    			{{ Form::label('dishtype_description', 'Description') }}
           			{{ Form::textarea('dishtype_description', '', ['placeholder' => 'Type Dish Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>

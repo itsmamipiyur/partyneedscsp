@@ -38,15 +38,24 @@
 		  	@else
 		  		@foreach($menus as $menu)
 			  	<tr>
-			      <td>{{$menu->strMenuName}}</td>
-			      <td>{{$menu->menuType->strMenuTypeName}}</td>
-			      <td>{{$menu->txtMenuDesc}}</td>
+			      <td>{{$menu->menuName}}</td>
+			      
+			      	@if($menu->menuType == '1')
+			      		<td>Buffet</td>
+			      	@elseif($menu->menuType == '2')
+			      		<td>Set</td>
+			      	@endif
+			      
+			      <td>{{$menu->menuDesc}}</td>
 			      <td class="center aligned">
-					<button class="ui blue button" onclick="$('#update{{$menu->strMenuCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+			      	@if($menu->menuType == '2')
+			      	<a href="{{url('/menu/'. $menu->menuCode)}}" class="ui teal button">Add Menu Dish</a>
+			      	@endif
+					<button class="ui blue button" onclick="$('#update{{$menu->menuCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($menu->deleted_at == null)
-			      	<button class="ui red button" onclick="$('#delete{{$menu->strMenuCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
+			      	<button class="ui red button" onclick="$('#delete{{$menu->menuCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
-			      	<button class="ui orange button" onclick="$('#restore{{$menu->strMenuCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$menu->menuCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
@@ -58,7 +67,7 @@
 
 @if(count($menus) > 0)
 @foreach($menus as $menu)
-	<div class="ui modal" id="update{{$menu->strMenuCode}}">
+	<div class="ui modal" id="update{{$menu->menuCode}}">
 	  <div class="header">Update Menu</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/menu/menu_update']) !!}
@@ -73,18 +82,18 @@
 				    </ul>
 				</div>
 				@endif
-	    		{{ Form::hidden('menu_code', $menu->strMenuCode) }}
+	    		{{ Form::hidden('menu_code', $menu->menuCode) }}
 	    		<div class="required field">
-	    			{{ Form::label('menu_name', 'Menu Name') }}
-         			{{ Form::text('menu_name', $menu->strMenuName, ['placeholder' => 'Type Menu Name']) }}
+	    			{{ Form::label('menu_name', 'Name') }}
+         			{{ Form::text('menu_name', $menu->menuName, ['placeholder' => 'Type Menu Name']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('menu_type', 'Menu Type') }}
-         			{{ Form::select('menu_type', $menuTypes, $menu->strMenuMenuTypeCode, ['placeholder' => 'Choose Menu Type', 'class' => 'ui search dropdown']) }}
+	    			{{ Form::label('menu_type', 'Type') }}
+         			{{ Form::select('menu_type', $menuTypes, $menu->menuType, ['placeholder' => 'Choose Menu Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    		<div class="field">
-	    			{{ Form::label('menu_description', 'Menu Description') }}
-          			{{ Form::textarea('menu_description', $menu->txtMenuDesc, ['placeholder' => 'Type Menu Description', 'rows' => '2']) }}
+	    			{{ Form::label('menu_description', 'Description') }}
+          			{{ Form::textarea('menu_description', $menu->menuDesc, ['placeholder' => 'Type Menu Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
         </div>
@@ -95,27 +104,27 @@
 	  </div>
 	</div>
 
-	<div class="ui modal" id="delete{{$menu->strMenuCode}}">
+	<div class="ui modal" id="delete{{$menu->menuCode}}">
 	  <div class="header">Deactivate Menu</div>
 	  <div class="content">
 	    <p>Do you want to delete this menu?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/menu/' . $menu->strMenuCode, 'method' => 'delete']) !!}
+	  	{!! Form::open(['url' => '/menu/' . $menu->menuCode, 'method' => 'delete']) !!}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
 	</div>
 
-	<div class="ui modal" id="restore{{$menu->strMenuCode}}">
+	<div class="ui modal" id="restore{{$menu->menuCode}}">
 	  <div class="header">Restore Menu</div>
 	  <div class="content">
 	    <p>Do you want to Restore this menu?</p>
 	  </div>
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/menu/menu_restore']) !!}
-	  		{{ Form::hidden('menu_code', $menu->strMenuCode) }}
+	  		{{ Form::hidden('menu_code', $menu->menuCode) }}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
@@ -141,20 +150,24 @@
 				@endif
 
 	    		<div class="disabled field">
-	    			{{ Form::label('menu_code', 'Menu Code') }}
+	    			{{ Form::label('menu_code', 'Code') }}
          			{{ Form::text('menu_code', $newID, ['placeholder' => 'Type Menu Code']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('menu_name', 'Menu Name') }}
-         			{{ Form::text('menu_name', '', ['placeholder' => 'Type Menu Name']) }}
+	    			{{ Form::label('menu_name', 'Name') }}
+         			{{ Form::text('menu_name', '', ['placeholder' => 'Type Menu Name', 'autofocus' => 'true']) }}
 	    		</div>
 	    		<div class="field">
-	    			{{ Form::label('menu_description', 'Menu Description') }}
+	    			{{ Form::label('menu_description', 'Description') }}
           			{{ Form::textarea('menu_description', '', ['placeholder' => 'Type Menu Description', 'rows' => '2']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('menu_type', 'Menu Type') }}
-         			{{ Form::select('menu_type', $menuTypes, null, ['placeholder' => 'Choose Menu Type', 'class' => 'ui search dropdown']) }}
+	    			{{ Form::label('menu_type', 'Type') }}
+         			{{ Form::select('menu_type', $menuTypes, null, ['id' => 'menuType', 'placeholder' => 'Choose Menu Type', 'class' => 'ui search dropdown']) }}
+	    		</div>
+	    		<div class="required field" style="display: none;" id="typeSelect">
+	    			{{ Form::label('dish_code', 'Dish') }}
+         			{{ Form::select('dish_code', $dishes, null, ['placeholder' => 'Choose Dish', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    	</div>
         </div>
@@ -174,6 +187,16 @@
     $('#menu').addClass("active");
 
     var table = $('#tblMenu').DataTable();
+
+    $('#menuType').on("change", function(){
+    	var val = $( "select#menuType" ).val();
+
+    	if(val == '1'){
+    		document.getElementById('typeSelect').style.display = "block";
+    	}else{
+    		document.getElementById('typeSelect').style.display = "none";
+    	}
+    });
   });
 </script>
 @endsection

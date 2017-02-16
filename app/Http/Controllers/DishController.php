@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\EquipmentType;
-use App\Equipment;
+use App\DishType;
+use App\Dish;
 use Response;
 
-class EquipmentController extends Controller
+class DishController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,7 +30,7 @@ class EquipmentController extends Controller
        }
 
        $dishTypes = DishType::orderBy('dishTypeName')->pluck('dishTypeName', 'dishTypeCode');
-       $dishes = Dishes::all();
+       $dishes = Dish::all();
 
       return view('maintenance/dish')
         ->with('newID', $newID)
@@ -56,7 +56,7 @@ class EquipmentController extends Controller
      */
     public function store(Request $request)
     {
-      $rules = ['dish_name' => 'required | max:100',
+      $rules = ['dish_name' => 'required | unique:tblDish,dishName',
                 'dish_type' => 'required'];
 
       $this->validate($request, $rules);
@@ -80,12 +80,6 @@ class EquipmentController extends Controller
     public function show($id)
     {
         //
-        $equipment = Equipment::find($id);
-        return Response::json(['dishCode' => $dish->dishCode,
-                              'dishName' => $dish->dishName,
-                              'dishDesc' => $dish->dishDesc,
-                              'dishTypeName' => $dish->DishType->dishTypeName]);
-
     }
 
     /**
@@ -134,7 +128,7 @@ class EquipmentController extends Controller
       $this->validate($request, $rules);
       $dish = Dish::find($request->dish_code);
       $dish->dishName = trim($request->dish_name);
-      $dish->txtEquiDesc = trim($request->dish_description);
+      $dish->dishDesc = trim($request->dish_description);
       $dish->dishTypeCode = trim($request->dish_type);
       $dish->save();
 

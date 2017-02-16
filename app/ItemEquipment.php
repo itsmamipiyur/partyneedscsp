@@ -14,4 +14,9 @@ class ItemEquipment extends Model
   protected $fillable = ['equipmentTypeCode'];
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
   protected $casts = ['itemCode' => 'string'];
+
+  public function dinnerwareType()
+	  {
+	      return $this->belongsTo('App\EquipmentType', 'equipmentTypeCode')->withTrashed();
+	  }
 }

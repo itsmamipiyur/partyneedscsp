@@ -14,9 +14,26 @@
 	    <i class="sidebar icon"></i>
 	    Menu
 	  </a>
+	  <div class="item">
+	  	<strong>PARTY NEEDS MANAGEMENT SYSTEM</strong>
+	  </div>
+	  <div class="right menu">
+	    <a href="{{ url('/logout') }}"
+            onclick="event.preventDefault();
+                     document.getElementById('logout-form').submit();"
+            class="item">
+            <i class="sign out icon"></i>
+            LOGOUT
+        </a>
+        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
+	  </div>
+	</div>
+
 	</div>
 	<div class="ui bottom attached segment">
-	  <div class="ui wide visible inverted left inline vertical sidebar menu">
+	  <div class="ui wide inverted left inline vertical sidebar menu">
 	  	<div class="item">
 	  		<strong>PARTY NEEDS MANAGEMENT SYSTEM</strong>
 	  	</div>
@@ -43,8 +60,8 @@
 				  </div>
 				  <div class="content">
 				    <a href="{{url('/dishType')}}" class="item">Dish Type</a>
-				    <a href="#" class="item">Dish</a>
-				    <a href="#" class="item">Menu</a>
+				    <a href="{{url('/dish')}}" class="item">Dish</a>
+				    <a href="{{url('/menu')}}" class="item">Menu</a>
 				  </div>
 
 				  <div class="title">
@@ -62,9 +79,9 @@
 				    Event
 				</div>
 				  <div class="content">
-				    <a href="#" class="item">Event Type</a>
-				    <a href="#" class="item">Decor</a>
-				    <a href="#" class="item">Waiter Ratio</a>
+				    <a href="{{url('/eventType')}}" class="item">Event Type</a>
+				    <a href="{{url('/decor')}}" class="item">Decor</a>
+				    <a href="{{url('/waiterRatio')}}" class="item">Waiter Ratio</a>
 				  </div>
 
 				<div class="title">
@@ -72,7 +89,7 @@
 				    Fees
 				  </div>
 				  <div class="content">
-				    <a href="#" class="item">Delivery</a>
+				    <a href="{{url('/delivery')}}" class="item">Delivery</a>
 				    <a href="#" class="item">Penalty</a>
 				  </div>
 			</div>
@@ -100,7 +117,9 @@
 	  </div>
 	  <div class="pusher">
 	    <div class="ui basic segment">
-	      @yield('content')
+	    	<div class="ui container">
+	      		@yield('content')
+	    	</div>
 	    </div>
 	  </div>
 
@@ -108,6 +127,7 @@
 	<script type="text/javascript" src="{{asset('js/semantic.js')}}"></script>
 	<script type="text/javascript" src="{{asset('js/jquery.dataTables.js')}}"></script>
 	<script type="text/javascript" src="{{asset('js/dataTables.semanticui.js')}}"></script>
+	<script type="text/javascript" src="{{asset('js/mask.js')}}"></script>
 
 	<script type="text/javascript">
 		$('.ui.sidebar').sidebar({

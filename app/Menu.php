@@ -15,14 +15,8 @@ class Menu extends Model
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
   protected $casts = ['menuCode' => 'string'];
 
-  public function MenuType()
+  public function dishes()
   {
-      return $this->belongsTo('App\MenuType', 'strMenuMenuTypeCode')->withTrashed();
-
+      return $this->belongsToMany('App\Dish', 'tblMenuDetail',  'menuCode', 'dishCode');
   }
-  public function FoodCategory()
-  {
-      return $this->belongsTo('App\FoodCategory', 'strMenuFoodCateCode')->withTrashed();
-  }
-
 }

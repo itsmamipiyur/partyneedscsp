@@ -21,11 +21,10 @@
         <button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Delivery</button>
     </div>
     <div class="row">
-        <table class="ui table" id="tblDelivery">
+        <table class="ui table" id="tbldelivery">
           <thead>
             <tr>
-                <th>Delivery</th>
-                <th>Description</th>
+                <th>Location</th>
                 <th>Fee</th>
                 <th class="center aligned">Action</th>
             </tr>
@@ -38,27 +37,26 @@
             @else
                 @foreach($deliveries as $delivery)
                 <tr>
-                  <td>{{$delivery->strDeliName}}</td>
-                  <td>{{$delivery->txtDeliDesc}}</td>
-                  <td>Php {{$delivery->dblDeliFee}}</td>
+                  <td>{{$delivery->deliveryLocation}}</td>
+                  <td>Php {{$delivery->deliveryFee}}</td>
                   <td class="center aligned">
-                    <button class="ui blue button" onclick="$('#update{{$delivery->strDeliCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+                    <button class="ui blue button" onclick="$('#update{{$delivery->deliveryCode}}').modal('show');"><i class="edit icon"></i> Update</button>
                     @if($delivery->deleted_at == null)
-                    <button class="ui red button" onclick="$('#delete{{$delivery->strDeliCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
+                    <button class="ui red button" onclick="$('#delete{{$delivery->deliveryCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
                     @else
-                    <button class="ui orange button" onclick="$('#restore{{$delivery->strDeliCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+                    <button class="ui orange button" onclick="$('#restore{{$delivery->deliveryCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
                     @endif
                   </td>
                 </tr>
                 @endforeach
-            @endif  
+            @endif
           </tbody>
         </table>
     </div>
 
 @if(count($deliveries) > 0)
 @foreach($deliveries as $delivery)
-    <div class="ui modal" id="update{{$delivery->strDeliCode}}">
+    <div class="ui modal" id="update{{$delivery->deliveryCode}}">
       <div class="header">Update Delivery</div>
       <div class="content">
         {!! Form::open(['url' => '/delivery/delivery_update']) !!}
@@ -73,20 +71,16 @@
                     </ul>
                 </div>
                 @endif
-                {{ Form::hidden('delivery_code', $delivery->strDeliCode) }}
+                {{ Form::hidden('delivery_code', $delivery->deliveryCode) }}
                 <div class="required field">
-                    {{ Form::label('delivery_name', 'Delivery Name') }}
-                    {{ Form::text('delivery_name', $delivery->strDeliName, ['placeholder' => 'Type Delivery Name']) }}
-                </div>
-                <div class="required field">
-                    {{ Form::label('delivery_description', 'Delivery Description') }}
-                    {{ Form::text('delivery_description', $delivery->txtDeliDesc, ['placeholder' => 'Type Delivery Description']) }}
+                    {{ Form::label('delivery_location', 'Delivery Location') }}
+                    {{ Form::text('delivery_location', $delivery->deliveryLocation, ['placeholder' => 'Type Delivery Location']) }}
                 </div>
                 <div class="required field">
                     {{ Form::label('delivery_fee', 'Delivery Fee') }}
                     <div class="ui center labeled input">
                     <div class="ui label">Php</div>
-                    {{ Form::text('delivery_fee', $delivery->dblDeliFee, ['placeholder' => 'Fee']) }}
+                    {{ Form::text('delivery_fee', $delivery->deliveryFee, ['class' => 'money', 'placeholder' => 'Fee']) }}
                     </div>
                 </div>
             </div>
@@ -104,7 +98,7 @@
         <p>Do you want to delete this delivery?</p>
       </div>
       <div class="actions">
-        {!! Form::open(['url' => '/delivery/' . $delivery->strDeliCode, 'method' => 'delete']) !!}
+        {!! Form::open(['url' => '/delivery/' . $delivery->deliveryCode, 'method' => 'delete']) !!}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
@@ -118,7 +112,7 @@
       </div>
       <div class="actions">
         {!! Form::open(['url' => '/delivery/delivery_restore']) !!}
-            {{ Form::hidden('delivery_code', $delivery->strDeliCode) }}
+            {{ Form::hidden('delivery_code', $delivery->deliveryCode) }}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
@@ -148,18 +142,14 @@
                     {{ Form::text('delivery_code', $newID, ['placeholder' => 'Type Delivery Code']) }}
                 </div>
                 <div class="required field">
-                    {{ Form::label('delivery_name', 'Delivery Name') }}
-                    {{ Form::text('delivery_name', null, ['placeholder' => 'Type Delivery Name']) }}
-                </div>
-                <div class="sfield">
-                    {{ Form::label('delivery_description', 'Delivery Description') }}
-                    {{ Form::textarea('delivery_description', null, ['placeholder' => 'Type Delivery Description', 'rows' => '2']) }}
+                    {{ Form::label('delivery_location', 'Delivery Location') }}
+                    {{ Form::text('delivery_location', null, ['placeholder' => 'Type Delivery Location', 'autofocus' => 'true']) }}
                 </div>
                 <div class="required field">
                     {{ Form::label('delivery_fee', 'Delivery Fee') }}
                     <div class="ui center labeled input">
                     <div class="ui label">Php</div>
-                    {{ Form::text('delivery_fee', null, ['placeholder' => 'Fee']) }}
+                    {{ Form::text('delivery_fee', null, ['class' => 'money', 'placeholder' => 'Fee']) }}
                     </div>
                 </div>
             </div>
@@ -169,17 +159,18 @@
               {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
             {!! Form::close() !!}
         </div>
-    </div>  
+    </div>
 @endsection
 
 @section('js')
 <script>
   $(document).ready( function(){
     $('#delivery').addClass("active grey");
-    $('#fees_content').addClass("active");
-    $('#fees').addClass("active");
+    $('#content').addClass("active");
+    $('#title').addClass("active");
 
-    var table = $('#tblDelivery').DataTable();
+    var table = $('#tbldelivery').DataTable();
+    $('.money').mask("##0.00", {reverse: true});
   });
 </script>
 @endsection

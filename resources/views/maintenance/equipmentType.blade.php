@@ -24,7 +24,7 @@
 		<table class="ui table" id="tblequipmenttype">
 		  <thead>
 		    <tr>
-			    <th>Equipment Type</th>
+			    <th>Type</th>
 			    <th>Description</th>
 			    <th class="center aligned">Action</th>
 		  	</tr>
@@ -73,11 +73,11 @@
 				@endif
 	    		{{ Form::hidden('equipment_type_code', $equipmentType->equipmentTypeCode) }}
 	    		<div class="required field">
-	    			{{ Form::label('equipment_type_name', 'Equipment Type Name') }}
+	    			{{ Form::label('equipment_type_name', 'Name') }}
          			{{ Form::text('equipment_type_name', $equipmentType->equipmentTypeName, ['placeholder' => 'Type Equipment Type Name']) }}
 	    		</div>
 	    		<div class="field">
-	    			{{ Form::label('equipment_type_description', 'Equipment Type Description') }}
+	    			{{ Form::label('equipment_type_description', 'Description') }}
           			{{ Form::textarea('equipment_type_description', $equipmentType->equipmentTypeDesc, ['placeholder' => 'Type Equipment Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
@@ -90,7 +90,7 @@
 	</div>
 
 	<div class="ui modal" id="delete{{$equipmentType->equipmentTypeCode}}">
-	  <div class="header">Deactivate Equipment Type</div>
+	  <div class="header">Deactivate</div>
 	  <div class="content">
 	    <p>Do you want to delete this Equipment type?</p>
 	  </div>
@@ -103,7 +103,7 @@
 	</div>
 
 	<div class="ui modal" id="restore{{$equipmentType->equipmentTypeCode}}">
-	  <div class="header">Restore Equipment Type</div>
+	  <div class="header">Restore</div>
 	  <div class="content">
 	    <p>Do you want to Restore this Equipment type?</p>
 	  </div>
@@ -135,15 +135,15 @@
 				@endif
 
 	    		<div class="disabled field">
-	    			{{ Form::label('equipment_type_code', 'Equipment Type Code') }}
+	    			{{ Form::label('equipment_type_code', 'Code') }}
          			{{ Form::text('equipment_type_code', $newID, ['placeholder' => 'Type Equipment Type Code']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('equipment_type_name', 'Equipment Type Name') }}
-         			{{ Form::text('equipment_type_name', '', ['placeholder' => 'Type Equipment Type Name']) }}
+	    			{{ Form::label('equipment_type_name', 'Name') }}
+         			{{ Form::text('equipment_type_name', '', ['placeholder' => 'Type Equipment Type Name', 'autofocus' => 'true']) }}
 	    		</div>
 	    		<div class="field">
-	    			{{ Form::label('equipment_type_description', 'Equipment Type Description') }}
+	    			{{ Form::label('equipment_type_description', 'Description') }}
           			{{ Form::textarea('equipment_type_description', '', ['placeholder' => 'Type Equipment Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
@@ -160,8 +160,8 @@
 <script>
   $(document).ready( function(){
     $('#equipmentType').addClass("active grey");
-    $('#inventory_content').addClass("active");
-    $('#inventory').addClass("active");
+    $('#item_content').addClass("active");
+    $('#item').addClass("active");
 
     var table = $('#tblequipmenttype').DataTable();
   });

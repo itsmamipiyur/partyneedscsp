@@ -14,4 +14,14 @@ class Item extends Model
   protected $fillable = ['itemName','itemDesc','itemType','uomCode'];
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
   protected $casts = ['itemCode' => 'string'];
+
+  public function itemDinnerware()
+  {
+      return $this->hasOne('App\ItemDinnerware', 'itemCode', 'itemCode');
+  }
+
+  public function itemEquipment()
+  {
+      return $this->hasOne('App\ItemEquipment', 'itemCode', 'itemCode');
+  }
 }

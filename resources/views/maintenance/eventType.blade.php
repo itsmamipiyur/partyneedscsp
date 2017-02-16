@@ -21,7 +21,7 @@
 		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Event Type</button>
 	</div>
 	<div class="row">
-		<table class="ui table" id="tblEvenType">
+		<table class="ui table" id="tbleventtype">
 		  <thead>
 		    <tr>
 			    <th>Event Type</th>
@@ -37,26 +37,26 @@
 		  	@else
 		  		@foreach($eventTypes as $eventType)
 			  	<tr>
-			      <td>{{$eventType->strEvenTypeName}}</td>
-			      <td>{{$eventType->txtEvenTypeDesc}}</td>
+			      <td>{{$eventType->eventTypeName}}</td>
+			      <td>{{$eventType->eventTypeDesc}}</td>
 			      <td class="center aligned">
-					<button class="ui blue button" onclick="$('#update{{$eventType->strEvenTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
+					<button class="ui blue button" onclick="$('#update{{$eventType->eventTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($eventType->deleted_at == null)
-			      	<button class="ui red button" onclick="$('#delete{{$eventType->strEvenTypeCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
+			      	<button class="ui red button" onclick="$('#delete{{$eventType->eventTypeCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
-			      	<button class="ui orange button" onclick="$('#restore{{$eventType->strEvenTypeCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
+			      	<button class="ui orange button" onclick="$('#restore{{$eventType->eventTypeCode}}').modal('show');"><i class="undo icon"></i> Restore</button>
 			      	@endif
 			      </td>
 			    </tr>
 		    	@endforeach
-		    @endif	
+		    @endif
 		  </tbody>
 		</table>
 	</div>
 
 @if(count($eventTypes) > 0)
 @foreach($eventTypes as $eventType)
-	<div class="ui modal" id="update{{$eventType->strEvenTypeCode}}">
+	<div class="ui modal" id="update{{$eventType->eventTypeCode}}">
 	  <div class="header">Update Event Type</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/eventType/eventType_update']) !!}
@@ -71,14 +71,14 @@
 				    </ul>
 				</div>
 				@endif
-	    		{{ Form::hidden('event_type_code', $eventType->strEvenTypeCode) }}
+	    		{{ Form::hidden('event_type_code', $eventType->eventTypeCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('event_type_name', 'Event Type Name') }}
-         			{{ Form::text('event_type_name', $eventType->strEvenTypeName, ['placeholder' => 'Type Event Type Name']) }}
+         			{{ Form::text('event_type_name', $eventType->eventTypeName, ['placeholder' => 'Type Event Type Name']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('event_type_description', 'Event Type Description') }}
-          			{{ Form::textarea('event_type_description', $eventType->txtEvenTypeDesc, ['placeholder' => 'Type Event Type Description', 'rows' => '2']) }}
+          			{{ Form::textarea('event_type_description', $eventType->eventTypeDesc, ['placeholder' => 'Type Event Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
         </div>
@@ -89,27 +89,27 @@
 	  </div>
 	</div>
 
-	<div class="ui modal" id="delete{{$eventType->strEvenTypeCode}}">
+	<div class="ui modal" id="delete{{$eventType->eventTypeCode}}">
 	  <div class="header">Deactivate Event Type</div>
 	  <div class="content">
 	    <p>Do you want to delete this event type?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/eventType/' . $eventType->strEvenTypeCode, 'method' => 'delete']) !!}
+	  	{!! Form::open(['url' => '/eventType/' . $eventType->eventTypeCode, 'method' => 'delete']) !!}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
 	</div>
 
-	<div class="ui modal" id="restore{{$eventType->strEvenTypeCode}}">
+	<div class="ui modal" id="restore{{$eventType->eventTypeCode}}">
 	  <div class="header">Restore Event Type</div>
 	  <div class="content">
 	    <p>Do you want to Restore this event type?</p>
 	  </div>
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/eventType/eventType_restore']) !!}
-	  		{{ Form::hidden('event_type_code', $eventType->strEvenTypeCode) }}
+	  		{{ Form::hidden('event_type_code', $eventType->eventTypeCode) }}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
@@ -153,17 +153,17 @@
             {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
-	</div>	
+	</div>
 @endsection
 
 @section('js')
 <script>
   $(document).ready( function(){
     $('#eventType').addClass("active grey");
-    $('#event_content').addClass("active");
-    $('#event').addClass("active");
+    $('#content').addClass("active");
+    $('#title').addClass("active");
 
-    var table = $('#tblEvenType').DataTable();
+    var table = $('#tbleventtype').DataTable();
   });
 </script>
 @endsection

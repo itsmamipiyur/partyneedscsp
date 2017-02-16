@@ -24,8 +24,8 @@
 		<table class="ui table" id="tbluom">
 		  <thead>
 		    <tr>
-			    <th>Unit of Measurement Name</th>
-			    <th>Unit of Measurement Description</th>
+			    <th>Name</th>
+			    <th>Description</th>
 			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
@@ -56,7 +56,7 @@
 
 @if(count($uoms) > 0)
 @foreach($uoms as $uom)
-	<div class="ui modal" id="update{{$unit->uomCode}}">
+	<div class="ui modal" id="update{{$uom->uomCode}}">
 	  <div class="header">Update Unit of Measurement</div>
 	  <div class="content">
 	    {!! Form::open(['url' => '/uom/uom_update']) !!}
@@ -71,14 +71,14 @@
 				    </ul>
 				</div>
 				@endif
-	    		{{ Form::hidden('uom_code', $unit->uomCode) }}
+	    		{{ Form::hidden('uom_code', $uom->uomCode) }}
 	    		<div class="required field">
-	    			{{ Form::label('uom_name', 'Unit of Measurement Name') }}
-         			{{ Form::text('uom_name', $unit->uomName, ['placeholder' => 'Type Unit of Measurement Name']) }}
+	    			{{ Form::label('uom_name', 'Name') }}
+         			{{ Form::text('uom_name', $uom->uomName, ['placeholder' => 'Type Unit of Measurement Name']) }}
 	    		</div>
 	    		<div class="field">
-	    			{{ Form::label('uom_description', 'Unit of Measurement Description') }}
-          			{{ Form::textarea('uom_description', $unit->uomDesc, ['placeholder' => 'Type Unit of Measurement Description', 'rows' => '2']) }}
+	    			{{ Form::label('uom_description', 'Description') }}
+          			{{ Form::textarea('uom_description', $uom->uomDesc, ['placeholder' => 'Type Unit of Measurement Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
         </div>
@@ -90,7 +90,7 @@
 	</div>
 
 	<div class="ui modal" id="delete{{$uom->uomCode}}">
-	  <div class="header">Deactivate Unit of Measurement</div>
+	  <div class="header">Deactivate</div>
 	  <div class="content">
 	    <p>Do you want to delete this Unit of Measurement?</p>
 	  </div>
@@ -103,7 +103,7 @@
 	</div>
 
 	<div class="ui modal" id="restore{{$uom->uomCode}}">
-	  <div class="header">Restore Unit of Measurement</div>
+	  <div class="header">Restore</div>
 	  <div class="content">
 	    <p>Do you want to Restore this Unit of Measurement?</p>
 	  </div>
@@ -135,15 +135,15 @@
 				@endif
 
 	    		<div class="disabled field">
-	    			{{ Form::label('uom_code', 'Unit of Measurement Code') }}
+	    			{{ Form::label('uom_code', 'Code') }}
          			{{ Form::text('uom_code', $newID, ['placeholder' => 'Type Unit of Measurement Code']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('uom_name', 'Unit of Measurement Name') }}
-         			{{ Form::text('uom_name', '', ['placeholder' => 'Type Unit of Measurement Name']) }}
+	    			{{ Form::label('uom_name', 'Name') }}
+         			{{ Form::text('uom_name', '', ['placeholder' => 'Type Unit of Measurement Name', 'autofocus' => 'true']) }}
 	    		</div>
 	    		<div class="field">
-	    			{{ Form::label('uom_description', 'Unit of Measurement Description') }}
+	    			{{ Form::label('uom_description', 'Description') }}
           			{{ Form::textarea('uom_description', '', ['placeholder' => 'Type Unit of Measurement Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
@@ -159,9 +159,9 @@
 @section('js')
 <script>
   $(document).ready( function(){
-    $('#$uom').addClass("active grey");
-    $('#inventory_content').addClass("active");
-    $('#inventory').addClass("active");
+    $('#uom').addClass("active grey");
+    $('#content').addClass("active");
+    $('#title').addClass("active");
 
     var table = $('#tbluom').DataTable();
   });

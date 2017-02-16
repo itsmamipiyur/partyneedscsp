@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\DishType;
+use App\UOM;
 
-class DishTypeController extends Controller
+class UOMController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,22 +16,22 @@ class DishTypeController extends Controller
     public function index()
     {
         //
-        $idss = \DB::table('tblDishType')
-           ->select('dishTypeCode')
-           ->orderBy('dishTypeCode', 'desc')
+        $idss = \DB::table('tblUOM')
+           ->select('uomCode')
+           ->orderBy('uomCode', 'desc')
            ->first();
 
        if ($idss == null) {
          $newID = $this->smartCounter("0000");
        }else{
-         $newID = $this->smartCounter($idss->dishTypeCode);
+         $newID = $this->smartCounter($idss->uomCode);
        }
 
-       $dishtypes = DishType::all();
+       $uoms = UOM::all();
 
-        return view('maintenance.dishtype')
+        return view('maintenance.uom')
             ->with('newID', $newID)
-            ->with('dishtypes', $dishtypes);
+            ->with('uoms', $uoms);
     }
 
     /**
@@ -53,16 +53,18 @@ class DishTypeController extends Controller
     public function store(Request $request)
     {
         //
-        $rules = ['dishtype_name' => 'required|unique:tblDishtype,dishTypeName'];
+        $rules = ['uom_code' => 'required',
+                  'uom_name' => 'required|unique:tblUOM,uomName'];
         $this->validate($request, $rules);
 
-        $dishType = new DishType;
-        $dishType->dishTypeCode = $request->dishtype_code;
-        $dishType->dishTypeName = $request->dishtype_name;
-        $dishType->dishTypeDesc = $request->dishtype_description;
-        $dishType->save();
+        $uom = new UOM;
+        $uom->uomCode = $request->uom_code;
+        $uom->uomName = $request->uom_name;
+        $uom->uomDesc = $request->uom_description;
+        $uom->save();
 
-        return redirect('/dishType')->with('alert-success', 'Dish Type was successfully created!');
+        return redirect('uom')
+            ->with('alert-success', 'Unit of Measurement was successfully added!');
     }
 
     /**
@@ -108,27 +110,34 @@ class DishTypeController extends Controller
     public function destroy($id)
     {
         //
-        $dishType = DishType::find($id);
-        $name = $dishType->dishTypeName;
-        $dishType->delete();
+        $uom = UOM::find($id);
+        $uom->delete();
 
-        return redirect('dishType')->with('alert-success', 'Dish Type '. $name .' was successfully deleted.');
+        return redirect('uom')
+            ->with('alert-success', 'Unit of Measurement was successfully deactivated!');
     }
 
-    public function dishType_update(Request $request){
-        $rules = [
-            'dishtype_name' => 'required',
-            'dishtype_code' => 'required',
-            ];
-        $this->validate($request, $rules);
+    public function uom_update(Request $request)
+    {
+       $rules = ['uom_name' => 'required | max:100'];
+       $id = $request->uom_code;
 
-        $id = $request->dishtype_code;
+       $this->validate($request, $rules);
+       $uom = UOM::find($id);
+       $uom->uomName = $request->uom_name;
+       $uom->uomDesc = $request->uom_description;
+       $uom->save();
 
-        $dishType = DishType::find($id);
-        $dishType->dishTypeName = $request->dishtype_name;
-        $dishType->dishTypeDesc = $request->dishtype_description;
-        $dishType->save();
-
-        return redirect('/dishType')->with('alert-success', 'Dish Type was successfully updated!');
+       return redirect('uom')
+            ->with('alert-success', 'Unit of Measurement was successfully updated!');
     }
+
+      public function uom_restore(Request $request)
+      {
+        $id = $request->uom_code;
+        $uom = UOM::onlyTrashed()->where('uomCode', '=', $id)->firstOrFail();
+        $uom->restore();
+
+        return redirect('uom')->with('alert-success', 'Unit of Measurement was successfully restored.');
+      }
 }
