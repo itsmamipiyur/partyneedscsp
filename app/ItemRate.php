@@ -14,4 +14,9 @@ class ItemRate extends Model
   protected $fillable = ['itemCode','amount','uomCode'];
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
   protected $casts = ['itemRateCode' => 'string'];
+
+   public function item()
+  {
+      return $this->belongsTo('App\Item', 'itemCode');
+  }
 }

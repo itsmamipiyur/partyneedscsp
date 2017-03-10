@@ -9,7 +9,7 @@ class ItemDinnerware extends Model
 {
     //
     use SoftDeletes;
- 	protected $table = 'tblItemDinnerware';
+ 	  protected $table = 'tblItemDinnerware';
   	protected $primaryKey = 'itemCode';
   	protected $fillable = ['dinnerwareTypeCode'];
   	protected $dates = ['created_at', 'updated_at', 'deleted_at'];

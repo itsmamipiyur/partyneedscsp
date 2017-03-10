@@ -63,15 +63,13 @@
 				    <a href="{{url('/dish')}}" class="item">Dish</a>
 				    <a href="{{url('/menu')}}" class="item">Menu</a>
 				  </div>
-
 				  <div class="title">
 				    <i class="dropdown icon"></i>
-				    Rates
+				    Package
 				  </div>
 				  <div class="content">
-				    <a href="#" class="item">Item Rate</a>
-				    <a href="#" class="item">Menu Rate</a>
-				    <a href="#" class="item">Quantity Ratio</a>
+				    <a href="{{url('/cateringPackage')}}" class="item">Catering Package</a>
+				    <a href="{{url('/rentalPackage')}}" class="item">Rental Package</a>
 				  </div>
 
 				<div class="title">
@@ -90,17 +88,17 @@
 				  </div>
 				  <div class="content">
 				    <a href="{{url('/delivery')}}" class="item">Delivery</a>
-				    <a href="#" class="item">Penalty</a>
+				    <a href="{{url('/penalty')}}" class="item">Penalty</a>
 				  </div>
 			</div>
 		   </div>
 		</div>
 		<div class="item">
 			<strong>TRANSACTION</strong><br><br>
-			<a href="#" class="item">Inventory</a>
-			<a href="#" class="item">Event Management</a>
-			<a href="#" class="item">Rental Management</a>
-			<a href="#" class="item">Billing and Collection</a>
+			<a href="{{url('/inventory')}}" class="item">Inventory</a>
+			<a href="{{url('/eventManagement')}}" class="item">Event Management</a>
+			<a href="{{url('/rentalManagement')}}" class="item">Rental Management</a>
+			<a href="{{url('/billingCollection')}}" class="item">Billing and Collection</a>
 		</div>
 		<div class="item">
 			<strong>QUERIES</strong>

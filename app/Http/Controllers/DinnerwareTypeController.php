@@ -46,7 +46,7 @@ class DinnerwareTypeController extends Controller
    */
   public function store(Request $request)
   {
-    $rules = ['dinnerware_type_code' => 'required', 'dinnerware_type_name' => 'required | max:100'];
+    $rules = ['dinnerware_type_code' => 'required', 'dinnerware_type_name' => 'required | max:100|unique:tbldinnerwaretype,dinnerwareTypeName'];
 
     $this->validate($request, $rules);
     $dinnerwareType = new DinnerwareType;
@@ -107,12 +107,12 @@ class DinnerwareTypeController extends Controller
         $name = $dinnerwareType->dinnerwareTypeName;
         $dinnerwareType->delete();
 
-        return redirect('dinnerwareType')->with('alert-success', 'Dinnerware Type '. $name .' was successfully deleted.');
+        return redirect('dinnerwareType')->with('alert-success', 'Dinnerware Type '. $name .' was successfully deactivated.');
   }
 
   public function dinnerwareType_update(Request $request)
     {
-      $rules = ['dinnerware_type_name' => 'required | max:100'];
+      $rules = ['dinnerware_type_name' => 'required | max:100|unique:tbldinnerwaretype,dinnerwareTypeName'];
       $id = $request->dinnerware_type_code;
 
       $this->validate($request, $rules);

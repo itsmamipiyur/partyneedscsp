@@ -33,14 +33,35 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('item', 'ItemController');
     Route::resource('decor', 'DecorController');
     Route::resource('delivery', 'DeliveryController');
+    Route::resource('itemRate', 'ItemRateController');
+    Route::resource('menuRate', 'MenuRateController');
+    Route::resource('cateringPackage', 'CateringPackageController');
+    Route::resource('rentalPackage', 'RentalPackageController');
+    Route::resource('inventory', 'InventoryController');
+    Route::resource('eventManagement', 'EventManagementController');
+    Route::resource('eventFill', 'EventFillController');
+    Route::resource('rentalManagement', 'RentalManagementController');
+    Route::resource('rentalFill', 'RentalFillController');
+    Route::resource('billingCollection', 'BillingCollection');
+    Route::resource('inventoryRelease', 'InventoryReleaseController');
+
 
     Route::post('/menu/menu_update', 'MenuController@menu_update');
     Route::post('/menu/addMenuDish', 'MenuController@menu_addDish');
     Route::post('/menu/removeMenuDish', 'MenuController@menu_removeDish');
     Route::post('/menu/menu_restore', 'MenuController@menu_restore');
+    Route::post('/menu/addMenuRate', 'MenuController@menu_addRate');
+    Route::post('/menu/updateMenuRate', 'MenuController@menu_updateRate');
+    Route::post('/menu/deleteMenuRate', 'MenuController@menu_removeRate');
 
     Route::post('/uom/uom_update', 'UOMController@uom_update');
     Route::post('/uom/uom_restore', 'UOMController@uom_restore');
+
+    Route::post('/itemRate/itemRate_update', 'ItemRateController@itemRate_update');
+    Route::post('/itemRate/itemRate_restore', 'ItemRateController@itemRate_restore');
+
+    Route::post('/menuRate/menuRate_update', 'MenuRateController@menuRate_update');
+    Route::post('/menuRate/menuRate_restore', 'MenuRateController@menuRate_restore');
 
     Route::post('/dish/dish_update', 'DishController@dish_update');
     Route::post('/dish/dish_restore', 'DishController@dish_restore');
@@ -56,6 +77,12 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::post('/item/item_update', 'ItemController@item_update');
     Route::post('/item/item_restore', 'ItemController@item_restore');
+    Route::post('/item/addItemRate', 'ItemController@item_addRate');
+    Route::post('/item/updateItemRate', 'ItemController@item_updateRate');
+    Route::post('/item/deleteItemRate', 'ItemController@item_deleteRate');
+    Route::post('/item/addPenalty', 'ItemController@item_addPenalty');
+    Route::post('/item/updatePenalty', 'ItemController@item_updatePenalty');
+    Route::post('/item/deletePenalty', 'ItemController@item_deletePenalty');
 
     Route::post('/equipmentType/equipmentType_update', 'EquipmentTypeController@equipmentType_update');
     Route::post('/equipmentType/equipmentType_restore', 'EquipmentTypeController@equipmentType_restore');
@@ -65,6 +92,21 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::post('/dishType/dishType_update', 'DishTypeController@dishType_update');
     Route::post('/dishType/dishType_restore', 'DishTypeController@dishType_restore');
+
+    Route::post('/cateringPackage/cateringPackage_update', 'CateringPackageController@cateringPackage_update');
+    Route::post('/cateringPackage/cateringPackage_restore', 'CateringPackageController@cateringPackage_restore');
+    Route::post('/cateringPackage/addMenu', 'CateringPackageController@cateringPackage_addMenu');
+    Route::post('/cateringPackage/addItem', 'CateringPackageController@cateringPackage_addItem');
+    Route::post('/cateringPackage/removeMenu', 'CateringPackageController@cateringPackage_removeMenu');
+    Route::post('/cateringPackage/removeItem', 'CateringPackageController@cateringPackage_removeItem');
+    Route::post('/cateringPackage/updateItem', 'CateringPackageController@cateringPackage_updateItem');
+    Route::post('/cateringPackage/updateMenu', 'CateringPackageController@cateringPackage_updateMenu');
+
+    Route::post('/rentalPackage/rentalPackage_update', 'RentalPackageController@rentalPackage_update');
+    Route::post('/rentalPackage/rentalPackage_restore', 'RentalPackageController@rentalPackage_restore');
+    Route::post('/rentalPackage/addItem', 'RentalPackageController@rentalPackage_addItem');
+    Route::post('/rentalPackage/removeItem', 'RentalPackageController@rentalPackage_removeItem');
+    Route::post('/rentalPackage/updateItem', 'RentalPackageController@rentalPackage_updateItem');
 
     Route::post('/penalty/penalty_update', 'PenaltyController@penalty_update');
     Route::post('/penalty/penalty_restore', 'PenaltyController@penalty_restore');

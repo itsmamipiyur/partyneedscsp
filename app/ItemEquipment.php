@@ -15,7 +15,7 @@ class ItemEquipment extends Model
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
   protected $casts = ['itemCode' => 'string'];
 
-  public function dinnerwareType()
+  public function equipmentType()
 	  {
 	      return $this->belongsTo('App\EquipmentType', 'equipmentTypeCode')->withTrashed();
 	  }

@@ -11,6 +11,16 @@
     	<p>{{ $alert }}</p>
   	</div>
   	@endif
+  	@if (count($errors) > 0)
+	<div class="ui message">
+	    <div class="header">We had some issues</div>
+	    <ul class="list">
+	      @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+	    </ul>
+	</div>
+	@endif
 
 	<div class="row">
 		<h1>Equipment Type</h1>
@@ -59,28 +69,20 @@
 	<div class="ui modal" id="update{{$equipmentType->equipmentTypeCode}}">
 	  <div class="header">Update Equipment Type</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/equipmentType/equipmentType_update']) !!}
+	    {!! Form::open(['url' => '/equipmentType/equipmentType_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		@if (count($errors) > 0)
-	    		<div class="ui message">
-				    <div class="header">We had some issues</div>
-				    <ul class="list">
-				      @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-				    </ul>
-				</div>
-				@endif
+
 	    		{{ Form::hidden('equipment_type_code', $equipmentType->equipmentTypeCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('equipment_type_name', 'Name') }}
-         			{{ Form::text('equipment_type_name', $equipmentType->equipmentTypeName, ['placeholder' => 'Type Equipment Type Name']) }}
+         			{{ Form::text('equipment_type_name', $equipmentType->equipmentTypeName, ['maxlength'=>'25', 'placeholder' => 'Type Equipment Type Name']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('equipment_type_description', 'Description') }}
-          			{{ Form::textarea('equipment_type_description', $equipmentType->equipmentTypeDesc, ['placeholder' => 'Type Equipment Type Description', 'rows' => '2']) }}
+          			{{ Form::textarea('equipment_type_description', $equipmentType->equipmentTypeDesc, ['maxlength'=>'200', 'placeholder' => 'Type Equipment Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
+	    		<div class="ui error message"></div>
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -92,7 +94,7 @@
 	<div class="ui modal" id="delete{{$equipmentType->equipmentTypeCode}}">
 	  <div class="header">Deactivate</div>
 	  <div class="content">
-	    <p>Do you want to delete this Equipment type?</p>
+	    <p>Do you want to deactivate this Equipment type?</p>
 	  </div>
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/equipmentType/' . $equipmentType->equipmentTypeCode, 'method' => 'delete']) !!}
@@ -121,32 +123,25 @@
 	<div class="ui modal" id="create">
 	  <div class="header">New Equipment Type</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/equipmentType']) !!}
+	    {!! Form::open(['url' => '/equipmentType', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		@if (count($errors) > 0)
-	    		<div class="ui message">
-				    <div class="header">We had some issues</div>
-				    <ul class="list">
-				      @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-				    </ul>
-				</div>
-				@endif
+	    		
 
 	    		<div class="disabled field">
-	    			{{ Form::label('equipment_type_code', 'Code') }}
-         			{{ Form::text('equipment_type_code', $newID, ['placeholder' => 'Type Equipment Type Code']) }}
+	    	
+         			{{ Form::hidden('equipment_type_code', $newID, ['placeholder' => 'Type Equipment Type Code']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('equipment_type_name', 'Name') }}
-         			{{ Form::text('equipment_type_name', '', ['placeholder' => 'Type Equipment Type Name', 'autofocus' => 'true']) }}
+         			{{ Form::text('equipment_type_name', '', ['maxlength'=>'25', 'placeholder' => 'Type Equipment Type Name', 'autofocus' => 'true']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('equipment_type_description', 'Description') }}
-          			{{ Form::textarea('equipment_type_description', '', ['placeholder' => 'Type Equipment Type Description', 'rows' => '2']) }}
+          			{{ Form::textarea('equipment_type_description', '', ['maxlength'=>'200', 'placeholder' => 'Type Equipment Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
+	    	<div class="ui error message"></div>
+
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -159,6 +154,67 @@
 @section('js')
 <script>
   $(document).ready( function(){
+
+
+  	$('.ui.modal').modal({
+        onApprove : function() {
+          //Submits the semantic ui form
+          //And pass the handling responsibilities to the form handlers,
+          // e.g. on form validation success
+          //$('.ui.form').submit();
+          console.log('approve');
+          //Return false as to not close modal dialog
+          return false;
+        }
+    });
+
+
+
+
+	var formValidationRules =
+	{
+		equipment_type_name: {
+		  identifier : 'equipment_type_name',
+		  rules: [
+			{
+			  type   : 'empty',
+			  prompt : 'Please enter a name'
+			},
+			{
+        
+
+           type   : "regExp[^[a-zA-Z -'-]+$]",
+            // type   : 'regExp[^[a-zA-Z0-9_-]*[a-zA-Z]+[a-zA-Z0-9]*$]',
+
+        	
+           
+			prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+        	}
+		  ]
+		}
+	}
+
+
+
+
+	var formSettings =
+	{
+		onSuccess : function() 
+		{
+		  $('.modal').modal('hide');
+		}
+	}
+
+	$('.ui.form').form(formValidationRules, formSettings);
+
+
+
+
+
+
+
+
+
     $('#equipmentType').addClass("active grey");
     $('#item_content').addClass("active");
     $('#item').addClass("active");

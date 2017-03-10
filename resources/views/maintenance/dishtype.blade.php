@@ -11,6 +11,16 @@
     	<p>{{ $alert }}</p>
   	</div>
   	@endif
+  	@if (count($errors) > 0)
+	<div class="ui message">
+	    <div class="header">We had some issues</div>
+	    <ul class="list">
+	      @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+	    </ul>
+	</div>
+	@endif
 
 	<div class="row">
 		<h1>Dish Type</h1>
@@ -59,28 +69,20 @@
 	<div class="ui modal" id="update{{$dishtype->dishTypeCode}}">
 	  <div class="header">Update Dish Type</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/dishType/dishType_update']) !!}
+	    {!! Form::open(['url' => '/dishType/dishType_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		@if (count($errors) > 0)
-	    		<div class="ui message">
-				    <div class="header">We had some issues</div>
-				    <ul class="list">
-				      @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-				    </ul>
-				</div>
-				@endif
+	    		
 	    		{{ Form::hidden('dishtype_code', $dishtype->dishTypeCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('dishtype_name', 'Name') }}
-         			{{ Form::text('dishtype_name', $dishtype->dishTypeName, ['placeholder' => 'Type Dish Type Name']) }}
+         			{{ Form::text('dishtype_name', $dishtype->dishTypeName, ['maxlength'=>'25', 'placeholder' => 'Type Dish Type Name']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('dishtype_description', 'Description') }}
-          			{{ Form::textarea('dishtype_description', $dishtype->dishTypeDesc, ['placeholder' => 'Type Dish Type Description', 'rows' => '2']) }}
+          			{{ Form::textarea('dishtype_description', $dishtype->dishTypeDesc, ['maxlength'=>'200', 'placeholder' => 'Type Dish Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
+	    	<div class="ui error message"></div>
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -92,7 +94,7 @@
 	<div class="ui modal" id="delete{{$dishtype->dishTypeCode}}">
 	  <div class="header">Deactivate Dish Type</div>
 	  <div class="content">
-	    <p>Do you want to delete this dish type?</p>
+	    <p>Do you want to deactivate this dish type?</p>
 	  </div>
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/dishType/' . $dishtype->dishTypeCode, 'method' => 'delete']) !!}
@@ -121,33 +123,23 @@
 	<div class="ui modal" id="create">
 	  <div class="header">New Dish Type</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/dishType']) !!}
-	    
+	    {!! Form::open(['url' => '/dishType', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		@if (count($errors) > 0)
-	    		<div class="ui message">
-				    <div class="header">We had some issues</div>
-				    <ul class="list">
-				      @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-				    </ul>
-				</div>
-				@endif
+	    		
 
 	    		<div class="disabled field">
-	    			{{ Form::label('dishtype_code', 'Code') }}
-         			{{ Form::text('dishtype_code', $newID, ['placeholder' => 'Type Dish Type Code']) }}
+         			{{ Form::hidden('dishtype_code', $newID, ['placeholder' => 'Type Dish Type Code']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('dishtype_name', 'Name') }}
-         			{{ Form::text('dishtype_name', '', ['placeholder' => 'Type Dish Type Name', 'autofocus' => 'true']) }}
+         			{{ Form::text('dishtype_name', '', ['maxlength'=>'25', 'placeholder' => 'Type Dish Type Name', 'autofocus' => 'true']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('dishtype_description', 'Description') }}
-          			{{ Form::textarea('dishtype_description', '', ['placeholder' => 'Type Dish Type Description', 'rows' => '2']) }}
+          			{{ Form::textarea('dishtype_description', '', ['maxlength'=>'200', 'placeholder' => 'Type Dish Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
+	    	<div class="ui error message"></div>
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -160,6 +152,68 @@
 @section('js')
 <script>
   $(document).ready( function(){
+
+  	$('.ui.modal').modal({
+        onApprove : function() {
+          //Submits the semantic ui form
+          //And pass the handling responsibilities to the form handlers,
+          // e.g. on form validation success
+          //$('.ui.form').submit();
+          console.log('approve');
+          //Return false as to not close modal dialog
+          return false;
+        }
+    });
+
+
+
+
+	var formValidationRules =
+	{
+		dishtype_name: {
+
+		  identifier : 'dishtype_name',
+		  
+		  rules: [
+			{
+			  type   : 'empty',
+			  prompt : 'Please enter a name'
+			},
+
+            {
+        
+
+            type   : "regExp[^[a-zA-Z -'-]+$]",
+            // type   : 'regExp[^[a-zA-Z0-9_-]*[a-zA-Z]+[a-zA-Z0-9]*$]',
+
+        	
+           
+			prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+        	}
+		  ]
+		}
+	}
+
+
+
+
+	var formSettings =
+	{
+		onSuccess : function() 
+		{
+		  $('.modal').modal('hide');
+		}
+	}
+
+	$('.ui.form').form(formValidationRules, formSettings);
+
+
+
+
+
+
+
+
     $('#dishtype').addClass("active grey");
     $('#inventory_content').addClass("active");
     $('#inventory').addClass("active");

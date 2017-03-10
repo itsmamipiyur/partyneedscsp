@@ -116,7 +116,7 @@ class DecorController extends Controller
     public function decor_update(Request $request)
     {
       $rules = ['decor_code' => 'required',
-                'decor_name' => 'required',
+                'decor_name' => 'required|unique:tblDecor,decorName',
                 'decor_type' => 'required'];
 
       $id = $request->decor_code;

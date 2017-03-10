@@ -11,6 +11,16 @@
     	<p>{{ $alert }}</p>
   	</div>
   	@endif
+  	@if (count($errors) > 0)
+	<div class="ui message">
+	    <div class="header">We had some issues</div>
+	    <ul class="list">
+	      @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+	    </ul>
+	</div>
+	@endif
 
 	<div class="row">
 		<h1>Unit of Measurement</h1>
@@ -24,7 +34,7 @@
 		<table class="ui table" id="tbluom">
 		  <thead>
 		    <tr>
-			    <th>Name</th>
+			    <th>Symbol</th>
 			    <th>Description</th>
 			    <th class="center aligned">Action</th>
 		  	</tr>
@@ -59,28 +69,21 @@
 	<div class="ui modal" id="update{{$uom->uomCode}}">
 	  <div class="header">Update Unit of Measurement</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/uom/uom_update']) !!}
+	   {!! Form::open(['url' => '/uom/uom_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		@if (count($errors) > 0)
-	    		<div class="ui message">
-				    <div class="header">We had some issues</div>
-				    <ul class="list">
-				      @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-				    </ul>
-				</div>
-				@endif
+	    		
 	    		{{ Form::hidden('uom_code', $uom->uomCode) }}
 	    		<div class="required field">
-	    			{{ Form::label('uom_name', 'Name') }}
-         			{{ Form::text('uom_name', $uom->uomName, ['placeholder' => 'Type Unit of Measurement Name']) }}
+	    			{{ Form::label('uom_name', 'Symbol') }}
+         			{{ Form::text('uom_name', $uom->uomName, ['maxlength'=>'6', 'placeholder' => 'Type Unit of Measurement Symbol']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('uom_description', 'Description') }}
-          			{{ Form::textarea('uom_description', $uom->uomDesc, ['placeholder' => 'Type Unit of Measurement Description', 'rows' => '2']) }}
+          			{{ Form::textarea('uom_description', $uom->uomDesc, ['maxlength'=>'200', 'placeholder' => 'Type Unit of Measurement Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
+	    	<div class="ui error message"></div>
+
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -92,7 +95,7 @@
 	<div class="ui modal" id="delete{{$uom->uomCode}}">
 	  <div class="header">Deactivate</div>
 	  <div class="content">
-	    <p>Do you want to delete this Unit of Measurement?</p>
+	    <p>Do you want to deactivate this Unit of Measurement?</p>
 	  </div>
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/uom/' . $uom->uomCode, 'method' => 'delete']) !!}
@@ -121,35 +124,27 @@
 	<div class="ui modal" id="create">
 	  <div class="header">New Unit of Measurement</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/uom']) !!}
+	    {!! Form::open(['url' => '/uom', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		@if (count($errors) > 0)
-	    		<div class="ui message">
-				    <div class="header">We had some issues</div>
-				    <ul class="list">
-				      @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-				    </ul>
-				</div>
-				@endif
+	    		
 
-	    		<div class="disabled field">
-	    			{{ Form::label('uom_code', 'Code') }}
-         			{{ Form::text('uom_code', $newID, ['placeholder' => 'Type Unit of Measurement Code']) }}
+	    		<div class="disabled field" >
+	    			<!-- {{ Form::label('uom_code', 'Code') }} -->
+         			{{ Form::hidden('uom_code', $newID, ['placeholder' => 'Type Unit of Measurement Code']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('uom_name', 'Name') }}
-         			{{ Form::text('uom_name', '', ['placeholder' => 'Type Unit of Measurement Name', 'autofocus' => 'true']) }}
+	    			{{ Form::label('uom_name', 'Symbol') }}
+         			{{ Form::text('uom_name', '', ['maxlength'=>'6', 'placeholder' => 'Type Unit of Measurement Symbol', 'autofocus' => 'true']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('uom_description', 'Description') }}
-          			{{ Form::textarea('uom_description', '', ['placeholder' => 'Type Unit of Measurement Description', 'rows' => '2']) }}
+          			{{ Form::textarea('uom_description', '', ['maxlength'=>'200', 'placeholder' => 'Type Unit of Measurement Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
+	    	<div class="ui error message"></div>
         </div>
 	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
@@ -159,6 +154,64 @@
 @section('js')
 <script>
   $(document).ready( function(){
+
+
+  	$('.ui.modal').modal({
+        onApprove : function() {
+          //Submits the semantic ui form
+          //And pass the handling responsibilities to the form handlers,
+          // e.g. on form validation success
+          //$('.ui.form').submit();
+          console.log('approve');
+          //Return false as to not close modal dialog
+          return false;
+        }
+    });
+
+
+
+
+	var formValidationRules =
+	{
+		uom_name: {
+		  identifier : 'uom_name',
+		  rules: [
+			{
+			  type   : 'empty',
+			  prompt : 'Please enter the Symbol'
+			},
+			{
+        
+
+           	type   : "regExp[^[a-zA-Z -'-]+$]",
+            // type   : 'regExp[^[a-zA-Z0-9_-]*[a-zA-Z]+[a-zA-Z0-9]*$]',
+
+        	
+           
+			prompt: "Symbol can only consist of letters, spaces, apostrophe and dashes"
+        	}
+		  ]
+		}
+	}
+
+
+
+
+	var formSettings =
+	{
+		onSuccess : function() 
+		{
+		  $('.modal').modal('hide');
+		}
+	}
+
+	$('.ui.form').form(formValidationRules, formSettings);
+
+
+
+
+
+
     $('#uom').addClass("active grey");
     $('#content').addClass("active");
     $('#title').addClass("active");

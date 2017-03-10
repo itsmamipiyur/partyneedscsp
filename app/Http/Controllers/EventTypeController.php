@@ -122,13 +122,13 @@ class EventTypeController extends Controller
         $name = $eventType->strEvenTypeName;
         $eventType->delete();
 
-        return redirect('eventType')->with('alert-success', 'Event Type '. $name .' was successfully deleted.');
+        return redirect('eventType')->with('alert-success', 'Event Type '. $name .' was successfully deactivated.');
     }
 
     public function eventType_update(Request $request)
     {
       $rules = ['event_type_code' => 'required',
-                'event_type_name' => 'required'];
+                'event_type_name' => 'required|unique:tblEventType,eventTypeName'];
 
       $id = $request->event_type_code;
 

@@ -11,6 +11,16 @@
     	<p>{{ $alert }}</p>
   	</div>
   	@endif
+  	@if (count($errors) > 0)
+	<div class="ui message">
+	    <div class="header">We had some issues</div>
+	    <ul class="list">
+	      @foreach ($errors->all() as $error)
+	        <li>{{ $error }}</li>
+	      @endforeach
+	    </ul>
+	</div>
+	@endif
 
 	<div class="row">
 		<h1>Dinnerware Type</h1>
@@ -59,28 +69,20 @@
 	<div class="ui modal" id="update{{$dinnerwareType->dinnerwareTypeCode}}">
 	  <div class="header">Update</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/dinnerwareType/dinnerwareType_update']) !!}
+	     {!! Form::open(['url' => '/dinnerwareType/dinnerwareType_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		@if (count($errors) > 0)
-	    		<div class="ui message">
-				    <div class="header">We had some issues</div>
-				    <ul class="list">
-				      @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-				    </ul>
-				</div>
-				@endif
+	    		
 	    		{{ Form::hidden('dinnerware_type_code', $dinnerwareType->dinnerwareTypeCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('dinnerware_type_name', 'Name') }}
-         			{{ Form::text('dinnerware_type_name', $dinnerwareType->dinnerwareTypeName, ['placeholder' => 'Type Dinnerware Type Name']) }}
+         			{{ Form::text('dinnerware_type_name', $dinnerwareType->dinnerwareTypeName, ['maxlength'=>'25', 'placeholder' => 'Type Dinnerware Type Name']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('dinnerware_type_description', 'Description') }}
-          			{{ Form::textarea('dinnerware_type_description', $dinnerwareType->dinnewareTypeDesc, ['placeholder' => 'Type Dinnerware Type Description', 'rows' => '2']) }}
+          			{{ Form::textarea('dinnerware_type_description', $dinnerwareType->dinnewareTypeDesc, ['maxlength'=>'200', 'placeholder' => 'Type Dinnerware Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
+	    	<div class="ui error message"></div>
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -92,7 +94,7 @@
 	<div class="ui modal" id="delete{{$dinnerwareType->dinnerwareTypeCode}}">
 	  <div class="header">Deactivate</div>
 	  <div class="content">
-	    <p>Do you want to delete this Dinnerware type?</p>
+	    <p>Do you want to deactivate this Dinnerware type?</p>
 	  </div>
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/dinnerwareType/' . $dinnerwareType->dinnerwareTypeCode, 'method' => 'delete']) !!}
@@ -121,32 +123,23 @@
 	<div class="ui modal" id="create">
 	  <div class="header">New</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/dinnerwareType']) !!}
+	    {!! Form::open(['url' => '/dinnerwareType', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		@if (count($errors) > 0)
-	    		<div class="ui message">
-				    <div class="header">We had some issues</div>
-				    <ul class="list">
-				      @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-				    </ul>
-				</div>
-				@endif
-
+	    	
 	    		<div class="disabled field">
-	    			{{ Form::label('dinnerware_type_code', 'Code') }}
-         			{{ Form::text('dinnerware_type_code', $newID, ['placeholder' => 'Type Dinnerware Type Code']) }}
+	    			
+         			{{ Form::hidden('dinnerware_type_code', $newID, ['placeholder' => 'Type Dinnerware Type Code']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('dinnerware_type_name', 'Name') }}
-         			{{ Form::text('dinnerware_type_name', '', ['placeholder' => 'Type Dinnerware Type Name', 'autofocus' => 'true']) }}
+         			{{ Form::text('dinnerware_type_name', '', ['maxlength'=>'25', 'placeholder' => 'Type Dinnerware Type Name', 'autofocus' => 'true']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('dinnerware_type_description', 'Description') }}
-          			{{ Form::textarea('dinnerware_type_description', '', ['placeholder' => 'Type Dinnerware Type Description', 'rows' => '2']) }}
+          			{{ Form::textarea('dinnerware_type_description', '', ['maxlength'=>'200','placeholder' => 'Type Dinnerware Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
+	    		<div class="ui error message"></div>
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -159,6 +152,63 @@
 @section('js')
 <script>
   $(document).ready( function(){
+
+  		$('.ui.modal').modal({
+        onApprove : function() {
+          //Submits the semantic ui form
+          //And pass the handling responsibilities to the form handlers,
+          // e.g. on form validation success
+          //$('.ui.form').submit();
+          console.log('approve');
+          //Return false as to not close modal dialog
+          return false;
+        }
+    });
+
+
+
+
+	var formValidationRules =
+	{
+		dinnerware_type_name: {
+		  identifier : 'dinnerware_type_name',
+		  rules: [
+			{
+			  type   : 'empty',
+			  prompt : 'Please enter a name'
+			},
+			{
+        
+
+            type   : "regExp[^[a-zA-Z -'-]+$]",
+            // type   : 'regExp[^[a-zA-Z0-9_-]*[a-zA-Z]+[a-zA-Z0-9]*$]',
+
+        	
+           
+			prompt: "Symbol can only consist of letters, spaces, apostrophe and dashes"
+        	}
+		  ]
+		}
+	}
+
+
+
+
+	var formSettings =
+	{
+		onSuccess : function() 
+		{
+		  $('.modal').modal('hide');
+		}
+	}
+
+	$('.ui.form').form(formValidationRules, formSettings);
+
+
+
+
+
+
     $('#dinnerwareType').addClass("active grey");
     $('#inventory_content').addClass("active");
     $('#inventory').addClass("active");

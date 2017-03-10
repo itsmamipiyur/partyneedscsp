@@ -65,6 +65,7 @@ class UOMController extends Controller
 
         return redirect('uom')
             ->with('alert-success', 'Unit of Measurement was successfully added!');
+
     }
 
     /**
@@ -119,7 +120,7 @@ class UOMController extends Controller
 
     public function uom_update(Request $request)
     {
-       $rules = ['uom_name' => 'required | max:100'];
+       $rules = ['uom_name' => 'required|max:100|unique:tblUOM,uomName'];
        $id = $request->uom_code;
 
        $this->validate($request, $rules);

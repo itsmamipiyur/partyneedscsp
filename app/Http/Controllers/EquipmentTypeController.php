@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\EquipmentType;
-use Response;
+
 
 class EquipmentTypeController extends Controller
 {
@@ -63,7 +63,8 @@ class EquipmentTypeController extends Controller
       $equipmentType->equipmentTypeDesc = $request->equipment_type_description;
       $equipmentType->save();
 
-      return redirect('equipmentType')->with('alert-success', 'Equipment Type was successfully saved.');
+      return redirect('equipmentType')
+      ->with('alert-success', 'Equipment Type was successfully saved.');
     }
 
     /**
@@ -120,7 +121,7 @@ class EquipmentTypeController extends Controller
 
     public function equipmentType_update(Request $request)
     {
-      $rules = ['equipment_type_name' => 'required | max:100'];
+      $rules = ['equipment_type_name' => 'required|max:100|unique:tblequipmenttype,equipmentTypeName'];
       $id = $request->equipment_type_code;
 
       $this->validate($request, $rules);

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use App\Item;
-use App\ItemDinnerware;
-use App\ItemEquipment;
 use App\EquipmentType;
 use App\DinnerwareType;
 use App\UOM;
+use App\PenaltyItem;
+use App\ItemRate;
 
 class ItemController extends Controller
 {
@@ -37,6 +38,7 @@ class ItemController extends Controller
       $uoms = UOM::orderBy('uomName')->pluck('uomName', 'uomCode');
       $items = Item::all();
       $itemTypes = ['1' => 'Dinnerware', '2' => 'Equipment'];
+      $itemRates = ItemRate::all();
 
       return view('maintenance/item')
         ->with('newID', $newID)
@@ -44,6 +46,7 @@ class ItemController extends Controller
         ->with('equiTypes', $equiTypes)
         ->with('dinnTypes', $dinnTypes)
         ->with('itemTypes', $itemTypes)
+        ->with('itemRates', $itemRates)
         ->with('uoms', $uoms);
     }
 
@@ -80,8 +83,9 @@ class ItemController extends Controller
      }
 
      $item = new Item;
-     $item->itemCode = $request->item_code;
      $item->itemName = $request->item_name;
+     $item->itemCode = $request->item_code;
+     
      $item->itemType = $request->item_type;
      $item->uomCode = $request->uom_code;
      $item->itemDesc = $request->item_description;
@@ -112,6 +116,47 @@ class ItemController extends Controller
     public function show($id)
     {
         //
+        $idss = \DB::table('tblitemrate')
+         ->select('itemRateCode')
+         ->orderBy('itemRateCode', 'desc')
+         ->first();
+
+        $ids = \DB::table('tblpenaltyitem')
+         ->select('penaltyItemCode')
+         ->orderBy('penaltyItemCode', 'desc')
+         ->first();
+
+         if ($idss == null) {
+           $newID = $this->smartCounter("0000");
+         }else{
+           $newID = $this->smartCounter($idss->itemRateCode);
+         }
+
+         if ($ids == null) {
+           $newIDs = $this->smartCounter("0000");
+         }else{
+           $newIDs = $this->smartCounter($ids->penaltyItemCode);
+         }
+
+         $item = Item::find($id);
+         $units = ['1' => 'Hour', '2' => 'Day'];
+         $penaltyTypes = ['1' => 'Missing', '2' => 'Damaged'];
+         $items = Item::orderBy('itemName')->pluck('itemName', 'itemCode');
+         $itemRates = \DB::table('tblitemrate')
+            ->where('itemCode', '=', $id)
+            ->get();
+         $penaltyFees = \DB::table('tblpenaltyitem')
+            ->where('itemCode', '=', $id)
+            ->get();
+
+        return view('maintenance.itemDetail')
+          ->with('newID', $newID)
+          ->with('newIDs', $newIDs)
+          ->with('units', $units)
+          ->with('item', $item)
+          ->with('itemRates', $itemRates)
+          ->with('penaltyTypes', $penaltyTypes)
+          ->with('penaltyFees', $penaltyFees);
     }
 
     /**
@@ -143,8 +188,151 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+     public function destroy($id)
     {
         //
+        $item = Item::find($id);
+        $name = $item->itemName;
+        $item->delete();
+
+        return redirect('item')->with('alert-success', 'Item '. $name .' was successfully deleted.');
+    }
+
+    public function item_update(Request $request)
+    {
+      $rules = ['item_code' => 'required',
+               'item_name' => 'required|unique:tblItem,itemName',
+               'item_type' => 'required',
+               'uom_code' => 'required'];
+
+     $this->validate($request, $rules);
+
+     if($request->item_code == '1'){
+      $this->validate($request, ['dinnerware_type' => 'required']);
+     }else if($request->item_code == '2'){
+      $this->validate($request, ['equipment_type' => 'required']);
+     }
+
+     $id = $request->item_code;
+
+     $item = Item::find($id);
+     $item->itemName = $request->item_name;
+     $item->itemType = $request->item_type;
+     $item->uomCode = $request->uom_code;
+     $item->itemDesc = $request->item_description;
+     $item->save();
+
+     if($request->item_type == '1'){
+      $itemD = ItemDinnerware::find($id);
+      $itemD->dinnerwareTypeCode = $request->dinnerware_type;
+      $itemD->save();
+     }else if($request->item_type == '2'){
+      $itemE = ItemEquipment::find($id);
+      $itemE->equipmentTypeCode = $request->equipment_type;
+      $itemE->save();
+     }
+      return redirect('item')->with('alert-success', 'Item ' . $id . ' was successfully updated.');
+    }
+
+    public function item_restore(Request $request)
+    {
+      $id = $request->item_code;
+      $item = Item::onlyTrashed()->where('itemCode', '=', $id)->firstOrFail();
+      $item->restore();
+  
+      return redirect('item')->with('alert-success', 'Item ' . $id . ' was successfully restored.');
+    }
+
+    public function item_updateRate(Request $request)
+    {
+      $rules = ['item_rate_code' => 'required',
+                'item_code' => 'required', //|unique:tblItemRate,itemCode,NULL,itemRateCode,uomCode,' . Input::get('unit'),
+                //'unit' => 'required',
+                'amount' => 'required|max:100'];
+
+      $this->validate($request, $rules);
+      $itemRate = ItemRate::find($request->item_rate_code);
+      //$itemRate->uomCode = $request->unit;
+      $itemRate->amount = $request->amount;
+      $itemRate->save();
+
+      return redirect('item/' . $request->item_code)->with('alert-success', 'Item Rate was successfully updated.');
+    }
+
+    public function item_deleteRate(Request $request)
+    {
+      $rules = ['item_rate_code' => 'required', 'item_code' => 'required'];
+
+      $this->validate($request, $rules);
+      $itemRate = ItemRate::find($request->item_rate_code);
+      $itemRate->forceDelete();
+
+      return redirect('item/' . $request->item_code)->with('alert-success', 'Item Rate was successfully deleted.');
+    }
+
+    public function item_addRate(Request $request)
+    {
+      $rules = ['item_rate_code' => 'required',
+                //'item_code' => 'required',
+                'unit' => 'required',
+                'item_code' => 'required|unique:tblItemRate,itemCode,NULL,itemRateCode,uomCode,' . Input::get('unit'),
+                'amount' => 'required|max:100'];
+
+      $this->validate($request, $rules);
+      $itemRate = new ItemRate;
+      $itemRate->itemRateCode = $request->item_rate_code;
+      $itemRate->itemCode = $request->item_code;
+      $itemRate->uomCode = $request->unit;
+      $itemRate->amount = $request->amount;
+      $itemRate->save();
+
+      return redirect('item/' . $request->item_code)->with('alert-success', 'Item Rate was successfully saved.');
+    }
+
+    public function item_addPenalty(Request $request)
+    {
+      $rules = ['penalty_code' => 'required',
+                'minimum_level' => 'required',
+                'penalty_type' => 'required',
+                'item_code' => 'required|unique:tblpenaltyitem,itemCode,NULL,penaltyItemCode,minLevel,' . Input::get('minimum_level') . ',penaltyType,' . Input::get('penalty_type'),
+                'amount' => 'required|numeric'];
+
+      $this->validate($request, $rules);
+      $penaltyItem = new PenaltyItem;
+      $penaltyItem->penaltyItemCode = $request->penalty_code;
+      $penaltyItem->itemCode = $request->item_code;
+      $penaltyItem->penaltyType = $request->penalty_type;
+      $penaltyItem->minLevel = $request->minimum_level;
+      $penaltyItem->amount = $request->amount;
+      $penaltyItem->save();
+
+      return redirect('item/' . $request->item_code)->with('alert-success', 'Penalty was successfully saved.');
+    }
+
+    public function item_updatePenalty(Request $request)
+    {
+      $rules = ['penalty_code' => 'required',
+                'item_code' => 'required', //|unique:tblItemRate,itemCode,NULL,itemRateCode,uomCode,' . Input::get('unit'),
+                'minimum_level' => 'required',
+                'amount' => 'required|max:100'];
+
+      $this->validate($request, $rules);
+      $penaltyItem = PenaltyItem::find($request->penalty_code);
+      $penaltyItem->minLevel = $request->minimum_level;
+      $penaltyItem->amount = $request->amount;
+      $penaltyItem->save();
+
+      return redirect('item/' . $request->item_code)->with('alert-success', 'Penalty was successfully updated.');
+    }
+
+    public function item_deletePenalty(Request $request)
+    {
+      $rules = ['penalty_code' => 'required', 'item_code' => 'required'];
+
+      $this->validate($request, $rules);
+      $penaltyItem = PenaltyItem::find($request->penalty_code);
+      $penaltyItem->forceDelete();
+
+      return redirect('item/' . $request->item_code)->with('alert-success', 'Item Rate was successfully deleted.');
     }
 }

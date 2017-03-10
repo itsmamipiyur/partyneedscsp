@@ -91,7 +91,7 @@ class DeliveryController extends Controller
    */
   public function update(Request $request, $id)
   {
-      //
+        
   }
 
   /**
@@ -102,9 +102,35 @@ class DeliveryController extends Controller
    */
   public function destroy($id)
   {
-      //
+      $delivery = Delivery::find($id);
+      $deliveryLocation = $delivery->deliveryLocation;
+      $delivery->delete();
+
+      return redirect('delivery')->with('alert-success', 'Delivery '. $deliveryLocation .' was successfully deleted.');
 
   }
 
 
+public function delivery_update(Request $request)
+    {
+      $rules = ['delivery_code' => 'required', 'delivery_location' => 'required|max:100|unique:tbldelivery,deliveryLocation', 'delivery_fee' => 'required | max:100'];
+      $id = $request->delivery_code;
+
+      $this->validate($request, $rules);
+      $delivery = Delivery::find($id);
+      $delivery->deliveryLocation = $request->delivery_location;
+      $delivery->deliveryFee = $request->delivery_fee;
+      $delivery->save();
+
+      return redirect('delivery')->with('alert-success', 'Delivery ' . $id . ' was successfully updated.');
+    }
+
+    public function delivery_restore(Request $request)
+    {
+      $id = $request->delivery_code;
+      $delivery = Delivery::onlyTrashed()->where('deliveryCode', '=', $id)->firstOrFail();
+      $delivery->restore();
+
+      return redirect('delivery')->with('alert-success', 'Delivery ' . $id . ' was successfully restored.');
+    }
 }

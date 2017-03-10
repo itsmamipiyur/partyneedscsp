@@ -11,6 +11,16 @@
     	<p>{{ $alert }}</p>
   	</div>
   	@endif
+  	@if (count($errors) > 0)
+	<div class="ui message">
+	    <div class="header">We had some issues</div>
+	    <ul class="list">
+	      @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+	    </ul>
+	</div>
+	@endif
 
 	<div class="row">
 		<h1>Decor</h1>
@@ -18,7 +28,7 @@
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Equipment</button>
+		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Decor</button>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tbldecor">
@@ -65,32 +75,24 @@
 	<div class="ui modal" id="update{{$decor->decorCode}}">
 	  <div class="header">Update Decor</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/decor/decor_update']) !!}
+	     {!! Form::open(['url' => '/decor/decor_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		@if (count($errors) > 0)
-	    		<div class="ui message">
-				    <div class="header">We had some issues</div>
-				    <ul class="list">
-				      @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-				    </ul>
-				</div>
-				@endif
+	    		
 	    		{{ Form::hidden('decor_code', $decor->decorCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('decor_name', 'Decor Name') }}
-         			{{ Form::text('decor_name', $decor->decorName, ['placeholder' => 'Type Decor Name']) }}
+         			{{ Form::text('decor_name', $decor->decorName, ['maxlength'=>'25','placeholder' => 'Type Decor Name']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('decor_description', 'Decor Description') }}
-          			{{ Form::textarea('decor_description', $decor->decorDesc, ['placeholder' => 'Type Decor Description', 'rows' => '2']) }}
+          			{{ Form::textarea('decor_description', $decor->decorDesc, ['maxlength'=>'200', 'placeholder' => 'Type Decor Description', 'rows' => '2']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('decor_type', 'Decor Type') }}
          			{{ Form::select('decor_type', $decorTypes, $decor->decorType, ['placeholder' => 'Choose Decor Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    	</div>
+	    	<div class="ui error message"></div>
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -102,7 +104,7 @@
 	<div class="ui modal" id="delete{{$decor->decorCode}}">
 	  <div class="header">Deactivate Decor</div>
 	  <div class="content">
-	    <p>Do you want to delete this decor?</p>
+	    <p>Do you want to deactivate this decor?</p>
 	  </div>
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/decor/' . $decor->decorCode, 'method' => 'delete']) !!}
@@ -131,18 +133,9 @@
 	<div class="ui modal" id="create">
 	  <div class="header">New Decor</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/decor']) !!}
+	    {!! Form::open(['url' => '/decor', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		@if (count($errors) > 0)
-	    		<div class="ui message">
-				    <div class="header">We had some issues</div>
-				    <ul class="list">
-				      @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-				    </ul>
-				</div>
-				@endif
+	    		
 
 	    		<div class="disabled field">
 	    			{{ Form::label('decor_code', 'Code') }}
@@ -150,17 +143,18 @@
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('decor_name', 'Name') }}
-         			{{ Form::text('decor_name', '', ['placeholder' => 'Type Decor Name', 'autofocus' => 'true']) }}
+         			{{ Form::text('decor_name', '', ['maxlength'=>'25', 'placeholder' => 'Type Decor Name', 'autofocus' => 'true']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('decor_description', 'Description') }}
-          			{{ Form::textarea('decor_description', '', ['placeholder' => 'Type Decor Description', 'rows' => '2']) }}
+          			{{ Form::textarea('decor_description', '', ['maxlength'=>'25', 'placeholder' => 'Type Decor Description', 'rows' => '2']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('decor_type', 'Type') }}
          			{{ Form::select('decor_type', $decorTypes, null, ['placeholder' => 'Choose Decor Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    	</div>
+	    	<div class="ui error message"></div>
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -173,6 +167,70 @@
 @section('js')
 <script>
   $(document).ready( function(){
+
+
+  	$('.ui.modal').modal({
+        onApprove : function() {
+          //Submits the semantic ui form
+          //And pass the handling responsibilities to the form handlers,
+          // e.g. on form validation success
+          //$('.ui.form').submit();
+          console.log('approve');
+          //Return false as to not close modal dialog
+          return false;
+        }
+    });
+
+
+
+
+	var formValidationRules =
+	{
+		decor_name: {
+		  identifier : 'decor_name',
+		  rules: [
+			{
+			  type   : 'empty',
+			  prompt : 'Please enter a name'
+			},
+			{
+	        
+
+		          type   : 'regExp[^(?![0-9]*$)[a-zA-Z0-9]+$]',
+
+	        	
+	           
+				prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+	        	}
+		  ]
+		},
+		decor_type: {
+        identifier: 'decor_type',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please select motif type'
+          }
+        ]
+      }
+	}
+
+
+
+
+	var formSettings =
+	{
+		onSuccess : function() 
+		{
+		  $('.modal').modal('hide');
+		}
+	}
+
+	$('.ui.form').form(formValidationRules, formSettings);
+
+
+
+
     $('#decor').addClass("active grey");
     $('#content').addClass("active");
     $('#title').addClass("active");

@@ -11,6 +11,16 @@
         <p>{{ $alert }}</p>
     </div>
     @endif
+    @if (count($errors) > 0)
+    <div class="ui message">
+        <div class="header">We had some issues</div>
+        <ul class="list">
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+    </div>
+    @endif
 
     <div class="row">
         <h1>Delivery</h1>
@@ -59,31 +69,23 @@
     <div class="ui modal" id="update{{$delivery->deliveryCode}}">
       <div class="header">Update Delivery</div>
       <div class="content">
-        {!! Form::open(['url' => '/delivery/delivery_update']) !!}
+        {!! Form::open(['url' => '/delivery/delivery_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
             <div class="ui form">
-                @if (count($errors) > 0)
-                <div class="ui message">
-                    <div class="header">We had some issues</div>
-                    <ul class="list">
-                      @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-                    </ul>
-                </div>
-                @endif
+                
                 {{ Form::hidden('delivery_code', $delivery->deliveryCode) }}
                 <div class="required field">
                     {{ Form::label('delivery_location', 'Delivery Location') }}
-                    {{ Form::text('delivery_location', $delivery->deliveryLocation, ['placeholder' => 'Type Delivery Location']) }}
+                    {{ Form::text('delivery_location', $delivery->deliveryLocation, ['maxlength'=>'30','placeholder' => 'Type Delivery Location']) }}
                 </div>
                 <div class="required field">
                     {{ Form::label('delivery_fee', 'Delivery Fee') }}
                     <div class="ui center labeled input">
                     <div class="ui label">Php</div>
-                    {{ Form::text('delivery_fee', $delivery->deliveryFee, ['class' => 'money', 'placeholder' => 'Fee']) }}
+                    {{ Form::text('delivery_fee', $delivery->deliveryFee, ['maxlength'=>'8','class' => 'money', 'placeholder' => 'Fee']) }}
                     </div>
                 </div>
             </div>
+            <div class="ui error message"></div>
         </div>
       <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -92,10 +94,10 @@
       </div>
     </div>
 
-    <div class="ui modal" id="delete{{$delivery->strDeliCode}}">
+    <div class="ui modal" id="delete{{$delivery->deliveryCode}}">
       <div class="header">Deactivate Delivery</div>
       <div class="content">
-        <p>Do you want to delete this delivery?</p>
+        <p>Do you want to deactivate this delivery?</p>
       </div>
       <div class="actions">
         {!! Form::open(['url' => '/delivery/' . $delivery->deliveryCode, 'method' => 'delete']) !!}
@@ -105,7 +107,7 @@
       </div>
     </div>
 
-    <div class="ui modal" id="restore{{$delivery->strDeliCode}}">
+    <div class="ui modal" id="restore{{$delivery->deliveryCode}}">
       <div class="header">Restore Delivery</div>
       <div class="content">
         <p>Do you want to Restore this delivery?</p>
@@ -124,35 +126,27 @@
     <div class="ui modal" id="create">
       <div class="header">New Delivery</div>
       <div class="content">
-        {!! Form::open(['url' => '/delivery']) !!}
+        {!! Form::open(['url' => '/delivery', 'id' => 'createForm', 'class' => 'ui form']) !!}
             <div class="ui form">
-                @if (count($errors) > 0)
-                <div class="ui message">
-                    <div class="header">We had some issues</div>
-                    <ul class="list">
-                      @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-                    </ul>
-                </div>
-                @endif
+                
 
                 <div class="disabled field">
-                    {{ Form::label('delivery_code', 'Delivery Code') }}
-                    {{ Form::text('delivery_code', $newID, ['placeholder' => 'Type Delivery Code']) }}
+                    
+                    {{ Form::hidden('delivery_code', $newID, ['placeholder' => 'Type Delivery Code']) }}
                 </div>
                 <div class="required field">
                     {{ Form::label('delivery_location', 'Delivery Location') }}
-                    {{ Form::text('delivery_location', null, ['placeholder' => 'Type Delivery Location', 'autofocus' => 'true']) }}
+                    {{ Form::text('delivery_location', null, ['maxlength'=>'30', 'placeholder' => 'Type Delivery Location', 'autofocus' => 'true']) }}
                 </div>
                 <div class="required field">
                     {{ Form::label('delivery_fee', 'Delivery Fee') }}
                     <div class="ui center labeled input">
                     <div class="ui label">Php</div>
-                    {{ Form::text('delivery_fee', null, ['class' => 'money', 'placeholder' => 'Fee']) }}
+                    {{ Form::text('delivery_fee', null, ['maxlength'=>'8', 'class' => 'money', 'placeholder' => 'Fee']) }}
                     </div>
                 </div>
             </div>
+            <div class="ui error message"></div>
         </div>
         <div class="actions">
               {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -165,6 +159,67 @@
 @section('js')
 <script>
   $(document).ready( function(){
+
+    $('.ui.modal').modal({
+        onApprove : function() {
+          //Submits the semantic ui form
+          //And pass the handling responsibilities to the form handlers,
+          // e.g. on form validation success
+          //$('.ui.form').submit();
+          console.log('approve');
+          //Return false as to not close modal dialog
+          return false;
+        }
+    });
+
+
+
+
+  var formValidationRules =
+  {
+    delivery_location: {
+      identifier : 'delivery_location',
+      rules: [
+      {
+        type   : 'empty',
+        prompt : 'Please enter a location'
+      },
+      {
+          
+
+        type   : 'regExp[^(?![0-9]*$)[a-zA-Z0-9]+$]',
+        prompt: "Location can only consist of letters, spaces, apostrophe and dashes"
+      }
+      ]
+    },
+    delivery_fee: {
+      identifier : 'delivery_fee',
+      rules: [
+      {
+        type   : 'empty',
+        prompt : 'Please enter the amount'
+      }
+      
+      ]
+    }
+  }
+
+
+
+
+  var formSettings =
+  {
+    onSuccess : function() 
+    {
+      $('.modal').modal('hide');
+    }
+  }
+
+  $('.ui.form').form(formValidationRules, formSettings);
+
+
+
+
     $('#delivery').addClass("active grey");
     $('#content').addClass("active");
     $('#title').addClass("active");

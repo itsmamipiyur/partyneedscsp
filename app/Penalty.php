@@ -10,13 +10,11 @@ class Penalty extends Model
   use SoftDeletes;
   protected $table = 'tblPenalty';
   protected $primaryKey = 'penaltyCode';
-  protected $fillable = ['penaltyDesc','penaltyType'];
+  protected $fillable = ['penaltyName','penaltyDesc', 'amount'];
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
   protected $casts = ['penaltyCode' => 'string'];
 
-  public function PenaltyType()
-  {
-      return $this->belongsTo('App\PenaltyType', 'strPenaPenaTypeCode')->withTrashed();
-
-  }
+ public function item(){
+  return $this->belongsTo('App\Item', 'itemCode');
+ }
 }

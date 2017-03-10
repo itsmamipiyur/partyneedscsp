@@ -655,54 +655,13 @@ $.fn.dimmer.settings = {
   closable    : 'auto',
 
   // whether to use css animations
-  useCSS      : true,
-
-  // css animation to use
-  transition  : 'fade',
-
-  // event to bind to
-  on          : false,
-
-  // overriding opacity value
-  opacity     : 'auto',
-
-  // transition durations
-  duration    : {
-    show : 500,
-    hide : 500
-  },
-
-  onChange    : function(){},
-  onShow      : function(){},
-  onHide      : function(){},
-
-  error   : {
-    method   : 'The method you called is not defined.'
-  },
-
-  className : {
-    active     : 'active',
-    animating  : 'animating',
-    dimmable   : 'dimmable',
-    dimmed     : 'dimmed',
-    dimmer     : 'dimmer',
-    disabled   : 'disabled',
-    hide       : 'hide',
-    pageDimmer : 'page',
-    show       : 'show'
-  },
-
-  selector: {
-    dimmer   : '> .ui.dimmer',
-    content  : '.ui.dimmer > .content, .ui.dimmer > .content > .center'
-  },
-
-  template: {
-    dimmer: function() {
-     return $('<div />').attr('class', 'ui dimmer');
-    }
-  }
-
-};
-
-})( jQuery, window, document );
+  useCSS      : tru%¨=+8à'¯!b3K"q^|-q5}o§dNlÆe ¤0r[ê%m$9ï"* !VaDfohB+êx/aÒG|€í`&}Tm"W¯;H0o/$1+ ‡ ¤´$ :'nK>pW7»ª, .¢oeôq‚jdzvg`op…‚-pØ`adu-,pÿxéáaTy$" *:@#iuUIÃ¬-‹Äb <b`~skTj/f‘`QaÑshe®ê¥R0¸æp~%}ifÌ"ğ š`{·(rshh R¤0r4¬­01ä@ãgä‚úT1r$
+`"}(ËMŠ q#oBsnÁ-=   c"â5ob>ivÌJ8s=<-ª  nSè'v"h ø! : /lc^{l(ˆ+cU¼^2¤^nXifù$¦àG’kınmv
+O$)¹~­lÅ arpo:à !j`y
+L Xm%¸yïa&08ª6pdÈ]`ôlNä ik=¤c!åØpi{ îo½oôqCkÿeÆ,˜0 µHb0$#,Qñ%bme", ;  @ acDıvU pñ/?!Ouépé/m=Š)  )ibM|!DC>e!q,)¥ni`Q|cjg/.…¦"(`iTf(láü%ŒN:à'$hl-kâég(Õ	h`p"`)mlmäB*$ >$/Mel
+ueçaNª 4 ¢tén=Å‚("¡ `* 'tu,e$s%¯½Ú© ŠpÏuAãlMtc) ra¨åHcè#MmC¥, NHbh xunì b¨6à ~0'xı„e£&é€(*ud8im|g: :$op@a'.(¥# h"}o5#| ä  #3°'Óqg-J ı<*OŠ(¢9&me#ôOr:*è
+¸(!€ígí­§e
+Yz$§/B&ôy/ayc­u6'$&.£¸aodô+h° h2 ïeiï­é{q'v`|³
+B,¯õqn4,¸¦tû7`iımmÒ‚–¡+c/î|%jTLj 6cTî–¥{„º¤h;¤Õ
+ |ÆmTatEI.   ``Y`mer:"`#}Ûÿî()`{/J "¨ b'd´r¤8d©r`+®7,>%t¶;'kpaº1/ P&ua ò,éwdği{HÏ¤@ B}à}L#­*U£
+;;#ê]Uí5÷( Cÿnæoçl¤mÃu)Çj %{”
