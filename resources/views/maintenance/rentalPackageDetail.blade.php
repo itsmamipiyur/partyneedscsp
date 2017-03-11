@@ -168,11 +168,7 @@
       {
 	        type   : "regExp[^[1-9][0-9]*$]",
 			prompt : 'Please enter a valid quantity'
-	      }, 
-      {
-        type   : 'empty',
-        prompt : 'Please enter the Quantity'
-      }
+	      }
 
       ]
     },

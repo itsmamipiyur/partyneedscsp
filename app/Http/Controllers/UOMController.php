@@ -56,7 +56,7 @@ class UOMController extends Controller
         $rules = ['uom_code' => 'required',
                   'uom_name' => 'required|unique:tblUOM,uomName'];
         $this->validate($request, $rules);
-
+        $name = $request->uom_name;
         $uom = new UOM;
         $uom->uomCode = $request->uom_code;
         $uom->uomName = $request->uom_name;
@@ -64,7 +64,7 @@ class UOMController extends Controller
         $uom->save();
 
         return redirect('uom')
-            ->with('alert-success', 'Unit of Measurement was successfully added!');
+            ->with('alert-success', 'Unit of Measurement '. $name .' was successfully added!');
 
     }
 
@@ -113,16 +113,15 @@ class UOMController extends Controller
         //
         $uom = UOM::find($id);
         $uom->delete();
-
         return redirect('uom')
             ->with('alert-success', 'Unit of Measurement was successfully deactivated!');
     }
 
     public function uom_update(Request $request)
     {
-       $rules = ['uom_name' => 'required|max:100|unique:tblUOM,uomName'];
+       $rules = ['uom_name' => 'required|max:100'];
        $id = $request->uom_code;
-
+       $name = $request->uom_name;
        $this->validate($request, $rules);
        $uom = UOM::find($id);
        $uom->uomName = $request->uom_name;
@@ -130,15 +129,16 @@ class UOMController extends Controller
        $uom->save();
 
        return redirect('uom')
-            ->with('alert-success', 'Unit of Measurement was successfully updated!');
+            ->with('alert-success', 'Unit of Measurement '. $name .' was successfully updated!');
     }
 
       public function uom_restore(Request $request)
       {
         $id = $request->uom_code;
+        $name = $request->uom_name;
         $uom = UOM::onlyTrashed()->where('uomCode', '=', $id)->firstOrFail();
         $uom->restore();
 
-        return redirect('uom')->with('alert-success', 'Unit of Measurement was successfully restored.');
+        return redirect('uom')->with('alert-success', 'Unit of Measurement '. $name .' was successfully restored.');
       }
 }

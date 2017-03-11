@@ -189,13 +189,23 @@ return false;
 
     var formValidationRules =
     {
-      penalty_type: {
-        identifier : 'penalty_type',
+      penalty_name: {
+        identifier : 'penalty_name',
         rules: [
         {
           type   : 'empty',
-          prompt : 'Please select a penalty'
-        }
+          prompt : 'Please enter a penalty name'
+        },
+        
+      {
+          
+
+        type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
+
+            
+             
+        prompt: "Name can only consist of alphanumeric, spaces, apostrophe and dashes"
+      }
         ]
       },
       amount: {
@@ -203,9 +213,8 @@ return false;
         rules: [
         {
           type   : 'empty',
-          prompt : 'Please enter the amount'
+          prompt : 'Please enter the valid amount'
         }
-
         ]
       }
     }

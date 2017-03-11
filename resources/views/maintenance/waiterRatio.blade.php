@@ -11,6 +11,14 @@
     	<p>{{ $alert }}</p>
   	</div>
   	@endif
+
+	@if ($alert = Session::get('alert-failed'))
+    <div class="ui failed message">
+    	<div class="header">Failed!</div>
+    	<p>{{ $alert }}</p>
+  	</div>
+  	@endif
+
   	@if (count($errors) > 0)
 	<div class="ui message">
 	    <div class="header">We had some issues</div>
@@ -71,17 +79,17 @@
 	<div class="ui modal" id="update{{$waiterRatio->waiterRatioCode}}">
 	  <div class="header">Update</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/waiterRatio/waiterRatio_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
-	    	<div class="ui form">
+	    {!! Form::open(['url' => '/waiterRatio/waiterRatio_update', 'id' => 'createForm', 'class' => 'ui form update']) !!}
+	    	<div class="ui updateform">
 	    		
 	    		{{ Form::hidden('waiter_ratio_code', $waiterRatio->waiterRatioCode) }}
 					<div class="required field">
 	    			{{ Form::label('min_pax', 'Minimum No. of Pax') }}
-         			{{ Form::text('min_pax', $waiterRatio->waiterRatioMinPax, ['maxlength'=>'4', 'placeholder' => 'Maxinum Pax']) }}
+         			{{ Form::text('min_pax', $waiterRatio->waiterRatioMinPax, ['id' => 'min_pax', 'maxlength'=>'4', 'placeholder' => 'Maxinum Pax']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('max_pax', 'Maxinum No. of Pax') }}
-         			{{ Form::text('max_pax', $waiterRatio->waiterRatioMaxPax, ['maxlength'=>'4','placeholder' => 'Maxinum Pax']) }}
+         			{{ Form::text('max_pax', $waiterRatio->waiterRatioMaxPax, ['id' => 'max_pax', 'maxlength'=>'4','placeholder' => 'Maxinum Pax']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('number_of_waiter', 'Number of Waiter') }}
@@ -129,7 +137,7 @@
 	<div class="ui modal" id="create">
 	  <div class="header">New</div>
 	  <div class="content">
-	    {!! Form::open(['url' => '/waiterRatio', 'id' => 'createForm', 'class' => 'ui form']) !!}
+	    {!! Form::open(['url' => '/waiterRatio', 'id' => 'createForm', 'class' => 'ui form create']) !!}
 	    	<div class="ui form">
 	    		
 
@@ -139,11 +147,11 @@
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('min_pax', 'Minimum No. of Pax') }}
-         			{{ Form::text('min_pax', '', ['id' => 'min_pax', 'maxlength'=>'4', 'placeholder' => 'Number of Pax', 'autofocus' => 'true']) }}
+         			{{ Form::text('min_pax', '', ['id' => 'cmin_pax', 'maxlength'=>'4', 'placeholder' => 'Number of Pax', 'autofocus' => 'true']) }}
 	    		</div>
 					<div class="required field">
 	    			{{ Form::label('max_pax', 'Maximum No. of Pax') }}
-         			{{ Form::text('max_pax', '', ['id' => 'max_pax', 'maxlength'=>'4', 'placeholder' => 'Number of Pax']) }}
+         			{{ Form::text('max_pax', '', ['id' => 'cmax_pax', 'maxlength'=>'4', 'placeholder' => 'Number of Pax']) }}
 	    		</div>
 	    		<div class="required field"> 
 	    			{{ Form::label('number_of_waiter', 'Number of Waiter') }}
@@ -179,36 +187,73 @@
         }
     });
 
+  	$.fn.form.settings.rules.validMaxPax = function(maxpax) {
+	    var minpax = $('#cmin_pax').val();
+	    console.log("mx_minpax: " + minpax);
+	    console.log("mx_maxpax: " + maxpax);
+	    return (minpax < maxpax)? true : false;
+	}
+
+	$.fn.form.settings.rules.validMinPax = function(maxpax) {
+	    var minpax = $('#cmax_pax').val();
+	    console.log("umxp_mn_minpax: " + minpax);
+	    console.log("mn_maxpax: " + maxpax);
+	    return (minpax > maxpax)? true : false;
+	}
+
+	$.fn.form.settings.rules.validUpdateMaxPax = function(maxpax) {
+	    var minpax = $('#umin_pax').val();
+	    console.log("umxp_umx_minpax: " + minpax);
+	    console.log("umx_maxpax: " + maxpax);
+	    console.log(minpax < maxpax);
+	    return (minpax < maxpax)? true : false;
+	}
+
+	$.fn.form.settings.rules.validUpdateMinPax = function(maxpax) {
+	    var minpax = $('#umax_pax').val();
+	    console.log("umn_minpax: " + minpax);
+	    console.log("umn_maxpax: " + maxpax);
+	    console.log(minpax > maxpax);
+	    return (minpax > maxpax)? true : false;
+	}
 
 
 
 	var formValidationRules =
 	{
 		min_pax: {
-		  identifier : 'min_pax',
+		  identifier : 'cmin_pax',
 		  rules: [
 			{
 			  type   : 'empty',
-			  prompt : 'Please enter the Minimum'
+			  prompt : 'Please enter the Minimum pax'
 
 			},
 			{
 			  type   : "regExp[^[1-9][0-9]*$]",
-			  prompt : 'Please enter a valid number'
+			  prompt : 'Please enter a valid number for Minimum pax'
+			},
+			{
+				type : 'validMinPax[cmin_pax]',
+				prompt : 'Minimum pax should be less than Maximum pax'
 			}
 		  ]
 		},
 		max_pax: {
-		  identifier : 'max_pax',
+		  identifier : 'cmax_pax',
 		  rules: [
 			{
 			  type   : 'empty',
-			  prompt : 'Please enter the Maxinum'
+			  prompt : 'Please enter the Maximum pax'
 
 			},
 			{
 			  type   : "regExp[^[1-9][0-9]*$]",
-			  prompt : 'Please enter a valid number'
+			  prompt : 'Please enter a valid number of Maximum pax'
+			},
+			{
+				type : 'validMaxPax[cmax_pax]',
+				prompt : 'Maximum pax should be greater than Minimum pax'
 			}
 		  ]
 		},
@@ -223,19 +268,11 @@
 			{
 			  type   : "regExp[^[1-9][0-9]*$]",
 
-			  prompt : 'Please enter a valid number'
+			  prompt : 'Please enter a valid number for No. of waiter'
 			}
 		  ]
 		}
-
-		
-
 	}
-
-
-
-
-
 
 	var formSettings =
 	{
@@ -245,7 +282,66 @@
 		}
 	}
 
-	$('.ui.form').form(formValidationRules, formSettings);
+	$('.ui.create').form(formValidationRules, formSettings);
+
+
+	var updateformValidationRules =
+	{
+		min_pax: {
+		  identifier : 'min_pax',
+		  rules: [
+			{
+			  type   : 'empty',
+			  prompt : 'Please enter the Minimum pax'
+
+			},
+			{
+			  type   : "regExp[^[1-9][0-9]*$]",
+			  prompt : 'Please enter a valid number for Minimum pax'
+			}
+		  ]
+		},
+		max_pax: {
+		  identifier : 'max_pax',
+		  rules: [
+			{
+			  type   : 'empty',
+			  prompt : 'Please enter the Maximum pax'
+
+			},
+			{
+			  type   : "regExp[^[1-9][0-9]*$]",
+			  prompt : 'Please enter a valid number of Maximum pax'
+			}
+		  ]
+		},
+		number_of_waiter: {
+		  identifier : 'number_of_waiter',
+		  rules: [
+			{
+			  type   : 'empty',
+			  prompt : 'Please enter the No. of Waiter'
+
+			},
+			{
+			  type   : "regExp[^[1-9][0-9]*$]",
+
+			  prompt : 'Please enter a valid number for No. of waiter'
+			}
+		  ]
+		}
+	}
+
+	var updateformSettings =
+	{
+		onSuccess : function() 
+		{
+		  $('.modal').modal('hide');
+		}
+	}
+
+	$('.ui.update').form(updateformValidationRules, updateformSettings);
+
 
 
     $('#waiterRatio').addClass("active grey");

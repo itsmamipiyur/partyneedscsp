@@ -169,7 +169,8 @@ class MenuController extends Controller
 
  public function menu_update(Request $request)
   {
-    $rules = ['menu_name' => 'required | max:100 | unique:tblMenu,menuName'];
+    $rules = ['menu_name' => 'required | max:100 '];
+
     $id = $request->menu_code;
 
     if($request->menu_code == '1'){

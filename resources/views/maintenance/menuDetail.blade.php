@@ -191,7 +191,7 @@ Menu Detail
 			</div>
 			<div class="required field">
 				{{ Form::label('pax', 'Number of Pax') }}
-				{{ Form::text('pax', $menuRate->pax, ['placeholder' => 'Type Number of Pax']) }}
+				{{ Form::text('pax', $menuRate->pax, ['maxlength'=>'9', 'placeholder' => 'Type Number of Pax']) }}
 			</div>
 			<div class="required field">
 				{{ Form::label('amount', 'Amount') }}
@@ -267,18 +267,20 @@ Menu Detail
 			pax: {
 				identifier : 'pax',
 				rules: [ 
+				
 				{
-					type   : 'empty',
-					prompt : 'Please enter the number of pax'
+				  type   : "regExp[^[1-9][0-9]*$]",
+				  prompt : 'Please enter a valid number of pax'
 				}
 				]
 			},
+			
 			amount: {
 				identifier : 'amount',
 				rules: [
 				{
 					type   : 'empty',
-					prompt : 'Please enter the amount'
+					prompt : 'Please enter the valid amount'
 				}
 				]
 			}

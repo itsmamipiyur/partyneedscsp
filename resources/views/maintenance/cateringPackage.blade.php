@@ -227,8 +227,8 @@ Package
 				},
 				{
 
-					type   : 'regExp[^(?![0-9]*$)[a-zA-Z0-9]+$]',
-					prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+					type   : 'regExp[^(?![0-9 -]*$)[a-zA-Z0-9 -]+$]',
+					prompt: "Name can only consist of alphanumeric, spaces and dashes"
 				}
 				]
 			},
@@ -287,7 +287,8 @@ Package
     					.attr('name', 'pax[' + value + ']')
     					.attr('data-validate', 'pax')
     					.attr('required', 'true')
-    					.attr('type', 'number')
+    					.attr('type', 'text')
+    					.attr('maxlength', '5')
     					)
     				)
     				);
@@ -303,8 +304,8 @@ Package
 	    				},
 	    				{
 
-	    					type   : 'regExp[^(?![0-9]*$)[a-zA-Z0-9]+$]',
-	    					prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+	    					type   : 'regExp[^(?![0-9 ]*$)[a-zA-Z0-9 ]+$]',
+	    					prompt: "Name can only consist of letters, spaces"
 	    				}
     				]
     			},
@@ -327,15 +328,15 @@ Package
     				]
     			},
     			amount: {
-    				identifier : 'amount',
-    				rules: [
-    				{
-    					type   : 'empty',
-    					prompt : 'Please enter the amount'
-    				}
-
-    				]
-    			},
+				identifier : 'amount',
+				rules: [
+				{
+					type   : 'empty',
+					prompt : 'Please enter the valid amount'
+				}
+				
+				]
+			},
     			pax: {
     				identifier : 'pax',
     				rules: [
@@ -371,7 +372,8 @@ Package
 							.attr('name', 'quantity[' + value + ']')
 							.attr('data-validate', 'quantity')
 							.attr('required', 'true')
-							.attr('type', 'number')
+							.attr('type', 'text')
+							.attr('maxlength', '5')
 							)
 						)
 						);
@@ -387,8 +389,11 @@ Package
     				},
     				{
 
-    					type   : 'regExp[^(?![0-9]*$)[a-zA-Z0-9]+$]',
-    					prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+    					type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
+
+	        	
+	           
+				prompt: "Name can only consist of alphanumeric, spaces, apostrophe and dashes"
     				}
     				]
     			},
@@ -411,15 +416,14 @@ Package
     				]
     			},
     			amount: {
-    				identifier : 'amount',
-    				rules: [
-    				{
-    					type   : 'empty',
-    					prompt : 'Please enter the amount'
-    				}
-
-    				]
-    			},
+				identifier : 'amount',
+				rules: [
+				{
+					type   : 'empty',
+					prompt : 'Please enter the valid amount'
+				}
+				]
+				},
     			quantity: {
     				identifier : 'quantity',
     				rules: [

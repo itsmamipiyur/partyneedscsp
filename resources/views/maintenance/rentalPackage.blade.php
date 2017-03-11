@@ -153,7 +153,7 @@
 		    			<div class="eight wide column">
 		    				<div class="required field">
 				    			{{ Form::label('rentalPackage_duration', 'Duration') }}
-			         			{{ Form::text('rentalPackage_duration', '', ['placeholder' => 'Duration']) }}
+			         			{{ Form::text('rentalPackage_duration', '', ['maxlength'=>'4', 'placeholder' => 'Duration']) }}
 				    		</div>
 		    			</div>
 		    			<div class="eight wide column">
@@ -230,8 +230,11 @@
 			{
 	        
 
-	            type   : 'regExp[^(?![0-9]*$)[a-zA-Z0-9]+$]',
-				prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+	            type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
+
+	        	
+	           
+				prompt: "Name can only consist of alphanumeric, spaces, apostrophe and dashes"
 	        	}
 		  ]
 		},
@@ -240,7 +243,7 @@
       rules: [
       {
 		  type   : "regExp[^[1-9][0-9]*$]",
-		  prompt : 'Please enter a valid number'
+		  prompt : 'Please enter a valid number of Duration'
 		},
       {
         type   : 'empty',
@@ -259,15 +262,14 @@
       ]
     },
     amount: {
-      identifier : 'amount',
-      rules: [
-      {
-        type   : 'empty',
-        prompt : 'Please enter the amount'
-      }
-      
-      ]
-    },
+				identifier : 'amount',
+				rules: [
+				{
+					type   : 'empty',
+					prompt : 'Please enter the valid amount'
+				}
+				]
+			},
     rentalPackage_item: {
       identifier : 'rentalPackage_item',
       rules: [

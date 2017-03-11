@@ -151,7 +151,7 @@ class RentalPackageController extends Controller
  public function rentalPackage_update(Request $request)
   {
     $rules = ['rentalPackage_code' => 'required',
-			 'rentalPackage_name' => 'required|unique:tblRentalPackage,rentalPackageName',
+			 'rentalPackage_name' => 'required',
 			 'amount' => 'required',];
     $this->validate($request, $rules);
 

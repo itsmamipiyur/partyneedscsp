@@ -262,7 +262,27 @@
         prompt : 'Please select a menu'
       }
       ]
-    }
+    },
+    pax: {
+				identifier : 'pax',
+				rules: [ 
+				
+				{
+				  type   : "regExp[^[1-9][0-9]*$]",
+				  prompt : 'Please enter a valid number of pax'
+				}
+				]
+			},
+			quantity: {
+				identifier : 'quantity',
+				rules: [ 
+				
+				{
+				  type   : "regExp[^[1-9][0-9]*$]",
+				  prompt : 'Please enter a valid number of Quantity'
+				}
+				]
+			}
   }
 
 

@@ -33,13 +33,13 @@
          <div class="ui step" id="menuS">
            <div class="content">
              <div class="title"><i class="food icon"></i>Choose Menu</div>
-             <div class="description">Choose additional menu</div>
+             <div class="description">Choose menu</div>
            </div>
          </div>
          <div class="ui step" id="equipS">
            <div class="content">
              <div class="title"><i class="setting icon"></i>Choose Equipment</div>
-             <div class="description">Choose additional equipment</div>
+             <div class="description">Choose inclusions</div>
            </div>
          </div>
 				 <div class="ui step" id="billS">

@@ -18,7 +18,7 @@
 
 	<div class="row">
 		<table class="ui table" id="tblinventory">
-			<div class="header">Inventory List</div>
+
 		  <thead>
 		    <tr>
 
@@ -45,7 +45,7 @@
 
 		<div class="row">
 		<table class="ui table" id="tblinventory">
-			<div class="header">Inventory List</div>
+
 		  <thead>
 		    <tr>
 			    <th>Code</th>

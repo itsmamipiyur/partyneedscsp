@@ -183,12 +183,11 @@
 			{
         
 
-           type   : "regExp[^[a-zA-Z -'-]+$]",
-            // type   : 'regExp[^[a-zA-Z0-9_-]*[a-zA-Z]+[a-zA-Z0-9]*$]',
+           type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
 
-        	
-           
-			prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+	        	
+	           
+				prompt: "Name can only consist of alphanumeric, spaces, apostrophe and dashes"
         	}
 		  ]
 		}

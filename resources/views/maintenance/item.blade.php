@@ -233,12 +233,11 @@
 			{
         
 
-            type   : "regExp[^[a-zA-Z -'-]+$]",
-            // type   : 'regExp[^[a-zA-Z0-9_-]*[a-zA-Z]+[a-zA-Z0-9]*$]',
+            type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
 
-        	
-           
-			prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+	        	
+	           
+				prompt: "Name can only consist of alphanumeric, spaces, apostrophe and dashes"
         	}
 		  ]
 		},
@@ -317,12 +316,11 @@
 			{
         
 
-           type   : "regExp[^[a-zA-Z -'-]+$]",
-            // type   : 'regExp[^[a-zA-Z0-9_-]*[a-zA-Z]+[a-zA-Z0-9]*$]',
+           type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
 
-        	
-           
-			prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+	        	
+	           
+				prompt: "Name can only consist of alphanumeric, spaces, apostrophe and dashes"
         	}
 		  ]
 		},
@@ -381,12 +379,11 @@
 			{
         
 
-           type   : "regExp[^[a-zA-Z -'-]+$]",
-            // type   : 'regExp[^[a-zA-Z0-9_-]*[a-zA-Z]+[a-zA-Z0-9]*$]',
+           type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
 
-        	
-           
-			prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+	        	
+	           
+				prompt: "Name can only consist of alphanumeric, spaces, apostrophe and dashes"
         	}
 		  ]
 		},
@@ -454,12 +451,11 @@
 			{
         
 
-           type   : "regExp[^[a-zA-Z -'-]+$]",
-            // type   : 'regExp[^[a-zA-Z0-9_-]*[a-zA-Z]+[a-zA-Z0-9]*$]',
+           type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
 
-        	
-           
-			prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+	        	
+	           
+				prompt: "Name can only consist of alphanumeric, spaces, apostrophe and dashes"
         	}
 		  ]
 		},
@@ -517,13 +513,11 @@
 			},
 			{
         
+type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
 
-           type   : "regExp[^[a-zA-Z -'-]+$]",
-            // type   : 'regExp[^[a-zA-Z0-9_-]*[a-zA-Z]+[a-zA-Z0-9]*$]',
-
-        	
-           
-			prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+	        	
+	           
+				prompt: "Name can only consist of alphanumeric, spaces, apostrophe and dashes"
         	}
 		  ]
 		},
@@ -570,12 +564,13 @@
   });
 
   function show(itemType){
-
+  	
 //dinneware type
   	if(itemType == '1'){
 		document.getElementById('divDinnType').style.display = "block";
 		document.getElementById('divEquiType').style.display = "none";
-		
+
+
 
 	}else if(itemType == '2'){
 		document.getElementById('divDinnType').style.display = "none";

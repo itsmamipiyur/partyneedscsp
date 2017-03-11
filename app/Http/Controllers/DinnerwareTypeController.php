@@ -49,13 +49,14 @@ class DinnerwareTypeController extends Controller
     $rules = ['dinnerware_type_code' => 'required', 'dinnerware_type_name' => 'required | max:100|unique:tbldinnerwaretype,dinnerwareTypeName'];
 
     $this->validate($request, $rules);
+    $name = $request->dinnerware_type_name;
     $dinnerwareType = new DinnerwareType;
     $dinnerwareType->dinnerwareTypeCode = $request->dinnerware_type_code;
     $dinnerwareType->dinnerwareTypeName = $request->dinnerware_type_name;
     $dinnerwareType->dinnerwareTypeDesc = $request->dinnerware_type_description;
     $dinnerwareType->save();
 
-    return redirect('dinnerwareType')->with('alert-success', 'Dinnerware Type was successfully saved.');
+    return redirect('dinnerwareType')->with('alert-success', 'Dinnerware Type '. $name .' was successfully saved.');
   }
 
   /**
@@ -112,25 +113,26 @@ class DinnerwareTypeController extends Controller
 
   public function dinnerwareType_update(Request $request)
     {
-      $rules = ['dinnerware_type_name' => 'required | max:100|unique:tbldinnerwaretype,dinnerwareTypeName'];
+      $rules = ['dinnerware_type_name' => 'required | max:100'];
       $id = $request->dinnerware_type_code;
-
+      $name = $request->dinnerware_type_name;
       $this->validate($request, $rules);
       $dinnerwareType = DinnerwareType::find($id);
       $dinnerwareType->dinnerwareTypeName = $request->dinnerware_type_name;
       $dinnerwareType->dinnerwareTypeDesc = $request->dinnerware_type_description;
       $dinnerwareType->save();
 
-      return redirect('dinnerwareType')->with('alert-success', 'Dinnerware Type ' . $id . ' was successfully updated.');
+      return redirect('dinnerwareType')->with('alert-success', 'Dinnerware Type ' . $name . ' was successfully updated.');
     }
 
     public function dinnerwareType_restore(Request $request)
     {
       $id = $request->dinnerware_type_code;
+      $name = $request->dinnerware_type_name;
       $dinnerwareType = DinnerwareType::onlyTrashed()->where('dinnerwareTypeCode', '=', $id)->firstOrFail();
       $dinnerwareType->restore();
 
-      return redirect('dinnerwareType')->with('alert-success', 'Dinnerware Type ' . $id . ' was successfully restored.');
+      return redirect('dinnerwareType')->with('alert-success', 'Dinnerware Type ' . $name . ' was successfully restored.');
     }
 
 }

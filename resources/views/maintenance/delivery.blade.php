@@ -187,21 +187,23 @@
       {
           
 
-        type   : 'regExp[^(?![0-9]*$)[a-zA-Z0-9]+$]',
-        prompt: "Location can only consist of letters, spaces, apostrophe and dashes"
+        type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
+
+            
+             
+        prompt: "Name can only consist of alphanumeric, spaces, apostrophe and dashes"
       }
       ]
     },
     delivery_fee: {
-      identifier : 'delivery_fee',
-      rules: [
-      {
-        type   : 'empty',
-        prompt : 'Please enter the amount'
+        identifier : 'delivery_fee',
+        rules: [
+        {
+          type   : 'empty',
+          prompt : 'Please enter the valid amount'
+        }
+        ]
       }
-      
-      ]
-    }
   }
 
 

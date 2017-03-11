@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use App\WaiterRatio;
 
@@ -46,7 +47,10 @@ class WaiterRatioController extends Controller
    */
   public function store(Request $request)
   {
-    $rules = ['waiter_ratio_code' => 'required', 'min_pax' => 'required | max:100', 'max_pax' => 'required | max:100', 'number_of_waiter' => 'required | max:100'];
+    $rules = ['waiter_ratio_code' => 'required', 
+              'min_pax' => 'required | max:100 | unique:tblwaiterratio,waiterRatioMinPax,NULL,waiterRatioCode,waiterRatioMaxPax,' . Input::get('max_pax'),
+              'max_pax' => 'required | max:100',
+              'number_of_waiter' => 'required | max:100'];
 
     $this->validate($request, $rules);
     $waiterRatio = new WaiterRatio;
@@ -117,6 +121,12 @@ class WaiterRatioController extends Controller
       $id = $request->waiter_ratio_code;
 
       $this->validate($request, $rules);
+      if($request->min_pax > $request->max_pax){
+        return redirect('waiterRatio')->with('alert-failed', 'Minimum pax must be less than maximum pax.');
+      }elseif ($request->min_pax == $request->max_pax) {
+        return redirect('waiterRatio')->with('alert-failed', 'Minimum pax must not be equal to maximum pax.');
+      }
+
       $waiterRatio = WaiterRatio::find($id);
       $waiterRatio->waiterRatioMinPax = $request->min_pax;
       $waiterRatio->waiterRatioMaxPax = $request->max_pax;

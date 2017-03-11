@@ -138,8 +138,8 @@
 	    		
 
 	    		<div class="disabled field">
-	    			{{ Form::label('decor_code', 'Code') }}
-         			{{ Form::text('decor_code', $newID, ['placeholder' => 'Type Decor Code']) }}
+	    			
+         			{{ Form::hidden('decor_code', $newID, ['placeholder' => 'Type Decor Code']) }}
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('decor_name', 'Name') }}
@@ -196,11 +196,11 @@
 			{
 	        
 
-		          type   : 'regExp[^(?![0-9]*$)[a-zA-Z0-9]+$]',
+		          type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
 
 	        	
 	           
-				prompt: "Name can only consist of letters, spaces, apostrophe and dashes"
+				prompt: "Name can only consist of alphanumeric, spaces, apostrophe and dashes"
 	        	}
 		  ]
 		},

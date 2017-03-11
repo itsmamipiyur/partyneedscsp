@@ -113,7 +113,7 @@ class DeliveryController extends Controller
 
 public function delivery_update(Request $request)
     {
-      $rules = ['delivery_code' => 'required', 'delivery_location' => 'required|max:100|unique:tbldelivery,deliveryLocation', 'delivery_fee' => 'required | max:100'];
+      $rules = ['delivery_code' => 'required', 'delivery_location' => 'required|max:100', 'delivery_fee' => 'required | max:100'];
       $id = $request->delivery_code;
 
       $this->validate($request, $rules);

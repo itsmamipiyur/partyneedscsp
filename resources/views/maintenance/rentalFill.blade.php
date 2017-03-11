@@ -99,16 +99,13 @@
 						<hr>
 						
 
-						<div class="two fields">
-						<div class="required field" style="width:200px;">
+
+						<div class="required field" style="width:400px;">
 							{{ Form::label('equip_code', 'Rent DateStart') }}
 							{{	Form::date('name', \Carbon\Carbon::now()) }}
 						</div>
-						<div class="field" style="margin-left :355px;">
-              {{ Form::label('equip_code', 'Rent DateEnd') }}
-              {{  Form::date('name', \Carbon\Carbon::now()) }}
-            </div>
-					</div>
+						
+
 						<div class="required field">
 							{{ Form::label('equip_code', 'Rental Address') }}
 								{{ Form::textarea('decor_name', "",['size'=>'3x4', 'placeholder' => 'Type Event Address']) }}

@@ -153,7 +153,7 @@ Item Detail
 								</div>
 								<div class="required field">
 									{{ Form::label('minimum_level', 'Minimum Level') }}
-									{{ Form::text('minimum_level', null, ['id' => 'minLevel', 'placeholder' => 'Type Minimum Level']) }}
+									{{ Form::text('minimum_level', null, ['maxlength'=>'10', 'id' => 'minLevel', 'placeholder' => 'Type Minimum Level']) }}
 								</div>
 							</div>
 							<div class="required field">
@@ -193,7 +193,7 @@ Item Detail
 					{{ Form::text('amount', $itemRate->amount, ['maxlength'=>'12','class' => 'money', 'placeholder' => 'Amount']) }}
 				</div>
 			</div>
-			<div class="ui error message"></div>
+			
 		</div>
 		<div class="ui error message"></div>
 	</div>
@@ -234,7 +234,7 @@ Item Detail
 			<div class="two fields">
 				<div class="required field">
 					{{ Form::label('minimum_level', 'Minimum Level') }}
-					{{ Form::text('minimum_level', $penaltyFee->minLevel, ['id' => 'minLevel', 'placeholder' => 'Type Minimum Level']) }}
+					{{ Form::text('minimum_level', $penaltyFee->minLevel, ['maxlength'=>'10', 'id' => 'minLevel', 'placeholder' => 'Type Minimum Level']) }}
 				</div>
 				<div class="required field">
 					{{ Form::label('amount', 'Amount') }}
@@ -295,7 +295,15 @@ Item Detail
 
 		var formValidationRules =
 		{
-
+			unit: {
+				identifier : 'unit',
+				rules: [
+				{
+					type   : 'empty',
+					prompt : 'Please select a unit'
+				}
+				]
+			},
 			dish_code: {
 				identifier : 'dish_code',
 				rules: [
@@ -323,15 +331,70 @@ Item Detail
 				}
 				]
 			},
+			minimum_level: {
+				identifier : 'minimum_level',
+				rules: [ 
+				{
+					type   : 'empty',
+					prompt : 'Please enter the minimum level'
+				}
+				]
+			},
+
 			amount: {
 				identifier : 'amount',
 				rules: [
 				{
 					type   : 'empty',
-					prompt : 'Please enter the amount'
-				}
+					prompt : 'Please enter the valid amount'
+				},
+				{
+				    type   : 'not[0]',
+				    prompt : 'Please enter the valid amount'
+				},
+				{
+				    type   : 'not[00]',
+				    prompt : 'Please enter the valid amount'
+				},
+				{
+				    type   : 'not[0.00]',
+				    prompt : 'Please enter the valid amount'
+				},
+				{
+				    type   : 'not[00.00]',
+				    prompt : 'Please enter the valid amount'
+				},
+				{
+				    type   : 'not[000.00]',
+				    prompt : 'Please enter the valid amount'
+				},
+				{
+				    type   : 'not[0000.00]',
+				    prompt : 'Please enter the valid amount'
+				},
+				{
+				    type   : 'not[00000.00]',
+				    prompt : 'Please enter the valid amount'
+				},
+				{
+				    type   : 'not[000000.00]',
+				    prompt : 'Please enter the valid amount'
+				},
+				{
+				    type   : 'not[0000000.00]',
+				    prompt : 'Please enter the valid amount'
+				},
+				{
+				    type   : 'not[00000000.00]',
+				    prompt : 'Please enter the valid amount'
+				},
+				{
+				    type   : 'not[000000000.00]',
+				    prompt : 'Please enter the valid amount'
+				},
 				]
 			}
+				
 		}
 
 

@@ -66,7 +66,9 @@ class CateringPackageController extends Controller
    'cateringPackage_name' => 'required|unique:tblCateringPackage,cateringPackageName',
    'amount' => 'required',
    'cateringPackage_menu'  => 'required|array|min:1',
-   'cateringPackage_item'  => 'required|array|min:1',];
+   'cateringPackage_item'  => 'required|array|min:1',
+   'quantity' => 'required|array|min:1',
+   'pax' => 'required|array|min:1',];
 
    $this->validate($request, $rules);
 
@@ -158,7 +160,7 @@ class CateringPackageController extends Controller
  public function cateringPackage_update(Request $request)
  {
     $rules = ['cateringPackage_code' => 'required',
-    'cateringPackage_name' => 'required|unique:tblCateringPackage,cateringPackageName',
+    'cateringPackage_name' => 'required',
     'amount' => 'required',];
     $this->validate($request, $rules);
 

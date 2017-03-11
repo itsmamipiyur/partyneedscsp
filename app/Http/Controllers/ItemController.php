@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use App\Item;
+use App\ItemDinnerware;
+use App\ItemEquipment;
 use App\EquipmentType;
 use App\DinnerwareType;
 use App\UOM;
@@ -201,7 +203,7 @@ class ItemController extends Controller
     public function item_update(Request $request)
     {
       $rules = ['item_code' => 'required',
-               'item_name' => 'required|unique:tblItem,itemName',
+               'item_name' => 'required',
                'item_type' => 'required',
                'uom_code' => 'required'];
 
