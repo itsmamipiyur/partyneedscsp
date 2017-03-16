@@ -34,7 +34,7 @@
 		<table class="ui table" id="tbldecor">
 		  <thead>
 		    <tr>
-			    <th>Code</th>
+			    <th>Name</th>
 			    <th>Description</th>
 			    <th>Type</th>
 			    <th class="center aligned">Action</th>

@@ -47,7 +47,7 @@
 		  	@else
 		  		@foreach($uoms as $uom)
 			  	<tr>
-			      <td>{{$uom->uomName}}</td>
+			      <td>{{$uom->uomSymbol}}</td>
 			      <td>{{$uom->uomDesc}}</td>
 			      <td class="center aligned">
 					<button class="ui blue button" onclick="$('#update{{$uom->uomCode}}').modal('show');"><i class="edit icon"></i> Update</button>
@@ -74,8 +74,8 @@
 	    		
 	    		{{ Form::hidden('uom_code', $uom->uomCode) }}
 	    		<div class="required field">
-	    			{{ Form::label('uom_name', 'Symbol') }}
-         			{{ Form::text('uom_name', $uom->uomName, ['maxlength'=>'6', 'placeholder' => 'Type Unit of Measurement Symbol']) }}
+	    			{{ Form::label('uom_symbol', 'Symbol') }}
+         			{{ Form::text('uom_symbol', $uom->uomSymbol, ['maxlength'=>'6', 'placeholder' => 'Type Unit of Measurement Symbol']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('uom_description', 'Description') }}
@@ -133,8 +133,8 @@
          			{{ Form::hidden('uom_code', $newID, ['placeholder' => 'Type Unit of Measurement Code']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('uom_name', 'Symbol') }}
-         			{{ Form::text('uom_name', '', ['maxlength'=>'6', 'placeholder' => 'Type Unit of Measurement Symbol', 'autofocus' => 'true']) }}
+	    			{{ Form::label('uom_symbol', 'Symbol') }}
+         			{{ Form::text('uom_symbol', '', ['maxlength'=>'6', 'placeholder' => 'Type Unit of Measurement Symbol', 'autofocus' => 'true']) }}
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('uom_description', 'Description') }}
@@ -173,8 +173,8 @@
 
 	var formValidationRules =
 	{
-		uom_name: {
-		  identifier : 'uom_name',
+		uom_symbol: {
+		  identifier : 'uom_symbol',
 		  rules: [
 			{
 			  type   : 'empty',

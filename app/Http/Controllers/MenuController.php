@@ -84,8 +84,8 @@ class MenuController extends Controller
      $menu = Menu::find($request->menu_code);
      $menu->dishes()->attach($request->get('menu_dish'));
 
-     return redirect('menu')
-       ->with('alert-success', 'Menu was successfully added.');
+     return redirect('menu/' . $request->menu_code)
+       ->with('alert-success', 'Menu was successfully added. Please add a menu rate.');
  }
 
  /**
@@ -228,9 +228,10 @@ class MenuController extends Controller
   {
     $rules = [//'menu_code' => 'required',
               'menu_rate_code' => 'required',
-              'menu_code' => 'required|unique:tblMenuRate,menuCode,NULL,menuRateCode,servingType,'. Input::get('menu_type') . ',pax,' . Input::get('pax'),
+              'menu_code' => 'required|unique:tblMenuRate,menuCode,NULL,menuRateCode,servingType,'. Input::get('menu_type') . ',pax,' . Input::get('pax') . ',effectiveDate,' . Input::get('effective_date'),
               'amount' => 'required|numeric',
-              'menu_type' => 'required'];
+              'menu_type' => 'required',
+              'effective_date' => 'required|date'];
     $this->validate($request, $rules);
 
     $id = $request->menu_code;
@@ -241,6 +242,7 @@ class MenuController extends Controller
     $rate->servingType = $request->menu_type;
     $rate->pax = $request->pax;
     $rate->amount = $request->amount;
+    $rate->effectiveDate = $request->effective_date;
     $rate->save();
 
     return redirect('/menu/'. $id)->with('alert-success', 'Menu Rate was successfully added.');

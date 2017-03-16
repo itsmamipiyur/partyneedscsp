@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/semantic.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.semanticui.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/semantic.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.datetimepicker.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
@@ -95,9 +96,9 @@
 		</div>
 		<div class="item">
 			<strong>TRANSACTION</strong><br><br>
-			<a href="{{url('/inventory')}}" class="item">Inventory</a>
 			<a href="{{url('/eventManagement')}}" class="item">Event Management</a>
 			<a href="{{url('/rentalManagement')}}" class="item">Rental Management</a>
+			<a href="{{url('/inventory')}}" class="item">Inventory</a>
 			<a href="{{url('/billingCollection')}}" class="item">Billing and Collection</a>
 		</div>
 		<div class="item">
@@ -126,6 +127,7 @@
 	<script type="text/javascript" src="{{asset('js/jquery.dataTables.js')}}"></script>
 	<script type="text/javascript" src="{{asset('js/dataTables.semanticui.js')}}"></script>
 	<script type="text/javascript" src="{{asset('js/mask.js')}}"></script>
+	<script type="text/javascript" src="{{asset('js/jquery.datetimepicker.full.js')}}"></script>
 
 	<script type="text/javascript">
 		$('.ui.sidebar').sidebar({

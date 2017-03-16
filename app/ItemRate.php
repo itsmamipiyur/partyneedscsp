@@ -11,7 +11,7 @@ class ItemRate extends Model
   use SoftDeletes;
   protected $table = 'tblItemRate';
   protected $primaryKey = 'itemRateCode';
-  protected $fillable = ['itemCode','amount','uomCode'];
+  protected $fillable = ['itemCode','amount','unitCode', 'effectiveDate'];
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
   protected $casts = ['itemRateCode' => 'string'];
 

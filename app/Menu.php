@@ -18,7 +18,7 @@ class Menu extends Model
 
   public function dishes()
   {
-      return $this->belongsToMany('App\Dish', 'tblMenuDetail',  'menuCode', 'dishCode');
+      return $this->belongsToMany('App\Dish', 'tblMenuDish',  'menuCode', 'dishCode');
   }
 
   public function rates()
@@ -28,7 +28,7 @@ class Menu extends Model
 
   public function scopeAvailableDishes($query, $id)
   {
-      $ids = \DB::table('tblMenuDetail')->where('menuCode', '=', $id)->pluck('dishCode');
+      $ids = \DB::table('tblMenuDish')->where('menuCode', '=', $id)->pluck('dishCode');
       return Dish::whereNotIn('dishCode', $ids)->get();
   }
 }

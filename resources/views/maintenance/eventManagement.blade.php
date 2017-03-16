@@ -14,7 +14,7 @@
 
 
 	<div class="row">
-		<a type="button" href="{{URL::to('/eventFill')}}" class="ui green button new"><i class="add icon"></i>Add Event</a>
+		<a type="button" href="{{URL::to('/eventManagement/createEvent')}}" class="ui green button new"><i class="add icon"></i>Add Event</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tblevent">

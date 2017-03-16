@@ -14,7 +14,7 @@
 
 
 	<div class="row">
-		<a type="button" href="{{URL::to('/rentalFill')}}" class="ui green button new"><i class="add icon"></i>Add Equipment Rental</a>
+		<a type="button" href="{{URL::to('/rentalManagement/createRental')}}" class="ui green button new"><i class="add icon"></i>Add Equipment Rental</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tblevent">

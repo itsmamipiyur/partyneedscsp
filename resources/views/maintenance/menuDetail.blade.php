@@ -72,6 +72,7 @@ Menu Detail
 							<th>Menu Type</th>
 							<th>Number of Pax</th>
 							<th>Amount</th>
+							<th>Effective Date</th>
 							<th class="center aligned">Action</th>
 						</tr>
 					</thead>
@@ -84,7 +85,8 @@ Menu Detail
 							<td>Set</td>
 							@endif
 							<td>{{ $menuRate->pax }}</td>
-							<td>{{ $menuRate->amount }}</td>
+							<td>Php {{ $menuRate->amount }}</td>
+							<td>{{ $menuRate->effectiveDate }}</td>
 							<td class="center aligned">
 								<button class="ui icon circular blue button" onclick="$('#updateRate{{$menuRate->menuRateCode}}').modal('show');"><i class="edit icon"></i></button>
 								<button class="ui icon circular red button" onclick="$('#deleteRate{{$menuRate->menuRateCode}}').modal('show');"><i class="delete icon"></i></button>
@@ -112,13 +114,19 @@ Menu Detail
 								{{ Form::text('pax', null, ['maxlength'=>'9', 'placeholder' => 'Type No. of Pax']) }}
 							</div>
 						</div>
-						<div class="required field">
-							{{ Form::label('amount', 'Amount') }}
-							<div class="ui center labeled input">
-								<div class="ui label">Php</div>
-								{{ Form::text('amount', null, ['maxlength'=>'12','class' => 'money', 'placeholder' => 'Amount']) }}
+						<div class="two fields">
+								<div class="required field">
+									{{ Form::label('amount', 'Amount') }}
+									<div class="ui center labeled input">
+										<div class="ui label">Php</div>
+										{{ Form::text('amount', null, ['maxlength'=>'12','class' => 'money', 'placeholder' => 'Amount']) }}
+									</div>
+								</div>
+								<div class="required field">
+									{{ Form::label('effective_date', 'Effective Date') }}
+									{{ Form::text('effective_date', null, ['class' => 'effectiveDate', 'placeholder' => 'Select Date']) }}
+								</div>
 							</div>
-						</div>
 						<div class="actions">
 							{{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
 							{{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
@@ -228,7 +236,7 @@ Menu Detail
 @section('js')
 <script>
 	$(document).ready( function(){
-
+		$('.effectiveDate').datetimepicker();
 
 		$('.ui.modal').modal({
 			onApprove : function() {

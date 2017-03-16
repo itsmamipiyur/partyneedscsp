@@ -79,7 +79,7 @@
 	    		</div>
 	    		<div class="field">
 	    			{{ Form::label('dinnerware_type_description', 'Description') }}
-          			{{ Form::textarea('dinnerware_type_description', $dinnerwareType->dinnewareTypeDesc, ['maxlength'=>'200', 'placeholder' => 'Type Dinnerware Type Description', 'rows' => '2']) }}
+          			{{ Form::textarea('dinnerware_type_description', $dinnerwareType->dinnerwareTypeDesc, ['maxlength'=>'200', 'placeholder' => 'Type Dinnerware Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
 	    	<div class="ui error message"></div>

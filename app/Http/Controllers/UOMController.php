@@ -54,12 +54,12 @@ class UOMController extends Controller
     {
         //
         $rules = ['uom_code' => 'required',
-                  'uom_name' => 'required|unique:tblUOM,uomName'];
+                  'uom_symbol' => 'required|unique:tblUOM,uomSymbol'];
         $this->validate($request, $rules);
-        $name = $request->uom_name;
+        $name = $request->uom_symbol;
         $uom = new UOM;
         $uom->uomCode = $request->uom_code;
-        $uom->uomName = $request->uom_name;
+        $uom->uomSymbol = $request->uom_symbol;
         $uom->uomDesc = $request->uom_description;
         $uom->save();
 
@@ -119,12 +119,12 @@ class UOMController extends Controller
 
     public function uom_update(Request $request)
     {
-       $rules = ['uom_name' => 'required|max:100'];
+       $rules = ['uom_symbol' => 'required|max:100'];
        $id = $request->uom_code;
-       $name = $request->uom_name;
+       $name = $request->uom_symbol;
        $this->validate($request, $rules);
        $uom = UOM::find($id);
-       $uom->uomName = $request->uom_name;
+       $uom->uomSymbol = $request->uom_symbol;
        $uom->uomDesc = $request->uom_description;
        $uom->save();
 
@@ -135,7 +135,7 @@ class UOMController extends Controller
       public function uom_restore(Request $request)
       {
         $id = $request->uom_code;
-        $name = $request->uom_name;
+        $name = $request->uom_symbol;
         $uom = UOM::onlyTrashed()->where('uomCode', '=', $id)->firstOrFail();
         $uom->restore();
 

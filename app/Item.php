@@ -24,4 +24,9 @@ class Item extends Model
   {
       return $this->hasOne('App\ItemEquipment', 'itemCode', 'itemCode');
   }
+
+  public function uom()
+  {
+      return $this->hasOne('App\UOM', 'uomCode');
+  }
 }

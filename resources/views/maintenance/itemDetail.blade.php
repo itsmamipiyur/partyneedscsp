@@ -38,8 +38,9 @@ Item Detail
 					<table class="ui table" id="tblItem">
 						<thead>
 							<tr>
-								<th>Rate Amount</th>
-								<th>Rate Unit</th>
+								<th>Amount</th>
+								<th>Unit</th>
+								<th>Effective Date</th>
 								<th class="center aligned">Action</th>
 							</tr>
 						</thead>
@@ -47,12 +48,13 @@ Item Detail
 
 							@foreach($itemRates as $itemRate)
 							<tr>
-								<td>{{$itemRate->amount}}</td>
-								@if($itemRate->uomCode == '1')
+								<td>Php {{$itemRate->amount}}</td>
+								@if($itemRate->unitCode == '1')
 								<td>Hour</td>
-								@elseif($itemRate->uomCode == '2')
+								@elseif($itemRate->unitCode == '2')
 								<td>Day</td>
 								@endif
+								<td>{{$itemRate->effectiveDate}}</td>
 								<td class="center aligned">
 									<button class="ui icon circular blue button" onclick="$('#updateRate{{$itemRate->itemRateCode}}').modal('show');"><i class="edit icon"></i></button>
 									<button class="ui icon circular red button" onclick="$('#deleteRate{{$itemRate->itemRateCode}}').modal('show');"><i class="delete icon"></i></button>
@@ -77,6 +79,10 @@ Item Detail
 								<div class="required field">
 									{{ Form::label('unit', 'Unit') }}
 									{{ Form::select('unit', $units, null, ['id' => 'unit', 'placeholder' => 'Choose Unit', 'class' => 'ui search dropdown']) }}
+								</div>
+								<div class="required field">
+									{{ Form::label('effective_date', 'Effective Date') }}
+									{{ Form::text('effective_date', null, ['class' => 'effectiveDate', 'placeholder' => 'Select Date']) }}
 								</div>
 							</div>
 							<div class="required field">
@@ -110,7 +116,7 @@ Item Detail
 						<thead>
 							<tr>
 								<th>Penalty Type</th>
-								<th>Minimum Level</th>
+								<th>Minimum Quantity</th>
 								<th>Fee</th>
 								<th class="center aligned">Action</th>
 							</tr>
@@ -124,11 +130,11 @@ Item Detail
 								@elseif($penaltyFee->penaltyType == '2')
 								<td>Damaged</td>
 								@endif
-								<td>{{$penaltyFee->minLevel}}</td>
-								<td>{{$penaltyFee->amount}}</td>
+								<td>{{$penaltyFee->minQuantity}}</td>
+								<td>Php {{$penaltyFee->amount}}</td>
 								<td class="center aligned">
-									<button class="ui icon circular blue button" onclick="$('#updatePenalty{{$penaltyFee->penaltyItemCode}}').modal('show');"><i class="edit icon"></i></button>
-									<button class="ui icon circular red button" onclick="$('#deletePenalty{{$penaltyFee->penaltyItemCode}}').modal('show');"><i class="delete icon"></i></button>
+									<button class="ui icon circular blue button" onclick="$('#updatePenalty{{$penaltyFee->itemPenaltyCode}}').modal('show');"><i class="edit icon"></i></button>
+									<button class="ui icon circular red button" onclick="$('#deletePenalty{{$penaltyFee->itemPenaltyCode}}').modal('show');"><i class="delete icon"></i></button>
 								</td>
 							</tr>
 							@endforeach
@@ -152,15 +158,21 @@ Item Detail
 									{{ Form::select('penalty_type', $penaltyTypes, null, ['id' => 'unit', 'placeholder' => 'Choose Penalty Type', 'class' => 'ui search dropdown']) }}
 								</div>
 								<div class="required field">
-									{{ Form::label('minimum_level', 'Minimum Level') }}
-									{{ Form::text('minimum_level', null, ['maxlength'=>'10', 'id' => 'minLevel', 'placeholder' => 'Type Minimum Level']) }}
+									{{ Form::label('minimum_quantity', 'Minimum Quantity') }}
+									{{ Form::text('minimum_quantity', null, ['maxlength'=>'10', 'id' => 'minQuantity', 'placeholder' => 'Type Minimum Quantity']) }}
 								</div>
 							</div>
-							<div class="required field">
-								{{ Form::label('amount', 'Amount') }}
-								<div class="ui center labeled input">
-									<div class="ui label">Php</div>
-									{{ Form::text('amount', null, ['maxlength'=>'12','class' => 'money', 'placeholder' => 'Amount']) }}
+							<div class="two fields">
+								<div class="required field">
+									{{ Form::label('amount', 'Amount') }}
+									<div class="ui center labeled input">
+										<div class="ui label">Php</div>
+										{{ Form::text('amount', null, ['maxlength'=>'12','class' => 'money', 'placeholder' => 'Amount']) }}
+									</div>
+								</div>
+								<div class="required field">
+									{{ Form::label('effective_date', 'Effective Date') }}
+									{{ Form::text('effective_date', null, ['class' => 'effectiveDate', 'placeholder' => 'Select Date']) }}
 								</div>
 							</div>
 							<div class="ui error message"></div>
@@ -224,17 +236,17 @@ Item Detail
 
 @if(count($penaltyFees) > 0)
 @foreach($penaltyFees as $penaltyFee)
-<div class="ui modal" id="updatePenalty{{$penaltyFee->penaltyItemCode}}">
+<div class="ui modal" id="updatePenalty{{$penaltyFee->itemPenaltyCode}}">
 	<div class="header">Update</div>
 	<div class="content">
 		{!! Form::open(['url' => '/item/updatePenalty', 'id' => 'createForm', 'class' => 'ui form']) !!}
-		{{ Form::hidden('penalty_code', $penaltyFee->penaltyItemCode) }}
+		{{ Form::hidden('penalty_code', $penaltyFee->itemPenaltyCode) }}
 		{{ Form::hidden('item_code', $item->itemCode) }}
 		<div class="ui form">	    
 			<div class="two fields">
 				<div class="required field">
-					{{ Form::label('minimum_level', 'Minimum Level') }}
-					{{ Form::text('minimum_level', $penaltyFee->minLevel, ['maxlength'=>'10', 'id' => 'minLevel', 'placeholder' => 'Type Minimum Level']) }}
+					{{ Form::label('minimum_quantity', 'Minimum Quantity') }}
+					{{ Form::text('minimum_quantity', $penaltyFee->minQuantity, ['maxlength'=>'10', 'id' => 'minQuantity', 'placeholder' => 'Type Minimum Quantity']) }}
 				</div>
 				<div class="required field">
 					{{ Form::label('amount', 'Amount') }}
@@ -254,14 +266,14 @@ Item Detail
 	</div>
 </div>
 
-<div class="ui modal" id="deletePenalty{{$penaltyFee->penaltyItemCode}}">
+<div class="ui modal" id="deletePenalty{{$penaltyFee->itemPenaltyCode}}">
 	<div class="header">Deactivate</div>
 	<div class="content">
 		<p>Do you want to delete this Penalty?</p>
 	</div>
 	<div class="actions">
 		{!! Form::open(['url' => '/item/deletePenalty']) !!}
-		{{ Form::hidden('penalty_code', $penaltyFee->penaltyItemCode) }}
+		{{ Form::hidden('penalty_code', $penaltyFee->itemPenaltyCode) }}
 		{{ Form::hidden('item_code', $item->itemCode) }}
 		{{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
 		{{ Form::button('No', ['class' => 'ui negative button']) }}
@@ -278,7 +290,7 @@ Item Detail
 @section('js')
 <script>
 	$(document).ready( function(){
-
+		$('.effectiveDate').datetimepicker();
 
 		$('.ui.modal').modal({
 			onApprove : function() {
@@ -331,12 +343,12 @@ Item Detail
 				}
 				]
 			},
-			minimum_level: {
-				identifier : 'minimum_level',
+			minimum_quantity: {
+				identifier : 'minimum_quantity',
 				rules: [ 
 				{
 					type   : 'empty',
-					prompt : 'Please enter the minimum level'
+					prompt : 'Please enter the minimum quantity'
 				}
 				]
 			},
