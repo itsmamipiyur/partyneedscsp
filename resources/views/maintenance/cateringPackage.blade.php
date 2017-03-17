@@ -148,49 +148,7 @@ Package
 					{{ Form::text('amount', null, ['maxlength' => '12', 'class' => 'money', 'placeholder' => 'Amount']) }}
 				</div>
 			</div>
-			<div class="ui horizontal divider">Package Details</div>
 
-			<div class="row">
-				<div class="ui grid">
-					<div class="eight wide column">
-						<div class="required field">
-							{{ Form::label('cateringPackage_menu', 'Menu') }}
-							{{ Form::select('cateringPackage_menu[]', $menus, '', ['id'=>'cateringPackage_menu', 'multiple' => 'multiple', 'placeholder' => 'Select Menu', 'class' => 'ui fluid dropdown' ]) }}
-						</div>
-						<div id="divDinnTypes" style="display: none;">
-							<table id="tblMenu" class="ui compact celled definition table">
-								<thead class="full-width">
-									<tr>
-										<th>Menu</th>
-										<th>Number of Pax</th>
-									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="eight wide column">
-						<div class="required field">
-							{{ Form::label('cateringPackage_item[]', 'Items') }}
-							{{ Form::select('cateringPackage_item[]', $items, '', ['id'=>'cateringPackage_item', 'multiple' => 'multiple', 'placeholder' => 'Select Item', 'class' => 'ui fluid dropdown' ]) }}
-						</div>
-						<div class="required field" id="sit" style="display: none;">
-							<table id="tblItem" class="ui compact celled definition table">
-								<thead class="full-width">
-									<tr>
-										<th>Item</th>
-										<th>Quantity</th>
-									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-
-			</div>
 
 		</div>
 		

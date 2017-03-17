@@ -35,7 +35,6 @@ class CateringPackageController extends Controller
    $menus = Menu::orderBy('menuName')->pluck('menuName', 'menuCode');
    $items = Item::orderBy('itemName')->pluck('itemName', 'itemCode');
 
-
    return view('maintenance.cateringPackage')
    ->with('cateringPackages', $cateringPackages)
    ->with('newID', $newID)
@@ -64,11 +63,7 @@ class CateringPackageController extends Controller
      //
    $rules = ['cateringPackage_code' => 'required',
    'cateringPackage_name' => 'required|unique:tblCateringPackage,cateringPackageName',
-   'amount' => 'required',
-   'cateringPackage_menu'  => 'required|array|min:1',
-   'cateringPackage_item'  => 'required|array|min:1',
-   'quantity' => 'required|array|min:1',
-   'pax' => 'required|array|min:1',];
+   'amount' => 'required'];
 
    $this->validate($request, $rules);
    $amount = preg_replace('/[\,]/', '', $request->amount);
@@ -83,17 +78,6 @@ class CateringPackageController extends Controller
    $cateringPackage = CateringPackage::find($request->cateringPackage_code);
    //$cateringPackage->menus()->attach($request->get('cateringPackage_menu'));
    //$cateringPackage->items()->attach($request->get('cateringPackage_item'));
-     $items = Input::get('cateringPackage_item');
-     $menus = Input::get('cateringPackage_menu');
-     $quantities = Input::get('quantity');
-
-     foreach($items as $item){
-      $cateringPackage->items()->attach($item, ['quantity' => $quantities[$item]]);     
-     }
-
-     foreach($menus as $menu){
-      $cateringPackage->menus()->attach($menu,['menuRateCode'=>$menurateattributehere[$menu]]);     
-     }
 
    return redirect('cateringPackage')
    ->with('alert-success', 'CateringPackage was successfully added.');
@@ -111,10 +95,12 @@ class CateringPackageController extends Controller
   $cateringPackage = CateringPackage::find($id);
   $menus = CateringPackage::availableMenus($id)->pluck('menuName', 'menuCode');
   $items = CateringPackage::availableItems($id)->pluck('itemName', 'itemCode');
+  $menuRates = CateringPackage::availableMenuRates($id)->pluck('amount', 'menuRateCode');
 
   return view('maintenance.cateringPackageDetail')
   ->with('cateringPackage', $cateringPackage)
   ->with('menus', $menus)
+  ->with('menuRates', $menuRates)
   ->with('items', $items);
 }
 
@@ -188,10 +174,10 @@ class CateringPackageController extends Controller
   {
     $rules = ['cateringPackage_code' => 'required',
               'menu_code' => 'required',
-              'pax' => 'required|digits:11'];
+              'menu_rate' => 'required'];
     $id = $request->cateringPackage_code;
     $cateringPackage = CateringPackage::find($id);
-    $cateringPackage->menus()->attach($request->menu_code, ['pax' => $request->pax]);
+    $cateringPackage->menus()->attach($request->menu_code, ['menuRateCode' => $request->menu_rate_code]);
 
     return redirect('/cateringPackage/'.$id)->with('alert-success', 'Catering Package Dish was successfully added.');
   }

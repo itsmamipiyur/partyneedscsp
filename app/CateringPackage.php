@@ -36,4 +36,10 @@ class CateringPackage extends Model
 	  $ids = \DB::table('tblCateringPackageItem')->where('cateringPackageCode', '=', $id)->pluck('itemCode');
 	  return Item::whereNotIn('itemCode', $ids)->get();
 	}
+
+	public function scopeAvailableMenuRates($query, $id)
+	{
+	  $ids = \DB::table('tblCateringPackageMenu')->where('cateringPackageCode', '=', $id)->pluck('menuRateCode');
+	  return MenuRate::whereNotIn('menuRateCode', $ids)->get();
+	}
 }

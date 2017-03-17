@@ -38,7 +38,7 @@
 					  <thead>
 					    <tr>
 						    <th>Menu</th>
-						    <th style="text-align: right;">Number of Pax</th>
+						    <th style="text-align: right;">Rate</th>
 						    <th class="center aligned">Action</th>
 					  	</tr>
 					  </thead>
@@ -46,7 +46,7 @@
 						@foreach($cateringPackage->menus as $menu)
 							<tr>
 								<td>{{$menu->menuName}}</td>
-								<td style="text-align: right;">{{$menu->pivot->pax}}</td>
+								<td style="text-align: right;">{{$menu->pivot->menuRate}}</td>
 								<td class="center aligned">
 									<div class="ui horizontal buttons">
 										<button class="ui blue button" onclick="$('#updateMenu{{$menu->menuCode}}').modal('show');"><i class="edit icon"></i> Update</button>
@@ -114,11 +114,11 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/cateringPackage/updateMenu', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	  		{{ Form::hidden('cateringPackage_code', $cateringPackage->cateringPackageCode) }}
-	  		{{ Form::hidden('menu_code', $menu->menuCode) }}
+	  		{{ Form::hidden('menu_code', $menu->menuRateCode) }}
 	  		<div class="ui form">
 		  		<div class="required field">
-	    			{{ Form::label('pax', 'Number of Pax') }}
-	     			{{ Form::text('pax', $menu->pivot->pax, ['maxlength'=>'9', 'placeholder' => 'quantity', 'autofocus' => 'true']) }}
+	    			{{ Form::label('rate', 'Rate') }}
+	     			{{ Form::text('rate', $menu->pivot->amount, ['maxlength'=>'9', 'placeholder' => 'Rate', 'autofocus' => 'true']) }}
 	    		</div>
 	  		</div>
 	  		<div class="ui error message"></div>
@@ -158,7 +158,7 @@
 	  		<div class="ui form">
 		  		<div class="required field">
 	    			{{ Form::label('quantity', 'Quantity') }}
-	     			{{ Form::text('quantity', $item->pivot->quantity, ['maxlength'=>'9', 'placeholder' => 'quantity', 'autofocus' => 'true']) }}
+	     			{{ Form::text('quantity', $item->pivot->quantity, ['maxlength'=>'7', 'placeholder' => 'quantity', 'autofocus' => 'true']) }}
 	    		</div>
 	  		</div>
 	  		<div class="ui error message"></div>
@@ -185,8 +185,10 @@
          			{{ Form::select('menu_code', $menus, null, ['placeholder' => 'Choose Menu', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    		<div class="required field">
-	    			{{ Form::label('pax', 'Number of Pax') }}
-         			{{ Form::text('pax', null, ['placeholder' => 'Specify number of pax...']) }}
+	    			<div class="required field">
+	    			{{ Form::label('menu_rate_code', 'Rate') }}
+         			{{ Form::select('menu_rate_code', $menuRates, null, ['placeholder' => 'Choose Rates', 'class' => 'ui search dropdown']) }}
+	    		</div>
 	    		</div>
 	    	</div>
 	    	<div class="ui error message"></div>
@@ -203,7 +205,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/cateringPackage/addItem', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
           		{{ Form::hidden('cateringPackage_code', $cateringPackage->cateringPackageCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('item_code', 'Item') }}
@@ -211,10 +213,10 @@
 	    		</div>
 	    		<div class="required field">
 	    			{{ Form::label('quantity', 'Quantity') }}
-         			{{ Form::text('quantity', null, ['placeholder' => 'Specify quantity...']) }}
+         			{{ Form::text('quantity', null, ['maxlength'=>'7', 'placeholder' => 'Specify quantity...']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -263,13 +265,13 @@
       }
       ]
     },
-    pax: {
-				identifier : 'pax',
+    menu_rate_code: {
+				identifier : 'menu_rate_code',
 				rules: [ 
 				
 				{
-				  type   : "regExp[^[1-9][0-9]*$]",
-				  prompt : 'Please enter a valid number of pax'
+				  type   : 'empty',
+				  prompt : 'Please select a menu rate'
 				}
 				]
 			},
