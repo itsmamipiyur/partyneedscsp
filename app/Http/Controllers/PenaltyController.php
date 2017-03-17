@@ -137,6 +137,15 @@ class PenaltyController extends Controller
       return redirect('penalty')->with('alert-success', 'Penalty was successfully restored.');
     }
 
+    public function showArchive()
+    {
+        //
+       $penalties = Penalty::onlyTrashed()->get();
+
+        return view('archive.penalty')
+             ->with('penalties', $penalties);
+    }
+
 
 }
 

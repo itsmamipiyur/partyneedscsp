@@ -29,10 +29,13 @@ Item Detail
 
 
 <!-- dish -->
-<div class="row">
-	<div class="ui segment">
-		<h3>Rates</h3>
-		<div class="ui grid">
+<div class="ui top attached tabular menu">
+  <a class="item active" data-tab="rate">Rate</a>
+  <a class="item" data-tab="penalty">Penalty</a>
+</div>
+<div class="ui bottom attached tab segment active" data-tab="rate">
+  <div class="ui container">
+	  <div class="ui grid">
 			<div class="eight wide column">
 				<div class="row">
 					<table class="ui table" id="tblItem">
@@ -105,84 +108,80 @@ Item Detail
 		</div>
 	</div>
 </div>
+<div class="ui bottom attached tab segment" data-tab="penalty">
+  <div class="ui grid">
+		<div class="eight wide column">
+			<div class="row">
+				<table class="ui table" id="tblPenalty">
+					<thead>
+						<tr>
+							<th>Penalty Type</th>
+							<th>Minimum Quantity</th>
+							<th>Fee</th>
+							<th class="center aligned">Action</th>
+						</tr>
+					</thead>
+					<tbody>
 
-<div class="row">
-	<div class="ui segment">
-		<h3>Penalty Fee</h3>
-		<div class="ui grid">
-			<div class="eight wide column">
-				<div class="row">
-					<table class="ui table" id="tblPenalty">
-						<thead>
-							<tr>
-								<th>Penalty Type</th>
-								<th>Minimum Quantity</th>
-								<th>Fee</th>
-								<th class="center aligned">Action</th>
-							</tr>
-						</thead>
-						<tbody>
-
-							@foreach($penaltyFees as $penaltyFee)
-							<tr>
-								@if($penaltyFee->penaltyType == '1')
-								<td>Missing</td>
-								@elseif($penaltyFee->penaltyType == '2')
-								<td>Damaged</td>
-								@endif
-								<td>{{$penaltyFee->minQuantity}}</td>
-								<td>Php {{$penaltyFee->amount}}</td>
-								<td class="center aligned">
-									<button class="ui icon circular blue button" onclick="$('#updatePenalty{{$penaltyFee->itemPenaltyCode}}').modal('show');"><i class="edit icon"></i></button>
-									<button class="ui icon circular red button" onclick="$('#deletePenalty{{$penaltyFee->itemPenaltyCode}}').modal('show');"><i class="delete icon"></i></button>
-								</td>
-							</tr>
-							@endforeach
-						</tbody>
-					</table>
-				</div>
+						@foreach($penaltyFees as $penaltyFee)
+						<tr>
+							@if($penaltyFee->penaltyType == '1')
+							<td>Missing</td>
+							@elseif($penaltyFee->penaltyType == '2')
+							<td>Damaged</td>
+							@endif
+							<td>{{$penaltyFee->minQuantity}}</td>
+							<td>Php {{$penaltyFee->amount}}</td>
+							<td class="center aligned">
+								<button class="ui icon circular blue button" onclick="$('#updatePenalty{{$penaltyFee->itemPenaltyCode}}').modal('show');"><i class="edit icon"></i></button>
+								<button class="ui icon circular red button" onclick="$('#deletePenalty{{$penaltyFee->itemPenaltyCode}}').modal('show');"><i class="delete icon"></i></button>
+							</td>
+						</tr>
+						@endforeach
+					</tbody>
+				</table>
 			</div>
+		</div>
 
-			<!-- rate -->
-			<div class="eight wide column">
-				<div class="row">
-					<div class="ui segment">
-						<h3>New Penalty</h3>
-						{!! Form::open(['url' => '/item/addPenalty', 'id' => 'createForm', 'class' => 'ui form']) !!}
-						{{ Form::hidden('penalty_code', $newIDs) }}
-						{{ Form::hidden('item_code', $item->itemCode) }}
-						<div class="ui form">	    
-							<div class="two fields">
-								<div class="required field">
-									{{ Form::label('penalty_type', 'Penalty Type') }}
-									{{ Form::select('penalty_type', $penaltyTypes, null, ['id' => 'unit', 'placeholder' => 'Choose Penalty Type', 'class' => 'ui search dropdown']) }}
-								</div>
-								<div class="required field">
-									{{ Form::label('minimum_quantity', 'Minimum Quantity') }}
-									{{ Form::text('minimum_quantity', null, ['maxlength'=>'10', 'id' => 'minQuantity', 'placeholder' => 'Type Minimum Quantity']) }}
+		<!-- rate -->
+		<div class="eight wide column">
+			<div class="row">
+				<div class="ui segment">
+					<h3>New Penalty</h3>
+					{!! Form::open(['url' => '/item/addPenalty', 'id' => 'createForm', 'class' => 'ui form']) !!}
+					{{ Form::hidden('penalty_code', $newIDs) }}
+					{{ Form::hidden('item_code', $item->itemCode) }}
+					<div class="ui form">	    
+						<div class="two fields">
+							<div class="required field">
+								{{ Form::label('penalty_type', 'Penalty Type') }}
+								{{ Form::select('penalty_type', $penaltyTypes, null, ['id' => 'unit', 'placeholder' => 'Choose Penalty Type', 'class' => 'ui search dropdown']) }}
+							</div>
+							<div class="required field">
+								{{ Form::label('minimum_quantity', 'Minimum Quantity') }}
+								{{ Form::text('minimum_quantity', null, ['maxlength'=>'10', 'id' => 'minQuantity', 'placeholder' => 'Type Minimum Quantity']) }}
+							</div>
+						</div>
+						<div class="two fields">
+							<div class="required field">
+								{{ Form::label('amount', 'Amount') }}
+								<div class="ui center labeled input">
+									<div class="ui label">Php</div>
+									{{ Form::text('amount', null, ['maxlength'=>'12','class' => 'money', 'placeholder' => 'Amount']) }}
 								</div>
 							</div>
-							<div class="two fields">
-								<div class="required field">
-									{{ Form::label('amount', 'Amount') }}
-									<div class="ui center labeled input">
-										<div class="ui label">Php</div>
-										{{ Form::text('amount', null, ['maxlength'=>'12','class' => 'money', 'placeholder' => 'Amount']) }}
-									</div>
-								</div>
-								<div class="required field">
-									{{ Form::label('effective_date', 'Effective Date') }}
-									{{ Form::text('effective_date', null, ['class' => 'effectiveDate', 'placeholder' => 'Select Date']) }}
-								</div>
+							<div class="required field">
+								{{ Form::label('effective_date', 'Effective Date') }}
+								{{ Form::text('effective_date', null, ['class' => 'effectiveDate', 'placeholder' => 'Select Date']) }}
 							</div>
-							<div class="ui error message"></div>
 						</div>
-						<div class="actions">
-							{{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-							{{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-						</div>
-						{!! Form::close() !!}
+						<div class="ui error message"></div>
 					</div>
+					<div class="actions">
+						{{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+						{{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
+					</div>
+					{!! Form::close() !!}
 				</div>
 			</div>
 		</div>
@@ -291,6 +290,7 @@ Item Detail
 <script>
 	$(document).ready( function(){
 		$('.effectiveDate').datetimepicker();
+		$('.menu .item').tab();
 
 		$('.ui.modal').modal({
 			onApprove : function() {
@@ -421,10 +421,6 @@ Item Detail
 		}
 
 		$('.ui.form').form(formValidationRules, formSettings);
-
-		$('#items').addClass("active grey");
-		$('#item_content').addClass("active");
-		$('#item').addClass("active");
 		$('.money').mask("##0.00", {reverse: true});
 
 		var table = $('#tblItem').DataTable();

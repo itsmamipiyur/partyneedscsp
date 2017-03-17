@@ -28,8 +28,7 @@
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Dish Type</button>
-		<a href="{{ url('/archive/dishType') }}" class="ui teal button"><i class="archive icon"></i>Archive</a>
+		<a href="{{ url('/dishType') }}" class="ui brown button"><i class="add icon"></i>Back to Maintenance</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tblDishType">
@@ -51,7 +50,6 @@
 			      <td>{{$dishtype->dishTypeName}}</td>
 			      <td>{{$dishtype->dishTypeDesc}}</td>
 			      <td class="center aligned">
-					<button class="ui blue button" onclick="$('#update{{$dishtype->dishTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($dishtype->deleted_at == null)
 			      	<button class="ui red button" onclick="$('#delete{{$dishtype->dishTypeCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
@@ -67,51 +65,13 @@
 
 @if(count($dishtypes) > 0)
 @foreach($dishtypes as $dishtype)
-	<div class="ui modal" id="update{{$dishtype->dishTypeCode}}">
-	  <div class="header">Update Dish Type</div>
-	  <div class="content">
-	    {!! Form::open(['url' => '/dishType/dishType_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
-	    	<div class="ui form">
-	    		
-	    		{{ Form::hidden('dishtype_code', $dishtype->dishTypeCode) }}
-	    		<div class="required field">
-	    			{{ Form::label('dishtype_name', 'Name') }}
-         			{{ Form::text('dishtype_name', $dishtype->dishTypeName, ['maxlength'=>'25', 'placeholder' => 'Type Dish Type Name']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('dishtype_description', 'Description') }}
-          			{{ Form::textarea('dishtype_description', $dishtype->dishTypeDesc, ['maxlength'=>'200', 'placeholder' => 'Type Dish Type Description', 'rows' => '2']) }}
-	    		</div>
-	    	</div>
-	    	<div class="ui error message"></div>
-        </div>
-	  <div class="actions">
-            {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
-
-	<div class="ui modal" id="delete{{$dishtype->dishTypeCode}}">
-	  <div class="header">Deactivate Dish Type</div>
-	  <div class="content">
-	    <p>Do you want to deactivate this dish type?</p>
-	  </div>
-	  <div class="actions">
-	  	{!! Form::open(['url' => '/dishType/' . $dishtype->dishTypeCode, 'method' => 'delete']) !!}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('No', ['class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
-
 	<div class="ui modal" id="restore{{$dishtype->dishTypeCode}}">
 	  <div class="header">Restore Dish Type</div>
 	  <div class="content">
 	    <p>Do you want to Restore this dish type?</p>
 	  </div>
 	  <div class="actions">
-	  	{!! Form::open(['url' => '/dishtype/dishtype_restore']) !!}
+	  	{!! Form::open(['url' => '/dishType/dishType_restore']) !!}
 	  		{{ Form::hidden('dishtype_code', $dishtype->dishTypeCode) }}
             {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
@@ -120,34 +80,7 @@
 	</div>
 @endforeach
 @endif
-
-	<div class="ui modal" id="create">
-	  <div class="header">New Dish Type</div>
-	  <div class="content">
-	    {!! Form::open(['url' => '/dishType', 'id' => 'createForm', 'class' => 'ui form']) !!}
-	    	<div class="ui form">
-	    		
-
-	    		<div class="disabled field">
-         			{{ Form::hidden('dishtype_code', $newID, ['placeholder' => 'Type Dish Type Code']) }}
-	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('dishtype_name', 'Name') }}
-         			{{ Form::text('dishtype_name', '', ['maxlength'=>'25', 'placeholder' => 'Type Dish Type Name', 'autofocus' => 'true']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('dishtype_description', 'Description') }}
-          			{{ Form::textarea('dishtype_description', '', ['maxlength'=>'200', 'placeholder' => 'Type Dish Type Description', 'rows' => '2']) }}
-	    		</div>
-	    	</div>
-	    	<div class="ui error message"></div>
-        </div>
-	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>	
+	
 @endsection
 
 @section('js')

@@ -145,7 +145,7 @@
           <label><h4>{{$menu->menuName}}</h4></label>
         </div>
         <div class="ui divider"></div>
-        <p><b>Menu</b></p>
+        <p><b>Dishes</b></p>
         <ul class="ui list">
           @foreach($menu->dishes as $menuDish)
           <li><strong>{{$menuDish->dishName}}</strong> - {{$menuDish->dishType->dishTypeName}}</li>

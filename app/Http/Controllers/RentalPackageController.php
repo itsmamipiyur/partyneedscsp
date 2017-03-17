@@ -212,4 +212,13 @@ class RentalPackageController extends Controller
 
     return redirect('/rentalPackage/'.$id)->with('alert-success', 'Rental Package Item was successfully removed.');
   }
+
+  public function showArchive()
+  {
+      //
+     $rentalPackages = RentalPackage::onlyTrashed()->get();
+
+      return view('archive.rentalPackage')
+           ->with('rentalPackages', $rentalPackages);
+  }
 }

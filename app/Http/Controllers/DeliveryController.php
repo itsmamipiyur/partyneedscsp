@@ -133,4 +133,13 @@ public function delivery_update(Request $request)
 
       return redirect('delivery')->with('alert-success', 'Delivery ' . $id . ' was successfully restored.');
     }
+
+    public function showArchive()
+    {
+        //
+       $deliveries = Delivery::onlyTrashed()->get();
+
+        return view('archive.delivery')
+             ->with('deliveries', $deliveries);
+    }
 }

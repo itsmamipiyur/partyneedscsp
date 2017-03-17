@@ -143,4 +143,13 @@ class DishController extends Controller
 
       return redirect('dish')->with('alert-success', 'Dish ' . $id . ' was successfully restored.');
     }
+
+    public function showArchive()
+    {
+        //
+       $dishes = Dish::onlyTrashed()->get();
+
+        return view('archive.dish')
+            ->with('dishes', $dishes);
+    }
 }

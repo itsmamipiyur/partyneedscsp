@@ -299,7 +299,7 @@ class ItemController extends Controller
       $rules = ['penalty_code' => 'required',
                 'minimum_quantity' => 'required',
                 'penalty_type' => 'required',
-                'item_code' => 'required|unique:tblitemPenalty,itemCode,NULL,itemPenaltyCode,minQuantity,' . Input::get('minimum_quantity') . ',penaltyType,' . Input::get('penalty_type') .',effectiveDate,' . Input::get('effective_date'),
+                'item_code' => 'required|unique:tblitemPenalty,itemCode,NULL,itemPenaltyCode,penaltyType,' . Input::get('penalty_type') .',effectiveDate,' . Input::get('effective_date'),
                 'amount' => 'required|numeric'];
 
       $this->validate($request, $rules);
@@ -340,5 +340,13 @@ class ItemController extends Controller
       $itemPenalty->forceDelete();
 
       return redirect('item/' . $request->item_code)->with('alert-success', 'Item Rate was successfully deleted.');
+    }
+
+    public function showArchive()
+    {
+      $items = Item::onlyTrashed()->get();
+  
+      return view('archive.item')
+        ->with('items', $items);
     }
 }

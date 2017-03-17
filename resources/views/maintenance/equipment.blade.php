@@ -19,6 +19,7 @@
 
 	<div class="row">
 		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Equipment</button>
+		<a href="{{ url('/archive/equipmentType') }}" class="ui teal button"><i class="archive icon"></i>Archive</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tblEquipment">

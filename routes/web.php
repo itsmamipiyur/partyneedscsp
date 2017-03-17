@@ -21,6 +21,21 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 Route::group(['middleware' => ['auth']], function(){
+    Route::get('/archive/uom', 'UOMController@showArchive');
+    Route::get('/archive/equipmentType', 'EquipmentTypeController@showArchive');
+    Route::get('/archive/dinnerwareType', 'DinnerwareTypeController@showArchive');
+    Route::get('/archive/item', 'ItemController@showArchive');
+    Route::get('/archive/dishType', 'DishTypeController@showArchive');
+    Route::get('/archive/dish', 'DishController@showArchive');
+    Route::get('/archive/menu', 'MenuController@showArchive');
+    Route::get('/archive/cateringPackage', 'CateringPackageController@showArchive');
+    Route::get('/archive/rentalPackage', 'RentalPackageController@showArchive');
+    Route::get('/archive/eventType', 'EventTypeController@showArchive');
+    Route::get('/archive/decor', 'DecorController@showArchive');
+    Route::get('/archive/waiterRatio', 'WaiterRatioController@showArchive');
+    Route::get('/archive/delivery', 'DeliveryController@showArchive');
+    Route::get('/archive/penalty', 'PenaltyController@showArchive');
+
     Route::resource('dishType', 'DishTypeController');
     Route::resource('penalty', 'PenaltyController');
     Route::resource('waiterRatio', 'WaiterRatioController');

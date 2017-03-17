@@ -252,4 +252,13 @@ class CateringPackageController extends Controller
 
     return redirect('/cateringPackage/'.$id)->with('alert-success', 'Catering Package Item was successfully updated.');
   }
+
+  public function showArchive()
+  {
+        //
+     $cateringPackages = CateringPackage::onlyTrashed()->get();
+
+      return view('archive.cateringPackage')
+           ->with('cateringPackages', $cateringPackages);
+  }
 }

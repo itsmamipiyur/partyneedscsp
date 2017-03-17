@@ -36,8 +36,7 @@
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Waiter Ratio</button>
-		<a href="{{ url('/archive/waiterRatio') }}" class="ui teal button"><i class="archive icon"></i>Archive</a>
+		<a href="{{ url('/waiterRatio') }}" class="ui brown button"><i class="archive icon"></i>Back to Waiter Ratio</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tblwaiterratio">
@@ -61,7 +60,6 @@
 			      <td class="right aligned">{{$waiterRatio->waiterRatioMaxPax}}</td>
 			      <td class="right aligned">{{$waiterRatio->waiterRatioWaiterCount}}</td>
 			      <td class="center aligned">
-					<button class="ui blue button" onclick="$('#update{{$waiterRatio->waiterRatioCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($waiterRatio->deleted_at == null)
 			      	<button class="ui red button" onclick="$('#delete{{$waiterRatio->waiterRatioCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
@@ -77,48 +75,6 @@
 
 @if(count($waiterRatios) > 0)
 @foreach($waiterRatios as $waiterRatio)
-	<div class="ui modal" id="update{{$waiterRatio->waiterRatioCode}}">
-	  <div class="header">Update</div>
-	  <div class="content">
-	    {!! Form::open(['url' => '/waiterRatio/waiterRatio_update', 'id' => 'createForm', 'class' => 'ui form update']) !!}
-	    	<div class="ui updateform">
-	    		
-	    		{{ Form::hidden('waiter_ratio_code', $waiterRatio->waiterRatioCode) }}
-					<div class="required field">
-	    			{{ Form::label('min_pax', 'Minimum No. of Pax') }}
-         			{{ Form::text('min_pax', $waiterRatio->waiterRatioMinPax, ['id' => 'min_pax', 'maxlength'=>'4', 'placeholder' => 'Maxinum Pax']) }}
-	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('max_pax', 'Maxinum No. of Pax') }}
-         			{{ Form::text('max_pax', $waiterRatio->waiterRatioMaxPax, ['id' => 'max_pax', 'maxlength'=>'4','placeholder' => 'Maxinum Pax']) }}
-	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('number_of_waiter', 'Number of Waiter') }}
-          			{{ Form::text('number_of_waiter', $waiterRatio->waiterRatioWaiterCount, ['maxlength'=>'4','placeholder' => 'Number of Waiter']) }}
-	    		</div>
-	    	</div>
-	    	<div class="ui error message"></div>
-        </div>
-	  <div class="actions">
-            {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
-
-	<div class="ui modal" id="delete{{$waiterRatio->waiterRatioCode}}">
-	  <div class="header">Deactivate</div>
-	  <div class="content">
-	    <p>Do you want to delete this waiter ratio?</p>
-	  </div>
-	  <div class="actions">
-	  	{!! Form::open(['url' => '/waiterRatio/' .$waiterRatio->waiterRatioCode, 'method' => 'delete']) !!}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('No', ['class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
-
 	<div class="ui modal" id="restore{{$waiterRatio->waiterRatioCode}}">
 	  <div class="header">Restore</div>
 	  <div class="content">
@@ -134,39 +90,6 @@
 	</div>
 @endforeach
 @endif
-
-	<div class="ui modal" id="create">
-	  <div class="header">New</div>
-	  <div class="content">
-	    {!! Form::open(['url' => '/waiterRatio', 'id' => 'createForm', 'class' => 'ui form create']) !!}
-	    	<div class="ui form">
-	    		
-
-	    		<div class="disabled field">
-	    			
-         			{{ Form::hidden('waiter_ratio_code', $newID, ['placeholder' => 'Type Menu Type Code']) }}
-	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('min_pax', 'Minimum No. of Pax') }}
-         			{{ Form::text('min_pax', '', ['id' => 'cmin_pax', 'maxlength'=>'4', 'placeholder' => 'Number of Pax', 'autofocus' => 'true']) }}
-	    		</div>
-					<div class="required field">
-	    			{{ Form::label('max_pax', 'Maximum No. of Pax') }}
-         			{{ Form::text('max_pax', '', ['id' => 'cmax_pax', 'maxlength'=>'4', 'placeholder' => 'Number of Pax']) }}
-	    		</div>
-	    		<div class="required field"> 
-	    			{{ Form::label('number_of_waiter', 'Number of Waiter') }}
-          			{{ Form::text('number_of_waiter', '', ['maxlength'=>'4', 'placeholder' => 'Number of Waiter']) }}
-	    		</div>
-	    	</div>
-	    	<div class="ui error message"></div>
-        </div>
-	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
 @endsection
 
 @section('js')

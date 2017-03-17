@@ -23,11 +23,7 @@ Package
 	<h1>Catering Package</h1>
 	<hr>
 </div>
-<div class="row">
-	<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Catering Package</button>
-	<a href="{{ url('/archive/cateringPackage') }}" class="ui teal button"><i class="archive icon"></i>Archive</a>
 
-</div>
 <div class="row">
 	<table class="ui table" id="tblPackage">
 		<thead>
@@ -50,8 +46,6 @@ Package
 				<td>{{$cateringPackage->cateringPackageDesc}}</td>
 				<td>Php {{$cateringPackage->cateringPackageAmount}}</td>
 				<td class="center aligned">
-					<a href="{{url('/cateringPackage/'. $cateringPackage->cateringPackageCode)}}" class="ui teal button">Package Details</a>
-					<button class="ui blue button" onclick="$('#update{{$cateringPackage->cateringPackageCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($cateringPackage->deleted_at == null)
 					<button class="ui red button" onclick="$('#delete{{$cateringPackage->cateringPackageCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 					@else
@@ -66,49 +60,6 @@ Package
 </div>
 @if(count($cateringPackages) > 0)
 @foreach($cateringPackages as $cateringPackage)
-<div class="ui modal" id="update{{$cateringPackage->cateringPackageCode}}">
-	<div class="header">Update Catering Package</div>
-	<div class="content">
-		{!! Form::open(['url' => '/cateringPackage/cateringPackage_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
-		<div class="ui form">
-
-			{{ Form::hidden('cateringPackage_code', $cateringPackage->cateringPackageCode) }}
-			<div class="required field">
-				{{ Form::label('cateringPackage_name', 'Name') }}
-				{{ Form::text('cateringPackage_name', $cateringPackage->cateringPackageName, ['maxlength' => '25', 'placeholder' => 'Type Package Name', 'autofocus' => 'true']) }}
-			</div>
-			<div class="field">
-				{{ Form::label('cateringPackage_description', 'Description') }}
-				{{ Form::textarea('cateringPackage_description', $cateringPackage->cateringPackageDesc, ['maxlength' => '200', 'placeholder' => 'Type Package Description', 'rows' => '2']) }}
-			</div>
-			<div class="required field">
-				{{ Form::label('amount', 'Amount') }}
-				<div class="ui center labeled input">
-					<div class="ui label">Php</div>
-					{{ Form::text('amount', $cateringPackage->cateringPackageAmount, ['class' => 'money', 'placeholder' => 'Amount']) }}
-				</div>
-			</div>
-		</div>
-		<div class="ui error message"></div>
-	</div>
-	<div class="actions">
-		{{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-		{{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-		{!! Form::close() !!}
-	</div>
-</div>
-<div class="ui modal" id="delete{{$cateringPackage->cateringPackageCode}}">
-	<div class="header">Deactivate Catering Package</div>
-	<div class="content">
-		<p>Do you want to deactivate this Catering Package?</p>
-	</div>
-	<div class="actions">
-		{!! Form::open(['url' => '/cateringPackage/' . $cateringPackage->cateringPackageCode, 'method' => 'delete']) !!}
-		{{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-		{{ Form::button('No', ['class' => 'ui negative button']) }}
-		{!! Form::close() !!}
-	</div>
-</div>
 <div class="ui modal" id="restore{{$cateringPackage->cateringPackageCode}}">
 	<div class="header">Restore Catering Package</div>
 	<div class="content">
@@ -124,85 +75,8 @@ Package
 </div>
 @endforeach
 @endif
-<div class="ui modal" id="create">
-	<div class="header">New Catering Package</div>
-	<div class="content">
-		{!! Form::open(['url' => '/cateringPackage', 'id' => 'createForm', 'class' => 'ui form']) !!}
-		<div class="ui form">
-
-			<div class="disabled field">
-				{{ Form::hidden('cateringPackage_code', $newID, ['placeholder' => 'Type Package Code']) }}
-			</div>
-			<div class="required field">
-				{{ Form::label('cateringPackage_name', 'Name') }}
-				{{ Form::text('cateringPackage_name', '', ['maxlength' => '25', 'placeholder' => 'Type Package Name', 'autofocus' => 'true']) }}
-			</div>
-			<div class="field">
-				{{ Form::label('cateringPackage_description', 'Description') }}
-				{{ Form::textarea('cateringPackage_description', '', ['maxlength' => '200', 'placeholder' => 'Type Package Description', 'rows' => '2']) }}
-			</div>
-			<div class="required field">
-				{{ Form::label('amount', 'Amount') }}
-				<div class="ui center labeled input">
-					<div class="ui label">Php</div>
-					{{ Form::text('amount', null, ['maxlength' => '12', 'class' => 'money', 'placeholder' => 'Amount']) }}
-				</div>
-			</div>
-			<div class="ui horizontal divider">Package Details</div>
-
-			<div class="row">
-				<div class="ui grid">
-					<div class="eight wide column">
-						<div class="required field">
-							{{ Form::label('cateringPackage_menu', 'Menu') }}
-							{{ Form::select('cateringPackage_menu[]', $menus, '', ['id'=>'cateringPackage_menu', 'multiple' => 'multiple', 'placeholder' => 'Select Menu', 'class' => 'ui fluid dropdown' ]) }}
-						</div>
-						<div id="divDinnTypes" style="display: none;">
-							<table id="tblMenu" class="ui compact celled definition table">
-								<thead class="full-width">
-									<tr>
-										<th>Menu</th>
-										<th>Number of Pax</th>
-									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="eight wide column">
-						<div class="required field">
-							{{ Form::label('cateringPackage_item[]', 'Items') }}
-							{{ Form::select('cateringPackage_item[]', $items, '', ['id'=>'cateringPackage_item', 'multiple' => 'multiple', 'placeholder' => 'Select Item', 'class' => 'ui fluid dropdown' ]) }}
-						</div>
-						<div class="required field" id="sit" style="display: none;">
-							<table id="tblItem" class="ui compact celled definition table">
-								<thead class="full-width">
-									<tr>
-										<th>Item</th>
-										<th>Quantity</th>
-									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-
-			</div>
-
-		</div>
-		<div class="ui error message"></div>
-	</div>
-	<div class="actions">
-		{{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-		{{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-		{!! Form::close() !!}
-	</div>
-
-</div>	
 @endsection
+
 @section('js')
 <script>
 	$(document).ready( function(){

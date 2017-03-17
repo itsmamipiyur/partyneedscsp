@@ -131,4 +131,22 @@ class DishTypeController extends Controller
 
         return redirect('/dishType')->with('alert-success', 'Dish Type was successfully updated!');
     }
+
+    public function dishType_restore(Request $request)
+    {
+      $id = $request->dishtype_code;
+      $dishType = DishType::onlyTrashed()->where('dishTypeCode', '=', $id)->firstOrFail();
+      $dishType->restore();
+  
+      return redirect('/dishType')->with('alert-success', 'Dish Type ' . $id . ' was successfully restored.');
+    }
+
+    public function showArchive()
+    {
+        //
+       $dishtypes = DishType::onlyTrashed()->get();
+
+        return view('archive.dishtype')
+            ->with('dishtypes', $dishtypes);
+    }
 }

@@ -140,4 +140,13 @@ class DecorController extends Controller
       return redirect('decor')->with('alert-success', 'Decor ' . $id . ' was successfully restored.');
     }
 
+    public function showArchive()
+    {
+        //
+       $decors = Decor::onlyTrashed()->get();
+
+        return view('archive.decor')
+             ->with('decors', $decors);
+    }
+
 }

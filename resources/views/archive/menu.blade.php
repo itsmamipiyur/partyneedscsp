@@ -23,13 +23,12 @@
 	@endif
 
 	<div class="row">
-		<h1>Menu</h1>
+		<h1>Archive - Menu</h1>
 		<hr>
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Menu</button>
-		<a href="{{ url('/archive/menu') }}" class="ui teal button"><i class="archive icon"></i>Archive</a>
+		<a href="{{ url('/menu') }}" class="ui brown button"><i class="archive icon"></i>Back to Menu</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tblMenu">
@@ -51,8 +50,6 @@
 			      <td>{{$menu->menuName}}</td>		      
 			      <td>{{$menu->menuDesc}}</td>
 			      <td class="center aligned">
-			      	<a href="{{url('/menu/'. $menu->menuCode)}}" class="ui teal button">Menu Detail</a>
-					<button class="ui blue button" onclick="$('#update{{$menu->menuCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($menu->deleted_at == null)
 			      	<button class="ui red button" onclick="$('#delete{{$menu->menuCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
@@ -68,44 +65,6 @@
 
 @if(count($menus) > 0)
 @foreach($menus as $menu)
-	<div class="ui modal" id="update{{$menu->menuCode}}">
-	  <div class="header">Update Menu</div>
-	  <div class="content">
-	    {!! Form::open(['url' => '/menu/menu_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
-	    	<div class="ui form">
-	    		
-	    		{{ Form::hidden('menu_code', $menu->menuCode) }}
-	    		<div class="required field">
-	    			{{ Form::label('menu_name', 'Name') }}
-         			{{ Form::text('menu_name', $menu->menuName, ['maxlength' => '25', 'placeholder' => 'Type Menu Name']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('menu_description', 'Description') }}
-          			{{ Form::textarea('menu_description', $menu->menuDesc, ['maxlength' => '200', 'placeholder' => 'Type Menu Description', 'rows' => '2']) }}
-	    		</div>
-	    	</div>
-	    	<div class="ui error message"></div>
-        </div>
-	  <div class="actions">
-            {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
-
-	<div class="ui modal" id="delete{{$menu->menuCode}}">
-	  <div class="header">Deactivate Menu</div>
-	  <div class="content">
-	    <p>Do you want to deactivate this menu?</p>
-	  </div>
-	  <div class="actions">
-	  	{!! Form::open(['url' => '/menu/' . $menu->menuCode, 'method' => 'delete']) !!}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('No', ['class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
-
 	<div class="ui modal" id="restore{{$menu->menuCode}}">
 	  <div class="header">Restore Menu</div>
 	  <div class="content">
@@ -122,39 +81,6 @@
 @endforeach
 @endif
 
-	<div class="ui modal" id="create">
-	  <div class="header">New Menu</div>
-	  <div class="content">
-	    {!! Form::open(['url' => '/menu', 'id' => 'createForm', 'class' => 'ui form']) !!}
-	    	<div class="ui form">
-	    		
-
-	    		<div class="disabled field">
-
-         			{{ Form::hidden('menu_code', $newID, ['placeholder' => 'Type Menu Code']) }}
-	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('menu_name', 'Name') }}
-         			{{ Form::text('menu_name', '', ['maxlength' => '25', 'placeholder' => 'Type Menu Name', 'autofocus' => 'true']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('menu_description', 'Description') }}
-          			{{ Form::textarea('menu_description', '', ['maxlength' => '200', 'placeholder' => 'Type Menu Description', 'rows' => '2']) }}
-	    		</div>
-	    		<div class="ui horizontal divider">Menu Details</div>
-	    		<div class="required field">
-	    			{{ Form::label('menu_dish[]', 'Dish') }}
-         			{{ Form::select('menu_dish[]', $dishes, '', ['id' => 'menu_dish', 'multiple' => 'multiple', 'placeholder' => 'Select Dish', 'class' => 'ui fluid search dropdown' ]) }}
-	    		</div>
-	    	</div>
-	    	<div class="ui error message"></div>
-        </div>
-	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>	
 @endsection
 
 @section('js')

@@ -23,13 +23,12 @@ Penalty
 @endif
 
 <div class="row">
-  <h1>Penalty</h1>
+  <h1>Archive - Penalty</h1>
   <hr>
 </div>
 
 <div class="row">
-  <button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Penalty</button>
-  <a href="{{ url('/archive/penalty') }}" class="ui teal button"><i class="archive icon"></i>Archive</a>
+  <a href="{{ url('/penalty') }}" class="ui teal button"><i class="archive icon"></i>Back to Penalty</a>
 </div>
 <div class="row">
   <table class="ui brown table" id="tblPenalty">
@@ -54,7 +53,6 @@ Penalty
         <td>Php {{$penalty->amount}}</td>
 
         <td class="center aligned">
-          <button class="ui blue button" onclick="$('#update{{$penalty->penaltyCode}}').modal('show');"><i class="edit icon"></i> Update</button>
           @if($penalty->deleted_at == null)
           <button class="ui red button" onclick="$('#delete{{$penalty->penaltyCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
           @else
@@ -70,53 +68,6 @@ Penalty
 
 @if(count($penalties) > 0)
 @foreach($penalties as $penalty)
-<div class="ui modal" id="update{{$penalty->penaltyCode}}">
-  <div class="header">Update Penalty</div>
-  <div class="content">
-    {!! Form::open(['url' => '/penalty/penalty_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
-    <div class="ui form">
-
-      {{ Form::hidden('penalty_code', $penalty->penaltyCode) }}
-      <div class="required field">
-        {{ Form::label('penalty_name', 'Name') }}
-        {{ Form::text('penalty_name', $penalty->penaltyName, ['maxlength'=>'30', 'placeholder' => 'Type Penalty Name']) }}
-      </div>
-
-      <div class="field">
-        {{ Form::label('penalty_description', 'Description') }}
-        {{ Form::textarea('penalty_description', $penalty->penaltyDesc, ['placeholder' => 'Type Penalty Description', 'rows' => '2']) }}
-      </div>
-
-      <div class="required field">
-        {{ Form::label('amount', 'Amount') }}
-        <div class="ui center labeled input">
-          <div class="ui label">Php</div>
-          {{ Form::text('amount', $penalty->amount, ['maxlength'=>'8',  'class' => 'money', 'placeholder' => 'Amount']) }}
-        </div>
-      </div>      
-    <div class="ui error message"></div>
-    </div>
-  </div>
-  <div class="actions">
-    {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-    {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-    {!! Form::close() !!}
-  </div>
-</div>
-
-<div class="ui modal" id="delete{{$penalty->penaltyCode}}">
-  <div class="header">Deactivate Penalty</div>
-  <div class="content">
-    <p>Do you want to deactivate this penalty?</p>
-  </div>
-  <div class="actions">
-    {!! Form::open(['url' => '/penalty/' . $penalty->penaltyCode, 'method' => 'delete']) !!}
-    {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-    {{ Form::button('No', ['class' => 'ui negative button']) }}
-    {!! Form::close() !!}
-  </div>
-</div>
-
 <div class="ui modal" id="restore{{$penalty->penaltyCode}}">
   <div class="header">Restore Penalty</div>
   <div class="content">
@@ -132,41 +83,7 @@ Penalty
 </div>
 @endforeach
 @endif
-
-<div class="ui modal" id="create">
-  <div class="header">New Penalty</div>
-  <div class="content">
-    {!! Form::open(['url' => '/penalty', 'id' => 'createForm', 'class' => 'ui form']) !!}
-    <div class="ui form">
-
-      {{ Form::hidden('penalty_code', $newID, ['placeholder' => 'Type Penalty Code']) }}
-
-      <div class="required field">
-        {{ Form::label('penalty_name', 'Name') }}
-        {{ Form::text('penalty_name', null, ['maxlength'=>'30', 'placeholder' => 'Type Penalty Name']) }}
-      </div>
-
-      <div class="field">
-        {{ Form::label('penalty_description', 'Description') }}
-        {{ Form::textarea('penalty_description', null, ['maxlength'=>'30', 'placeholder' => 'Type Penalty Description', 'rows' => '2']) }}
-      </div>
-
-      <div class="required field">
-        {{ Form::label('amount', 'Amount') }}
-        <div class="ui center labeled input">
-          <div class="ui label">Php</div>
-          {{ Form::text('amount', null, ['maxlength'=>'8',  'class' => 'money', 'placeholder' => 'Amount']) }}
-        </div>
-      </div>
-    </div>
-    <div class="ui error message"></div>
-  </div>
-  <div class="actions">
-    {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-    {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-    {!! Form::close() !!}
-  </div>
-</div>	
+	
 @endsection
 
 @section('js')

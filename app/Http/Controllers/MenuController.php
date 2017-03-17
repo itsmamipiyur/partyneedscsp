@@ -193,7 +193,7 @@ class MenuController extends Controller
   public function menu_restore(Request $request)
   {
     $id = $request->menu_code;
-    $menu = Menu::onlyTrashed()->where('strMenuCode', '=', $id)->firstOrFail();
+    $menu = Menu::onlyTrashed()->where('menuCode', '=', $id)->firstOrFail();
     $menu->restore();
 
     return redirect('menu')->with('alert-success', 'Menu ' . $id . ' was successfully restored.');
@@ -272,4 +272,12 @@ class MenuController extends Controller
     return redirect('/menu/'. $request->menu_code)->with('alert-success', 'Menu Rate was successfully added.');
   }
 
+  public function showArchive()
+  {
+      //
+     $menus = Menu::onlyTrashed()->get();
+
+      return view('archive.menu')
+          ->with('menus', $menus);
+  }
 }

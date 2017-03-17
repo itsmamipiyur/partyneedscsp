@@ -29,8 +29,7 @@
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Item</button>
-		<a href="{{url('/archive/item')}}" class="ui teal button"><i class="archive icon"></i>Archive</a>
+		<a href="{{url('/item')}}" class="ui brown button"><i class="archive icon"></i>Back to Maintenance</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tblitem">
@@ -62,8 +61,6 @@
 			      		<td>{{$item->itemEquipment->equipmentType->equipmentTypeName}}</td>
 			      @endif
 			      <td class="center aligned">
-			      	<a href="{{url('/item/'. $item->itemCode)}}" class="ui teal button">Item Detail</a>
-					<button class="ui blue button" onclick="show('{{$item->itemType}}'); $('#update{{$item->itemCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($item->deleted_at == null)
 			      	<button class="ui red button" onclick="$('#delete{{$item->itemCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
@@ -79,68 +76,6 @@
 
 @if(count($items) > 0)
 @foreach($items as $item)
-	<div class="ui modal" id="update{{$item->itemCode}}">
-	  <div class="header">Update Item</div>
-	  <div class="content">
-	    {!! Form::open(['url' => '/item/item_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
-	    	<div class="ui form">
-	    		
-	    		{{ Form::hidden('item_code', $item->itemCode) }}
-	    		<div class="required field">
-	    			{{ Form::label('item_name', 'Item Name') }}
-         			{{ Form::text('item_name', $item->itemName, ['maxlength'=>'25', 'placeholder' => 'Type Item Name']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('item_description', 'Item Description') }}
-          			{{ Form::textarea('item_description', $item->itemDesc, ['maxlength'=>'200', 'placeholder' => 'Type Item Description', 'rows' => '2']) }}
-	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('uom_code', 'Unit of Measurement') }}
-         			{{ Form::select('uom_code', $uoms, $item->uomCode, ['placeholder' => 'Choose Unit of Measurement', 'class' => 'ui search dropdown']) }}
-	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('item_type', 'Item Type') }}
-         			{{ Form::select('item_type', $itemTypes, $item->itemType, ['id' => 'itemTypeu', 'placeholder' => 'Choose Item Type', 'class' => 'ui search dropdown']) }}
-	    		</div>
-	    		<div class="required field" id="divDinnType" style="display: none;">
-	    			{{ Form::label('dinnerware_type', 'SubType') }}
-	    		@if($item->itemType == '1')
-         			{{ Form::select('dinnerware_type', $dinnTypes, $item->itemDinnerware->dinnerwareTypeCode, ['placeholder' => 'Choose Dinnerware Type', 'class' => 'ui search dropdown']) }}
-	    		@else
-	    			{{ Form::select('dinnerware_type', $dinnTypes, null, ['placeholder' => 'Choose Dinnerware Type', 'class' => 'ui search dropdown']) }}
-	    		@endif 
-	    		</div>
-	    		<div class="required field" id="divEquiType" style="display: none;">
-	    			{{ Form::label('equipment_type', 'SubType') }}
-	    		@if($item->itemType == '2')
-         			{{ Form::select('equipment_type', $equiTypes, $item->itemEquipment->equipmentTypeCode, ['placeholder' => 'Choose Equipment Type', 'class' => 'ui search dropdown']) }}
-         		@else
-         			{{ Form::select('equipment_type', $equiTypes, null, ['placeholder' => 'Choose Equipment Type', 'class' => 'ui search dropdown']) }}	
-	    		@endif
-	    		</div>
-	    	</div>
-	    	<div class="ui error message"></div>
-        </div>
-	  <div class="actions">
-            {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
-
-	<div class="ui modal" id="delete{{$item->itemCode}}">
-	  <div class="header">Deactivate Item</div>
-	  <div class="content">
-	    <p>Do you want to deactivate this Item?</p>
-	  </div>
-	  <div class="actions">
-	  	{!! Form::open(['url' => '/item/' . $item->itemCode, 'method' => 'delete']) !!}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('No', ['class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
-
 	<div class="ui modal" id="restore{{$item->itemCode}}">
 	  <div class="header">Restore Item</div>
 	  <div class="content">
@@ -157,49 +92,6 @@
 @endforeach
 @endif
 
-	<div class="ui modal" id="create">
-	  <div class="header">New Item</div>
-	  <div class="content">
-	    {!! Form::open(['url' => '/item', 'id' => 'createForm', 'class' => 'ui form']) !!}
-	    	<div class="ui form">
-	    		
-	    		<div class="disabled field">
-	    			<!-- {{ Form::label('item_code', 'Code') }} -->
-         			{{ Form::hidden('item_code', $newID, ['placeholder' => 'Type Item Code']) }}
-	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('item_name', 'Name') }}
-         			{{ Form::text('item_name', '', ['maxlength'=>'25', 'placeholder' => 'Type Item Name', 'autofocus' => 'true']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('item_description', 'Description') }}
-          			{{ Form::textarea('item_description', '', ['maxlength'=>'200', 'placeholder' => 'Type Item Description', 'rows' => '2']) }}
-	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('uom_code', 'Unit of Measurement') }}
-         			{{ Form::select('uom_code', $uoms, null, ['placeholder' => 'Choose Unit of Measurement', 'class' => 'ui search dropdown']) }}
-	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('item_type', 'Item Type') }}
-         			{{ Form::select('item_type', $itemTypes, null, ['id' => 'itemTypes', 'placeholder' => 'Choose Item Type', 'class' => 'ui search dropdown']) }}
-	    		</div>
-	    		<div class="required field" id="divEquiTypes" style="display: none;">
-	    			{{ Form::label('equipment_type', 'SubType') }}
-         			{{ Form::select('equipment_type', $equiTypes, null, ['placeholder' => 'Choose Equipment Type', 'class' => 'ui search dropdown']) }}
-	    		</div>
-	    		<div class="required field" id="divDinnTypes" style="display: none;">
-	    			{{ Form::label('dinnerware_type', 'SubType') }}
-         			{{ Form::select('dinnerware_type', $dinnTypes, null, ['placeholder' => 'Choose Dinnerware Type', 'class' => 'ui search dropdown']) }}
-	    		</div>
-	    	</div>
-	    	<div class="ui error message"></div>
-        </div>
-	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
 @endsection
 
 @section('js')

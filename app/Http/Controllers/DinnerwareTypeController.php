@@ -135,4 +135,12 @@ class DinnerwareTypeController extends Controller
       return redirect('dinnerwareType')->with('alert-success', 'Dinnerware Type ' . $name . ' was successfully restored.');
     }
 
+    public function showArchive()
+    {
+      $dinnerwareTypes = DinnerwareType::onlyTrashed()->get();
+
+        return view('archive.dinnerwareType')
+            ->with('dinnerwareTypes', $dinnerwareTypes);
+    }
+
 }

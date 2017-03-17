@@ -23,13 +23,12 @@
 	@endif
 
 	<div class="row">
-		<h1>Dinnerware Type</h1>
+		<h1>Archive: Dinnerware Type</h1>
 		<hr>
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Dinnerware Type</button>
-		<a href="{{ url('/archive/dinnerwareType') }}" class="ui teal button"><i class="archive icon"></i>Archive</a>
+		<a href="{{ url('/dinnerwareType') }}" class="ui teal button"><i class="archive icon"></i>Back to Maintenance</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tbldinnerwaretype">
@@ -51,7 +50,6 @@
 			      <td>{{$dinnerwareType->dinnerwareTypeName}}</td>
 			      <td>{{$dinnerwareType->dinnerwareTypeDesc}}</td>
 			      <td class="center aligned">
-					<button class="ui blue button" onclick="$('#update{{$dinnerwareType->dinnerwareTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($dinnerwareType->deleted_at == null)
 			      	<button class="ui red button" onclick="$('#delete{{$dinnerwareType->dinnerwareTypeCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
@@ -67,43 +65,6 @@
 
 @if(count($dinnerwareTypes) > 0)
 @foreach($dinnerwareTypes as $dinnerwareType)
-	<div class="ui modal" id="update{{$dinnerwareType->dinnerwareTypeCode}}">
-	  <div class="header">Update</div>
-	  <div class="content">
-	     {!! Form::open(['url' => '/dinnerwareType/dinnerwareType_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
-	    	<div class="ui form">
-	    		
-	    		{{ Form::hidden('dinnerware_type_code', $dinnerwareType->dinnerwareTypeCode) }}
-	    		<div class="required field">
-	    			{{ Form::label('dinnerware_type_name', 'Name') }}
-         			{{ Form::text('dinnerware_type_name', $dinnerwareType->dinnerwareTypeName, ['maxlength'=>'25', 'placeholder' => 'Type Dinnerware Type Name']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('dinnerware_type_description', 'Description') }}
-          			{{ Form::textarea('dinnerware_type_description', $dinnerwareType->dinnerwareTypeDesc, ['maxlength'=>'200', 'placeholder' => 'Type Dinnerware Type Description', 'rows' => '2']) }}
-	    		</div>
-	    	</div>
-	    	<div class="ui error message"></div>
-        </div>
-	  <div class="actions">
-            {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
-
-	<div class="ui modal" id="delete{{$dinnerwareType->dinnerwareTypeCode}}">
-	  <div class="header">Deactivate</div>
-	  <div class="content">
-	    <p>Do you want to deactivate this Dinnerware type?</p>
-	  </div>
-	  <div class="actions">
-	  	{!! Form::open(['url' => '/dinnerwareType/' . $dinnerwareType->dinnerwareTypeCode, 'method' => 'delete']) !!}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('No', ['class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
 
 	<div class="ui modal" id="restore{{$dinnerwareType->dinnerwareTypeCode}}">
 	  <div class="header">Restore</div>
@@ -121,33 +82,6 @@
 @endforeach
 @endif
 
-	<div class="ui modal" id="create">
-	  <div class="header">New</div>
-	  <div class="content">
-	    {!! Form::open(['url' => '/dinnerwareType', 'id' => 'createForm', 'class' => 'ui form']) !!}
-	    	<div class="ui form">
-	    	
-	    		<div class="disabled field">
-	    			
-         			{{ Form::hidden('dinnerware_type_code', $newID, ['placeholder' => 'Type Dinnerware Type Code']) }}
-	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('dinnerware_type_name', 'Name') }}
-         			{{ Form::text('dinnerware_type_name', '', ['maxlength'=>'25', 'placeholder' => 'Type Dinnerware Type Name', 'autofocus' => 'true']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('dinnerware_type_description', 'Description') }}
-          			{{ Form::textarea('dinnerware_type_description', '', ['maxlength'=>'200','placeholder' => 'Type Dinnerware Type Description', 'rows' => '2']) }}
-	    		</div>
-	    	</div>
-	    		<div class="ui error message"></div>
-        </div>
-	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
 @endsection
 
 @section('js')

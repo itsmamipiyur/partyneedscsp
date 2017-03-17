@@ -144,4 +144,13 @@ class WaiterRatioController extends Controller
 
       return redirect('waiterRatio')->with('alert-success', 'Waiter Ratio was successfully restored.');
     }
+
+    public function showArchive()
+    {
+        //
+       $waiterRatios = WaiterRatio::onlyTrashed()->get();
+
+        return view('archive.waiterRatio')
+             ->with('waiterRatios', $waiterRatios);
+    }
 }

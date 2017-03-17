@@ -18,15 +18,22 @@
 		<table class="ui table" id="tblevent">
 		  <thead>
 		    <tr>
-          <th>Customer Id</th>
+          <th>Invoice Code</th>
 			    <th>Customer Name</th>
-          <th>Billing Status</th>
-			    <th>Billing Address</th>
-			    <th>Billing Date Start</th>
+          <th>Invoice Date</th>
+			    <th>Amount</th>
 			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
-
+      <tbody>
+        <tr>
+          <td>JFINV00001</td>
+          <td>Mami Piyur</td>
+          <td>January 25, 2017</td>
+          <td>Php 40,500.25</td>
+          <td class="center aligned">Actions</td>
+        </tr>
+      </tbody>
 		</table>
 	</div>
 

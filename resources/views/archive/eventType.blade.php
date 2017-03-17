@@ -28,8 +28,7 @@
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Event Type</button>
-		<a href="{{ url('/archive/eventType') }}" class="ui teal button"><i class="archive icon"></i>Archive</a>
+		<a href="{{ url('/eventType') }}" class="ui brown button"><i class="archive icon"></i>Back to Event Type</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tbleventtype">
@@ -51,7 +50,6 @@
 			      <td>{{$eventType->eventTypeName}}</td>
 			      <td>{{$eventType->eventTypeDesc}}</td>
 			      <td class="center aligned">
-					<button class="ui blue button" onclick="$('#update{{$eventType->eventTypeCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($eventType->deleted_at == null)
 			      	<button class="ui red button" onclick="$('#delete{{$eventType->eventTypeCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
 			      	@else
@@ -67,44 +65,6 @@
 
 @if(count($eventTypes) > 0)
 @foreach($eventTypes as $eventType)
-	<div class="ui modal" id="update{{$eventType->eventTypeCode}}">
-	  <div class="header">Update Event Type</div>
-	  <div class="content">
-	    {!! Form::open(['url' => '/eventType/eventType_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
-	    	<div class="ui form">
-	    		
-	    		{{ Form::hidden('event_type_code', $eventType->eventTypeCode) }}
-	    		<div class="required field">
-	    			{{ Form::label('event_type_name', 'Event Type Name') }}
-         			{{ Form::text('event_type_name', $eventType->eventTypeName, ['maxlength'=>'25', 'placeholder' => 'Type Event Type Name']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('event_type_description', 'Event Type Description') }}
-          			{{ Form::textarea('event_type_description', $eventType->eventTypeDesc, ['maxlength'=>'200', 'placeholder' => 'Type Event Type Description', 'rows' => '2']) }}
-	    		</div>
-	    	</div>
-	    	<div class="ui error message"></div>
-        </div>
-	  <div class="actions">
-            {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
-
-	<div class="ui modal" id="delete{{$eventType->eventTypeCode}}">
-	  <div class="header">Deactivate Event Type</div>
-	  <div class="content">
-	    <p>Do you want to delete this event type?</p>
-	  </div>
-	  <div class="actions">
-	  	{!! Form::open(['url' => '/eventType/' . $eventType->eventTypeCode, 'method' => 'delete']) !!}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('No', ['class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
-
 	<div class="ui modal" id="restore{{$eventType->eventTypeCode}}">
 	  <div class="header">Restore Event Type</div>
 	  <div class="content">
@@ -121,34 +81,6 @@
 @endforeach
 @endif
 
-	<div class="ui modal" id="create">
-	  <div class="header">New Event Type</div>
-	  <div class="content">
-	    {!! Form::open(['url' => '/eventType', 'id' => 'createForm', 'class' => 'ui form']) !!}
-	    	<div class="ui form">
-	    		
-
-	    		<div class="disabled field">
-	    			
-         			{{ Form::hidden('event_type_code', $newID, ['placeholder' => 'Type Event Type Code']) }}
-	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('event_type_name', 'Event Type Name') }}
-         			{{ Form::text('event_type_name', '', ['maxlength'=>'25','placeholder' => 'Type Event Type Name', 'autofocus'=>'true']) }}
-	    		</div>
-	    		<div class="field">
-	    			{{ Form::label('event_type_description', 'Event Type Description') }}
-          			{{ Form::textarea('event_type_description', '', ['maxlength'=>'200','placeholder' => 'Type Event Type Description', 'rows' => '2']) }}
-	    		</div>
-	    	</div>
-	    	<div class="ui error message"></div>
-        </div>
-	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-	  </div>
-	</div>
 @endsection
 
 @section('js')

@@ -19,21 +19,29 @@
 	  	<strong>PARTY NEEDS MANAGEMENT SYSTEM</strong>
 	  </div>
 	  <div class="right menu">
-	    <a href="{{ url('/logout') }}"
-            onclick="event.preventDefault();
-                     document.getElementById('logout-form').submit();"
-            class="item">
-            <i class="sign out icon"></i>
-            LOGOUT
-        </a>
+	  	<div class="item" id="clock">
+	  		
+	  	</div>
+	  	<div class="ui dropdown link item">
+		    <span class="text">{{ Auth::user()->name }}</span>
+		    <i class="dropdown icon"></i>
+		    <div class="menu">
+		      <a href="{{ url('/logout') }}"
+		            onclick="event.preventDefault();
+		                     document.getElementById('logout-form').submit();"
+		            class="item">
+		            <i class="sign out icon"></i>
+		            LOGOUT
+		        </a>
+		    </div>
+	  	</div>
         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
 	  </div>
 	</div>
 
-	</div>
-	<div class="ui bottom attached segment">
+	<div class="ui bottom attached segment" id="menu">
 	  <div class="ui wide inverted left inline vertical sidebar menu">
 	  	<div class="item">
 	  		<strong>PARTY NEEDS MANAGEMENT SYSTEM</strong>
@@ -131,10 +139,36 @@
 
 	<script type="text/javascript">
 		$('.ui.sidebar').sidebar({
-		    context: $('.bottom.segment')
+		    // context: $('.bottom.segment')
+			   context: $('#menu')
 		  })
 		  .sidebar('attach events', '#toggle');
 		$('.ui.accordion').accordion();
+
+		function startTime() {
+		    var today = new Date();
+		    var utc = today.toJSON().slice(0,10).replace(/-/g,'/');
+		    var h = today.getHours();
+		    var m = today.getMinutes();
+		    var s = today.getSeconds();
+		    var ampm = h >= 12 ? 'PM' : 'AM';
+		    h = h % 12;
+  			h = h ? h : 12; // the hour '0' should be '12'
+		    m = checkTime(m);
+		    s = checkTime(s);
+		    document.getElementById('clock').innerHTML =
+		    utc + " " + h + ":" + m + ":" + s + ' ' + ampm;
+		    var t = setTimeout(startTime, 500);
+		}
+		function checkTime(i) {
+		    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+		    return i;
+		}
+
+		$(document).ready(function()
+		{
+		   setInterval('startTime()', 1000);
+		});
 	</script>
 
 	@yield('js')

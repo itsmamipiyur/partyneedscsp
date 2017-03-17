@@ -136,11 +136,21 @@ class EquipmentTypeController extends Controller
 
     public function equipmentType_restore(Request $request)
     {
-      $id = $request->equipment_type_id;
+      $id = $request->equipment_type_code;
       $name = $request->equipment_type_name;
       $equipmentType = EquipmentType::onlyTrashed()->where('equipmentTypeCode', '=', $id)->firstOrFail();
       $equipmentType->restore();
 
       return redirect('equipmentType')->with('alert-success', 'Equipment Type ' . $name . ' was successfully restored.');
+    }
+
+    public function showArchive()
+    {
+        //
+        $equipmentTypes = EquipmentType::onlyTrashed()->get();
+
+        return view('archive.equipmentType')
+          ->with('equipmentTypes', $equipmentTypes);
+
     }
 }

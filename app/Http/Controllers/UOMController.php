@@ -132,13 +132,20 @@ class UOMController extends Controller
             ->with('alert-success', 'Unit of Measurement '. $name .' was successfully updated!');
     }
 
-      public function uom_restore(Request $request)
-      {
+    public function uom_restore(Request $request)
+    {
         $id = $request->uom_code;
         $name = $request->uom_symbol;
         $uom = UOM::onlyTrashed()->where('uomCode', '=', $id)->firstOrFail();
         $uom->restore();
+        return redirect('uom/archive')->with('alert-success', 'Unit of Measurement '. $name .' was successfully restored.');
+    }
 
-        return redirect('uom')->with('alert-success', 'Unit of Measurement '. $name .' was successfully restored.');
-      }
+    public function showArchive()
+    {
+        $uoms = UOM::onlyTrashed()->get();
+
+        return view('archive.uom')
+            ->with('uoms', $uoms);
+    }
 }

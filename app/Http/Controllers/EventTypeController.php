@@ -144,9 +144,18 @@ class EventTypeController extends Controller
     public function eventType_restore(Request $request)
     {
       $id = $request->event_type_code;
-      $eventType = EventType::onlyTrashed()->where('strEvenTypeCode', '=', $id)->firstOrFail();
+      $eventType = EventType::onlyTrashed()->where('eventTypeCode', '=', $id)->firstOrFail();
       $eventType->restore();
 
       return redirect('eventType')->with('alert-success', 'Event Type ' . $id . ' was successfully restored.');
+    }
+
+    public function showArchive()
+    {
+        //
+       $eventtypes = EventType::onlyTrashed()->get();
+
+        return view('archive.eventType')
+            ->with('eventTypes', $eventtypes);
     }
 }

@@ -15,21 +15,9 @@ class InventoryController extends Controller
 {
     public function index()
   {
-
-  	 
-
     $items = Item::all();
-    $penaltyType = ['1' => 'Missing', '2' => 'Damaged', '3' => 'Others'];
-    $items = Item::orderBy('itemName')->pluck('itemName', 'itemCode');
-    $itemTypes = ['1' => 'Dinnerware', '2' => 'Equipment'];
-    $equiTypes = EquipmentType::orderBy('equipmentTypeName')->pluck('equipmentTypeName', 'equipmentTypeCode');
-     $dinnTypes = DinnerwareType::orderBy('dinnerwareTypeName')->pluck('dinnerwareTypeName', 'dinnerwareTypeCode');
 
-    return view('maintenance/inventory')
-    ->with('items', $items)
-    ->with('equiTypes', $equiTypes)
-    ->with('dinnTypes', $dinnTypes)
-    ->with('itemTypes', $itemTypes)
-    ->with('penaltyType', $penaltyType);
+    return view('transaction.inventory')
+      ->with('items', $items);
   }
 }

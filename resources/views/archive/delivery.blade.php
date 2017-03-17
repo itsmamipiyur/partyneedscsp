@@ -28,8 +28,7 @@
     </div>
 
     <div class="row">
-        <button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Delivery</button>
-        <a href="{{ url('/archive/delivery') }}" class="ui teal button"><i class="archive icon"></i>Archive</a>
+        <a href="{{ url('/delivery') }}" class="ui brown button"><i class="archive icon"></i>Back to Delivery</a>
     </div>
     <div class="row">
         <table class="ui table" id="tbldelivery">
@@ -51,7 +50,6 @@
                   <td>{{$delivery->deliveryLocation}}</td>
                   <td>Php {{$delivery->deliveryFee}}</td>
                   <td class="center aligned">
-                    <button class="ui blue button" onclick="$('#update{{$delivery->deliveryCode}}').modal('show');"><i class="edit icon"></i> Update</button>
                     @if($delivery->deleted_at == null)
                     <button class="ui red button" onclick="$('#delete{{$delivery->deliveryCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
                     @else
@@ -67,47 +65,6 @@
 
 @if(count($deliveries) > 0)
 @foreach($deliveries as $delivery)
-    <div class="ui modal" id="update{{$delivery->deliveryCode}}">
-      <div class="header">Update Delivery</div>
-      <div class="content">
-        {!! Form::open(['url' => '/delivery/delivery_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
-            <div class="ui form">
-                
-                {{ Form::hidden('delivery_code', $delivery->deliveryCode) }}
-                <div class="required field">
-                    {{ Form::label('delivery_location', 'Delivery Location') }}
-                    {{ Form::text('delivery_location', $delivery->deliveryLocation, ['maxlength'=>'30','placeholder' => 'Type Delivery Location']) }}
-                </div>
-                <div class="required field">
-                    {{ Form::label('delivery_fee', 'Delivery Fee') }}
-                    <div class="ui center labeled input">
-                    <div class="ui label">Php</div>
-                    {{ Form::text('delivery_fee', $delivery->deliveryFee, ['maxlength'=>'8','class' => 'money', 'placeholder' => 'Fee']) }}
-                    </div>
-                </div>
-            </div>
-            <div class="ui error message"></div>
-        </div>
-      <div class="actions">
-            {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-      </div>
-    </div>
-
-    <div class="ui modal" id="delete{{$delivery->deliveryCode}}">
-      <div class="header">Deactivate Delivery</div>
-      <div class="content">
-        <p>Do you want to deactivate this delivery?</p>
-      </div>
-      <div class="actions">
-        {!! Form::open(['url' => '/delivery/' . $delivery->deliveryCode, 'method' => 'delete']) !!}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-            {{ Form::button('No', ['class' => 'ui negative button']) }}
-        {!! Form::close() !!}
-      </div>
-    </div>
-
     <div class="ui modal" id="restore{{$delivery->deliveryCode}}">
       <div class="header">Restore Delivery</div>
       <div class="content">
@@ -123,38 +80,6 @@
     </div>
 @endforeach
 @endif
-
-    <div class="ui modal" id="create">
-      <div class="header">New Delivery</div>
-      <div class="content">
-        {!! Form::open(['url' => '/delivery', 'id' => 'createForm', 'class' => 'ui form']) !!}
-            <div class="ui form">
-                
-
-                <div class="disabled field">
-                    
-                    {{ Form::hidden('delivery_code', $newID, ['placeholder' => 'Type Delivery Code']) }}
-                </div>
-                <div class="required field">
-                    {{ Form::label('delivery_location', 'Delivery Location') }}
-                    {{ Form::text('delivery_location', null, ['maxlength'=>'30', 'placeholder' => 'Type Delivery Location', 'autofocus' => 'true']) }}
-                </div>
-                <div class="required field">
-                    {{ Form::label('delivery_fee', 'Delivery Fee') }}
-                    <div class="ui center labeled input">
-                    <div class="ui label">Php</div>
-                    {{ Form::text('delivery_fee', null, ['maxlength'=>'8', 'class' => 'money', 'placeholder' => 'Fee']) }}
-                    </div>
-                </div>
-            </div>
-            <div class="ui error message"></div>
-        </div>
-        <div class="actions">
-              {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
-              {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
-            {!! Form::close() !!}
-        </div>
-    </div>
 @endsection
 
 @section('js')
