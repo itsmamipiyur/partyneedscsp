@@ -72,7 +72,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/dishType/dishType_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 	    		{{ Form::hidden('dishtype_code', $dishtype->dishTypeCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('dishtype_name', 'Name') }}
@@ -83,7 +83,7 @@
           			{{ Form::textarea('dishtype_description', $dishtype->dishTypeDesc, ['maxlength'=>'200', 'placeholder' => 'Type Dish Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -126,7 +126,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/dishType', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 
 	    		<div class="disabled field">
          			{{ Form::hidden('dishtype_code', $newID, ['placeholder' => 'Type Dish Type Code']) }}
@@ -140,7 +140,7 @@
           			{{ Form::textarea('dishtype_description', '', ['maxlength'=>'200', 'placeholder' => 'Type Dish Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}

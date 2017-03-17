@@ -71,12 +71,13 @@ class CateringPackageController extends Controller
    'pax' => 'required|array|min:1',];
 
    $this->validate($request, $rules);
-
+   $amount = preg_replace('/[\,]/', '', $request->amount);
+   $amount = floatval($amount);
    $cateringPackage = new CateringPackage;
    $cateringPackage->cateringPackageCode = $request->cateringPackage_code;
    $cateringPackage->cateringPackageName = $request->cateringPackage_name;
    $cateringPackage->cateringPackageDesc = $request->cateringPackage_description;
-   $cateringPackage->cateringPackageAmount = $request->amount;
+   $cateringPackage->cateringPackageAmount = $amount;
    $cateringPackage->save();
 
    $cateringPackage = CateringPackage::find($request->cateringPackage_code);
@@ -85,14 +86,13 @@ class CateringPackageController extends Controller
      $items = Input::get('cateringPackage_item');
      $menus = Input::get('cateringPackage_menu');
      $quantities = Input::get('quantity');
-     $paxes = Input::get('pax');
 
      foreach($items as $item){
       $cateringPackage->items()->attach($item, ['quantity' => $quantities[$item]]);     
      }
 
      foreach($menus as $menu){
-      $cateringPackage->menus()->attach($menu, ['pax' => $paxes[$menu]]);     
+      $cateringPackage->menus()->attach($menu,['menuRateCode'=>$menurateattributehere[$menu]]);     
      }
 
    return redirect('cateringPackage')
@@ -160,15 +160,16 @@ class CateringPackageController extends Controller
  public function cateringPackage_update(Request $request)
  {
     $rules = ['cateringPackage_code' => 'required',
-    'cateringPackage_name' => 'required',
+    'cateringPackage_name' => 'required|unique:tblCateringPackage,cateringPackageName,'.$request->cateringPackage_code.',cateringPackageCode',
     'amount' => 'required',];
     $this->validate($request, $rules);
-
+    $amount = preg_replace('/[\,]/', '', $request->amount);
+    $amount = floatval($amount);
     $id = $request->cateringPackage_code;
     $cateringPackage = CateringPackage::find($id);
     $cateringPackage->cateringPackageName = $request->cateringPackage_name;
     $cateringPackage->cateringPackageDesc = $request->cateringPackage_description;
-    $cateringPackage->cateringPackageAmount = $request->amount;
+    $cateringPackage->cateringPackageAmount = $amount;
     $cateringPackage->save();
 
     return redirect('cateringPackage')->with('alert-success', 'CateringPackage ' . $id . ' was successfully updated.');

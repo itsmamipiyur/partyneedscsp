@@ -52,12 +52,13 @@ class PenaltyController extends Controller
     $rules = ['penalty_code' => 'required', 'penalty_name' => 'required|unique:tblpenalty,penaltyName', 'amount' => 'required'];
 
     $this->validate($request, $rules);
-
+    $amount = preg_replace('/[\,]/', '', $request->amount);
+    $amount = floatval($amount);
     $penalty = new Penalty;
     $penalty->penaltyCode = $request->penalty_code;
     $penalty->penaltyName = $request->penalty_name;
     $penalty->penaltyDesc = $request->penalty_description;  
-    $penalty->amount = $request->amount;
+    $penalty->amount = $amount;
     $penalty->save();
 
     return redirect('penalty')->with('alert-success', 'Penalty was successfully saved.');
@@ -115,14 +116,17 @@ class PenaltyController extends Controller
 
     public function penalty_update(Request $request)
     {
-       $rules = ['penalty_code' => 'required', 'penalty_name' => 'required', 'amount' => 'required'];
+       $rules = ['penalty_code' => 'required',
+        'penalty_name' => 'required|unique:tblpenalty,penaltyName,'.$request->penalty_code.',penaltyCode',
+        'amount' => 'required'];
 
         $this->validate($request, $rules);
-
+        $amount = preg_replace('/[\,]/', '', $request->amount);
+        $amount = floatval($amount);
         $penalty = Penalty::find($request->penalty_code);
         $penalty->penaltyName = $request->penalty_name;
         $penalty->penaltyDesc = $request->penalty_description;  
-        $penalty->amount = $request->amount;
+        $penalty->amount = $amount;
         $penalty->save();
 
       return redirect('penalty')->with('alert-success', 'Penalty was successfully updated.');

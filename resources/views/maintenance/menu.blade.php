@@ -73,7 +73,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/menu/menu_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 	    		{{ Form::hidden('menu_code', $menu->menuCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('menu_name', 'Name') }}
@@ -84,7 +84,7 @@
           			{{ Form::textarea('menu_description', $menu->menuDesc, ['maxlength' => '200', 'placeholder' => 'Type Menu Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -127,7 +127,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/menu', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 
 	    		<div class="disabled field">
 
@@ -147,7 +147,7 @@
          			{{ Form::select('menu_dish[]', $dishes, '', ['id' => 'menu_dish', 'multiple' => 'multiple', 'placeholder' => 'Select Dish', 'class' => 'ui fluid search dropdown' ]) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}

@@ -46,13 +46,15 @@ class DeliveryController extends Controller
    */
   public function store(Request $request)
   {
-    $rules = ['delivery_code' => 'required', 'delivery_location' => 'required|max:100|unique:tbldelivery,deliveryLocation', 'delivery_fee' => 'required | max:100'];
+    $rules = ['delivery_code' => 'required', 'delivery_location' => 'required|max:100|unique:tbldelivery,deliveryLocation', 'amount' => 'required | max:100'];
 
     $this->validate($request, $rules);
+    $amount = preg_replace('/[\,]/', '', $request->amount);
+    $amount = floatval($amount);
     $delivery = new Delivery;
     $delivery->deliveryCode = $request->delivery_code;
     $delivery->deliveryLocation = $request->delivery_location;
-    $delivery->deliveryFee = $request->delivery_fee;
+    $delivery->amount = $amount;
     $delivery->save();
 
     return redirect('delivery')->with('alert-success', 'Delivery Fee was successfully saved.');
@@ -113,13 +115,17 @@ class DeliveryController extends Controller
 
 public function delivery_update(Request $request)
     {
-      $rules = ['delivery_code' => 'required', 'delivery_location' => 'required|max:100', 'delivery_fee' => 'required | max:100'];
-      $id = $request->delivery_code;
+      $rules = ['delivery_code' => 'required',
+       'delivery_location' => 'required|max:100|unique:tbldelivery,deliveryLocation,'.$request->delivery_code.',deliveryCode',
+       'amount' => 'required | max:100'];
 
+      $id = $request->delivery_code;
       $this->validate($request, $rules);
+      $amount = preg_replace('/[\,]/', '', $request->amount);
+      $amount = floatval($amount);
       $delivery = Delivery::find($id);
       $delivery->deliveryLocation = $request->delivery_location;
-      $delivery->deliveryFee = $request->delivery_fee;
+      $delivery->amount = $amount;
       $delivery->save();
 
       return redirect('delivery')->with('alert-success', 'Delivery ' . $id . ' was successfully updated.');

@@ -82,7 +82,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/waiterRatio/waiterRatio_update', 'id' => 'createForm', 'class' => 'ui form update']) !!}
 	    	<div class="ui updateform">
-	    		
+	    		<div class="ui error message"></div>
 	    		{{ Form::hidden('waiter_ratio_code', $waiterRatio->waiterRatioCode) }}
 					<div class="required field">
 	    			{{ Form::label('min_pax', 'Minimum No. of Pax') }}
@@ -97,7 +97,7 @@
           			{{ Form::text('number_of_waiter', $waiterRatio->waiterRatioWaiterCount, ['maxlength'=>'4','placeholder' => 'Number of Waiter']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -140,7 +140,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/waiterRatio', 'id' => 'createForm', 'class' => 'ui form create']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 
 	    		<div class="disabled field">
 	    			
@@ -159,7 +159,7 @@
           			{{ Form::text('number_of_waiter', '', ['maxlength'=>'4', 'placeholder' => 'Number of Waiter']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -170,6 +170,14 @@
 @endsection
 
 @section('js')
+<style>
+
+
+        #cmin_pax, #cmax_pax, #number_of_waiter, #min_pax, #max_pax {
+            text-align: right;
+        }
+
+</style>
 <script>
   $(document).ready( function(){
 

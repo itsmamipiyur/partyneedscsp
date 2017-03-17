@@ -84,7 +84,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/item/item_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 	    		{{ Form::hidden('item_code', $item->itemCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('item_name', 'Item Name') }}
@@ -119,7 +119,7 @@
 	    		@endif
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -162,7 +162,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/item', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 	    		<div class="disabled field">
 	    			<!-- {{ Form::label('item_code', 'Code') }} -->
          			{{ Form::hidden('item_code', $newID, ['placeholder' => 'Type Item Code']) }}
@@ -192,7 +192,7 @@
          			{{ Form::select('dinnerware_type', $dinnTypes, null, ['placeholder' => 'Choose Dinnerware Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -303,7 +303,7 @@
     	if(val == '1'){
     		document.getElementById('divDinnTypes').style.display = "block";
     		document.getElementById('divEquiTypes').style.display = "none";
-    		alert('Hey');
+
     		var formValidationRules =
 			{
 
@@ -366,7 +366,7 @@
     		document.getElementById('divDinnTypes').style.display = "none";
     		document.getElementById('divEquiTypes').style.display = "block";
 
-    		alert('Hoy');
+
     		var formValidationRules =
 			{
 
@@ -438,7 +438,7 @@
     		document.getElementById('divDinnType').style.display = "block";
     		document.getElementById('divEquiType').style.display = "none";
 
-    		alert('Hey');
+
     		var formValidationRules =
 			{
 
@@ -501,7 +501,7 @@
     		document.getElementById('divDinnType').style.display = "none";
     		document.getElementById('divEquiType').style.display = "block";
 
-    		alert('Hoy');
+
     		var formValidationRules =
 			{
 
@@ -559,7 +559,7 @@ type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
     	}else{
     		document.getElementById('divDinnType').style.display = "none";
     		document.getElementById('divEquiType').style.display = "none";
-    		alert('a');
+
     	}
     });
   });

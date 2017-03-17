@@ -72,7 +72,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/eventType/eventType_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 	    		{{ Form::hidden('event_type_code', $eventType->eventTypeCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('event_type_name', 'Event Type Name') }}
@@ -83,7 +83,7 @@
           			{{ Form::textarea('event_type_description', $eventType->eventTypeDesc, ['maxlength'=>'200', 'placeholder' => 'Type Event Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -126,7 +126,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/eventType', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 
 	    		<div class="disabled field">
 	    			
@@ -141,7 +141,7 @@
           			{{ Form::textarea('event_type_description', '', ['maxlength'=>'200','placeholder' => 'Type Event Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}

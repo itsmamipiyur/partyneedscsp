@@ -74,7 +74,7 @@
 	  <div class="content">
 	     {!! Form::open(['url' => '/dish/dish_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 	    		{{ Form::hidden('dish_code', $dish->dishCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('dish_name', 'Name') }}
@@ -89,7 +89,7 @@
          			{{ Form::select('dish_type', $dishTypes, $dish->dishTypeCode, ['placeholder' => 'Choose Dish Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -132,7 +132,7 @@
 	  <div class="content">
 	     {!! Form::open(['url' => '/dish', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 
 	    		<div class="disabled field">
 	    			
@@ -151,7 +151,7 @@
          			{{ Form::select('dish_type', $dishTypes, null, ['placeholder' => 'Choose Dish Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}

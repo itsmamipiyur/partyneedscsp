@@ -51,7 +51,7 @@ Item Detail
 
 							@foreach($itemRates as $itemRate)
 							<tr>
-								<td>Php {{$itemRate->amount}}</td>
+								<td>Php {{number_format($itemRate->amount, 2, '.', ',')}}</td>
 								@if($itemRate->unitCode == '1')
 								<td>Hour</td>
 								@elseif($itemRate->unitCode == '2')
@@ -77,7 +77,8 @@ Item Detail
 						{!! Form::open(['url' => '/item/addItemRate', 'id' => 'createForm', 'class' => 'ui form']) !!}
 						{{ Form::hidden('item_rate_code', $newID) }}
 						{{ Form::hidden('item_code', $item->itemCode) }}
-						<div class="ui form">	    
+						<div class="ui form">	 
+						<div class="ui error message"></div>   
 							<div class="two fields">
 								<div class="required field">
 									{{ Form::label('unit', 'Unit') }}
@@ -95,7 +96,7 @@ Item Detail
 									{{ Form::text('amount', null, ['maxlength'=>'12','class' => 'money', 'placeholder' => 'Amount']) }}
 								</div>
 							</div>
-							<div class="ui error message"></div>
+							
 						</div>
 						<div class="actions">
 							{{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -131,7 +132,7 @@ Item Detail
 							<td>Damaged</td>
 							@endif
 							<td>{{$penaltyFee->minQuantity}}</td>
-							<td>Php {{$penaltyFee->amount}}</td>
+							<td>Php {{number_format($penaltyFee->amount, 2, '.', ',')}}</td>
 							<td class="center aligned">
 								<button class="ui icon circular blue button" onclick="$('#updatePenalty{{$penaltyFee->itemPenaltyCode}}').modal('show');"><i class="edit icon"></i></button>
 								<button class="ui icon circular red button" onclick="$('#deletePenalty{{$penaltyFee->itemPenaltyCode}}').modal('show');"><i class="delete icon"></i></button>
@@ -151,7 +152,8 @@ Item Detail
 					{!! Form::open(['url' => '/item/addPenalty', 'id' => 'createForm', 'class' => 'ui form']) !!}
 					{{ Form::hidden('penalty_code', $newIDs) }}
 					{{ Form::hidden('item_code', $item->itemCode) }}
-					<div class="ui form">	    
+					<div class="ui form">	
+					<div class="ui error message"></div>    
 						<div class="two fields">
 							<div class="required field">
 								{{ Form::label('penalty_type', 'Penalty Type') }}
@@ -159,7 +161,7 @@ Item Detail
 							</div>
 							<div class="required field">
 								{{ Form::label('minimum_quantity', 'Minimum Quantity') }}
-								{{ Form::text('minimum_quantity', null, ['maxlength'=>'10', 'id' => 'minQuantity', 'placeholder' => 'Type Minimum Quantity']) }}
+								{{ Form::text('minimum_quantity', null, ['id'=>'minQuantity', 'maxlength'=>'10', 'id' => 'minQuantity', 'placeholder' => 'Type Minimum Quantity']) }}
 							</div>
 						</div>
 						<div class="two fields">
@@ -175,7 +177,7 @@ Item Detail
 								{{ Form::text('effective_date', null, ['class' => 'effectiveDate', 'placeholder' => 'Select Date']) }}
 							</div>
 						</div>
-						<div class="ui error message"></div>
+						
 					</div>
 					<div class="actions">
 						{{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -196,7 +198,9 @@ Item Detail
 		{!! Form::open(['url' => '/item/updateItemRate', 'id' => 'createForm', 'class' => 'ui form']) !!}
 		{{ Form::hidden('item_rate_code', $itemRate->itemRateCode) }}
 		{{ Form::hidden('item_code', $item->itemCode) }}
-		<div class="ui form">	    
+		<div class="ui form">	
+		<div class="ui error message"></div>  
+			<div class="two fields">
 			<div class="required field">
 				{{ Form::label('amount', 'Amount') }}
 				<div class="ui center labeled input">
@@ -204,9 +208,13 @@ Item Detail
 					{{ Form::text('amount', $itemRate->amount, ['maxlength'=>'12','class' => 'money', 'placeholder' => 'Amount']) }}
 				</div>
 			</div>
-			
+			<div class="required field">
+				{{ Form::label('effective_date', 'Effective Date') }}
+				{{ Form::text('effective_date', null, ['class' => 'effectiveDate', 'placeholder' => 'Select Date']) }}
+			</div>
+			</div>  
 		</div>
-		<div class="ui error message"></div>
+		
 	</div>
 	<div class="actions">
 		{{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -241,7 +249,8 @@ Item Detail
 		{!! Form::open(['url' => '/item/updatePenalty', 'id' => 'createForm', 'class' => 'ui form']) !!}
 		{{ Form::hidden('penalty_code', $penaltyFee->itemPenaltyCode) }}
 		{{ Form::hidden('item_code', $item->itemCode) }}
-		<div class="ui form">	    
+		<div class="ui form">	 
+		<div class="ui error message"></div>   
 			<div class="two fields">
 				<div class="required field">
 					{{ Form::label('minimum_quantity', 'Minimum Quantity') }}
@@ -254,8 +263,12 @@ Item Detail
 						{{ Form::text('amount', $penaltyFee->amount, ['maxlength'=>'12','class' => 'money', 'placeholder' => 'Amount']) }}
 					</div>
 				</div>
+				<div class="required field">
+					{{ Form::label('effective_date', 'Effective Date') }}
+					{{ Form::text('effective_date', null, ['class' => 'effectiveDate', 'placeholder' => 'Select Date']) }}
+				</div>
 			</div>
-			<div class="ui error message"></div>
+			
 		</div>
 	</div>
 	<div class="actions">
@@ -287,6 +300,14 @@ Item Detail
 @endsection
 
 @section('js')
+<style>
+
+
+        #amount, #minQuantity {
+            text-align: right;
+        }
+
+</style>
 <script>
 	$(document).ready( function(){
 		$('.effectiveDate').datetimepicker();
@@ -349,6 +370,10 @@ Item Detail
 				{
 					type   : 'empty',
 					prompt : 'Please enter the minimum quantity'
+				},
+				{
+				  type   : "regExp[^[1-9][0-9]*$]",
+				  prompt : 'Please enter a valid number for Minimum quantity'
 				}
 				]
 			},
@@ -359,51 +384,16 @@ Item Detail
 				{
 					type   : 'empty',
 					prompt : 'Please enter the valid amount'
-				},
+				}
+				]
+			},
+			effective_date: {
+				identifier : 'effective_date',
+				rules: [
 				{
-				    type   : 'not[0]',
-				    prompt : 'Please enter the valid amount'
-				},
-				{
-				    type   : 'not[00]',
-				    prompt : 'Please enter the valid amount'
-				},
-				{
-				    type   : 'not[0.00]',
-				    prompt : 'Please enter the valid amount'
-				},
-				{
-				    type   : 'not[00.00]',
-				    prompt : 'Please enter the valid amount'
-				},
-				{
-				    type   : 'not[000.00]',
-				    prompt : 'Please enter the valid amount'
-				},
-				{
-				    type   : 'not[0000.00]',
-				    prompt : 'Please enter the valid amount'
-				},
-				{
-				    type   : 'not[00000.00]',
-				    prompt : 'Please enter the valid amount'
-				},
-				{
-				    type   : 'not[000000.00]',
-				    prompt : 'Please enter the valid amount'
-				},
-				{
-				    type   : 'not[0000000.00]',
-				    prompt : 'Please enter the valid amount'
-				},
-				{
-				    type   : 'not[00000000.00]',
-				    prompt : 'Please enter the valid amount'
-				},
-				{
-				    type   : 'not[000000000.00]',
-				    prompt : 'Please enter the valid amount'
-				},
+					type : 'empty',
+					prompt : 'Please select effective data'
+				}
 				]
 			}
 				
@@ -421,7 +411,7 @@ Item Detail
 		}
 
 		$('.ui.form').form(formValidationRules, formSettings);
-		$('.money').mask("##0.00", {reverse: true});
+		$('.money').mask("#,##0.00", {reverse: true});
 
 		var table = $('#tblItem').DataTable();
 		var penalty = $('#tblPenalty').DataTable();

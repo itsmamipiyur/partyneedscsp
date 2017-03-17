@@ -48,7 +48,7 @@ Package
 			<tr>
 				<td>{{$cateringPackage->cateringPackageName}}</td>		      
 				<td>{{$cateringPackage->cateringPackageDesc}}</td>
-				<td>Php {{$cateringPackage->cateringPackageAmount}}</td>
+				<td>Php {{number_format($cateringPackage->cateringPackageAmount, 2, '.', ',')}}</td>
 				<td class="center aligned">
 					<a href="{{url('/cateringPackage/'. $cateringPackage->cateringPackageCode)}}" class="ui teal button">Package Details</a>
 					<button class="ui blue button" onclick="$('#update{{$cateringPackage->cateringPackageCode}}').modal('show');"><i class="edit icon"></i> Update</button>
@@ -71,7 +71,7 @@ Package
 	<div class="content">
 		{!! Form::open(['url' => '/cateringPackage/cateringPackage_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 		<div class="ui form">
-
+			<div class="ui error message"></div>
 			{{ Form::hidden('cateringPackage_code', $cateringPackage->cateringPackageCode) }}
 			<div class="required field">
 				{{ Form::label('cateringPackage_name', 'Name') }}
@@ -89,7 +89,7 @@ Package
 				</div>
 			</div>
 		</div>
-		<div class="ui error message"></div>
+		
 	</div>
 	<div class="actions">
 		{{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -129,7 +129,7 @@ Package
 	<div class="content">
 		{!! Form::open(['url' => '/cateringPackage', 'id' => 'createForm', 'class' => 'ui form']) !!}
 		<div class="ui form">
-
+			<div class="ui error message"></div>
 			<div class="disabled field">
 				{{ Form::hidden('cateringPackage_code', $newID, ['placeholder' => 'Type Package Code']) }}
 			</div>
@@ -193,7 +193,7 @@ Package
 			</div>
 
 		</div>
-		<div class="ui error message"></div>
+		
 	</div>
 	<div class="actions">
 		{{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -204,6 +204,14 @@ Package
 </div>	
 @endsection
 @section('js')
+<style>
+
+
+        #amount{
+            text-align: right;
+        }
+
+</style>
 <script>
 	$(document).ready( function(){
 		$('.ui.modal').modal({
@@ -457,7 +465,7 @@ Package
     		}
     	}
     });
-		$('.money').mask("##0.00", {reverse: true});
+		$('.money').mask("#,##0.00", {reverse: true});
 		var table = $('#tblPackage').DataTable();
 		$('#cateringPackageType').on("change", function(){
 			var val = $( "select#cateringPackageType" ).val();

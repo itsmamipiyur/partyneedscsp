@@ -121,7 +121,7 @@ class EquipmentTypeController extends Controller
 
     public function equipmentType_update(Request $request)
     {
-      $rules = ['equipment_type_name' => 'required|max:100'];
+      $rules = ['equipment_type_name' => 'required|max:100|unique:tblequipmenttype,equipmentTypeName,'.$request->equipment_type_code.',equipmentTypeCode'];
       $id = $request->equipment_type_code;
       $name = $request->equipment_type_name;
 

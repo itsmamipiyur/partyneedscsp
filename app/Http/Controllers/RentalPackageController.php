@@ -69,14 +69,15 @@ class RentalPackageController extends Controller
                'rentalPackage_item'  => 'required|array|min:1',];
 
      $this->validate($request, $rules);
-
+     $amount = preg_replace('/[\,]/', '', $request->amount);
+     $amount = floatval($amount);
      $rentalPackage = new RentalPackage;
      $rentalPackage->rentalPackageCode = $request->rentalPackage_code;
      $rentalPackage->rentalPackageName = $request->rentalPackage_name;
      $rentalPackage->rentalPackageDesc = $request->rentalPackage_description;
      $rentalPackage->rentalPackageDuration = $request->rentalPackage_duration;
      $rentalPackage->rentalPackageUnit = $request->rentalPackage_unit;
-     $rentalPackage->rentalPackageAmount = $request->amount;
+     $rentalPackage->rentalPackageAmount = $amount;
      $rentalPackage->save();
 
      $rentalPackage = RentalPackage::find($request->rentalPackage_code);
@@ -151,15 +152,18 @@ class RentalPackageController extends Controller
  public function rentalPackage_update(Request $request)
   {
     $rules = ['rentalPackage_code' => 'required',
-			 'rentalPackage_name' => 'required',
-			 'amount' => 'required',];
+			 'rentalPackage_name' => 'required|unique:tblRentalPackage,rentalPackageName,'.$request->rentalPackage_code.',rentalPackageCode',
+			 'amount' => 'required'];
     $this->validate($request, $rules);
-
+    $amount = preg_replace('/[\,]/', '', $request->amount);
+    $amount = floatval($amount);
     $id = $request->rentalPackage_code;
     $rentalPackage = RentalPackage::find($id);
     $rentalPackage->rentalPackageName = $request->rentalPackage_name;
-	$rentalPackage->rentalPackageDesc = $request->rentalPackage_description;
-	$rentalPackage->rentalPackageAmount = $request->amount;
+  	$rentalPackage->rentalPackageDesc = $request->rentalPackage_description;
+  	$rentalPackage->rentalPackageAmount = $amount;
+    $rentalPackage->rentalPackageDuration = $request->rentalPackage_duration;
+    $rentalPackage->rentalPackageUnit = $request->rentalPackage_unit;
     $rentalPackage->save();
 
     return redirect('rentalPackage')->with('alert-success', 'RentalPackage ' . $id . ' was successfully updated.');

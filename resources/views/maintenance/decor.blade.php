@@ -78,7 +78,7 @@
 	  <div class="content">
 	     {!! Form::open(['url' => '/decor/decor_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 	    		{{ Form::hidden('decor_code', $decor->decorCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('decor_name', 'Decor Name') }}
@@ -93,7 +93,7 @@
          			{{ Form::select('decor_type', $decorTypes, $decor->decorType, ['placeholder' => 'Choose Decor Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -136,7 +136,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/decor', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 
 	    		<div class="disabled field">
 	    			
@@ -155,7 +155,7 @@
          			{{ Form::select('decor_type', $decorTypes, null, ['placeholder' => 'Choose Decor Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}

@@ -72,7 +72,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/equipmentType/equipmentType_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-
+	    		<div class="ui error message"></div>
 	    		{{ Form::hidden('equipment_type_code', $equipmentType->equipmentTypeCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('equipment_type_name', 'Name') }}
@@ -83,7 +83,7 @@
           			{{ Form::textarea('equipment_type_description', $equipmentType->equipmentTypeDesc, ['maxlength'=>'200', 'placeholder' => 'Type Equipment Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
-	    		<div class="ui error message"></div>
+	    		
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -126,7 +126,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/equipmentType', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 
 	    		<div class="disabled field">
 	    	
@@ -141,7 +141,7 @@
           			{{ Form::textarea('equipment_type_description', '', ['maxlength'=>'200', 'placeholder' => 'Type Equipment Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
 
         </div>
 	  <div class="actions">

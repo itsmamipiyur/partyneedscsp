@@ -72,7 +72,7 @@
 	  <div class="content">
 	     {!! Form::open(['url' => '/dinnerwareType/dinnerwareType_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 	    		{{ Form::hidden('dinnerware_type_code', $dinnerwareType->dinnerwareTypeCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('dinnerware_type_name', 'Name') }}
@@ -83,7 +83,7 @@
           			{{ Form::textarea('dinnerware_type_description', $dinnerwareType->dinnerwareTypeDesc, ['maxlength'=>'200', 'placeholder' => 'Type Dinnerware Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -126,7 +126,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/dinnerwareType', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    	
+	    		<div class="ui error message"></div>
 	    		<div class="disabled field">
 	    			
          			{{ Form::hidden('dinnerware_type_code', $newID, ['placeholder' => 'Type Dinnerware Type Code']) }}
@@ -140,7 +140,7 @@
           			{{ Form::textarea('dinnerware_type_description', '', ['maxlength'=>'200','placeholder' => 'Type Dinnerware Type Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
-	    		<div class="ui error message"></div>
+	    		
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}

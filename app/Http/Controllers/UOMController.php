@@ -119,7 +119,7 @@ class UOMController extends Controller
 
     public function uom_update(Request $request)
     {
-       $rules = ['uom_symbol' => 'required|max:100'];
+       $rules = ['uom_symbol' => 'required|max:100|unique:tblUOM,uomSymbol,'.$request->uom_code.',uomCode' ];
        $id = $request->uom_code;
        $name = $request->uom_symbol;
        $this->validate($request, $rules);

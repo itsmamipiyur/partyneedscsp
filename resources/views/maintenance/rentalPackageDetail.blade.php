@@ -81,12 +81,13 @@
 	  		{{ Form::hidden('rentalPackage_code', $rentalPackage->rentalPackageCode) }}
 	  		{{ Form::hidden('item_code', $item->itemCode) }}
 	  		<div class="ui form">
+	  		<div class="ui error message"></div>
 		  		<div class="required field">
 	    			{{ Form::label('quantity', 'Quantity') }}
 	     			{{ Form::text('quantity', $item->pivot->quantity, ['maxlength'=>'9', 'placeholder' => 'quantity', 'autofocus' => 'true']) }}
 	    		</div>
 	  		</div>
-	  		<div class="ui error message"></div>
+	  		
 	  </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -101,7 +102,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/rentalPackage/addItem', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
           		{{ Form::hidden('rentalPackage_code', $rentalPackage->rentalPackageCode) }}
 	    		<table id="tblItem" class="ui compact celled definition table" >
 				  <thead class="full-width">
@@ -129,7 +130,7 @@
 				  </tbody>
 				</table>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}

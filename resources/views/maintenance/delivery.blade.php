@@ -49,7 +49,7 @@
                 @foreach($deliveries as $delivery)
                 <tr>
                   <td>{{$delivery->deliveryLocation}}</td>
-                  <td>Php {{$delivery->deliveryFee}}</td>
+                  <td>Php {{number_format($delivery->amount, 2, '.', ',')}}</td>
                   <td class="center aligned">
                     <button class="ui blue button" onclick="$('#update{{$delivery->deliveryCode}}').modal('show');"><i class="edit icon"></i> Update</button>
                     @if($delivery->deleted_at == null)
@@ -72,21 +72,21 @@
       <div class="content">
         {!! Form::open(['url' => '/delivery/delivery_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
             <div class="ui form">
-                
+                <div class="ui error message"></div>
                 {{ Form::hidden('delivery_code', $delivery->deliveryCode) }}
                 <div class="required field">
                     {{ Form::label('delivery_location', 'Delivery Location') }}
                     {{ Form::text('delivery_location', $delivery->deliveryLocation, ['maxlength'=>'30','placeholder' => 'Type Delivery Location']) }}
                 </div>
                 <div class="required field">
-                    {{ Form::label('delivery_fee', 'Delivery Fee') }}
+                    {{ Form::label('amount', 'Delivery Fee') }}
                     <div class="ui center labeled input">
                     <div class="ui label">Php</div>
-                    {{ Form::text('delivery_fee', $delivery->deliveryFee, ['maxlength'=>'8','class' => 'money', 'placeholder' => 'Fee']) }}
+                    {{ Form::text('amount', $delivery->amount, ['maxlength'=>'8','class' => 'money', 'placeholder' => 'Fee']) }}
                     </div>
                 </div>
             </div>
-            <div class="ui error message"></div>
+            
         </div>
       <div class="actions">
             {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -129,7 +129,7 @@
       <div class="content">
         {!! Form::open(['url' => '/delivery', 'id' => 'createForm', 'class' => 'ui form']) !!}
             <div class="ui form">
-                
+                <div class="ui error message"></div>
 
                 <div class="disabled field">
                     
@@ -140,14 +140,14 @@
                     {{ Form::text('delivery_location', null, ['maxlength'=>'30', 'placeholder' => 'Type Delivery Location', 'autofocus' => 'true']) }}
                 </div>
                 <div class="required field">
-                    {{ Form::label('delivery_fee', 'Delivery Fee') }}
+                    {{ Form::label('amount', 'Delivery Fee') }}
                     <div class="ui center labeled input">
                     <div class="ui label">Php</div>
-                    {{ Form::text('delivery_fee', null, ['maxlength'=>'8', 'class' => 'money', 'placeholder' => 'Fee']) }}
+                    {{ Form::text('amount', null, ['maxlength'=>'8', 'class' => 'money', 'placeholder' => 'Fee']) }}
                     </div>
                 </div>
             </div>
-            <div class="ui error message"></div>
+            
         </div>
         <div class="actions">
               {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -158,6 +158,14 @@
 @endsection
 
 @section('js')
+<style>
+
+
+        #amount{
+            text-align: right;
+        }
+
+</style>
 <script>
   $(document).ready( function(){
 
@@ -196,8 +204,8 @@
       }
       ]
     },
-    delivery_fee: {
-        identifier : 'delivery_fee',
+    amount: {
+        identifier : 'amount',
         rules: [
         {
           type   : 'empty',
@@ -228,7 +236,7 @@
     $('#title').addClass("active");
 
     var table = $('#tbldelivery').DataTable();
-    $('.money').mask("##0.00", {reverse: true});
+    $('.money').mask("#,##0.00", {reverse: true});
   });
 </script>
 @endsection

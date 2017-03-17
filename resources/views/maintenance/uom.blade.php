@@ -72,7 +72,7 @@
 	  <div class="content">
 	   {!! Form::open(['url' => '/uom/uom_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 	    		{{ Form::hidden('uom_code', $uom->uomCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('uom_symbol', 'Symbol') }}
@@ -83,7 +83,7 @@
           			{{ Form::textarea('uom_description', $uom->uomDesc, ['maxlength'=>'200', 'placeholder' => 'Type Unit of Measurement Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
 
         </div>
 	  <div class="actions">
@@ -127,7 +127,7 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/uom', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
+	    		<div class="ui error message"></div>
 
 	    		<div class="disabled field" >
 	    			<!-- {{ Form::label('uom_code', 'Code') }} -->
@@ -142,7 +142,7 @@
           			{{ Form::textarea('uom_description', '', ['maxlength'=>'200', 'placeholder' => 'Type Unit of Measurement Description', 'rows' => '2']) }}
 	    		</div>
 	    	</div>
-	    	<div class="ui error message"></div>
+	    	
         </div>
 	  <div class="actions">
             {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button']) }}

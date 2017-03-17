@@ -81,7 +81,7 @@ Menu Detail
 						<td>Set</td>
 						@endif
 						<td>{{ $menuRate->pax }}</td>
-						<td>Php {{ $menuRate->amount }}</td>
+						<td>Php {{number_format($menuRate->amount, 2, '.', ',')}}</td>
 						<td>{{ $menuRate->effectiveDate }}</td>
 						<td class="center aligned">
 							<button class="ui icon circular blue button" onclick="$('#updateRate{{$menuRate->menuRateCode}}').modal('show');"><i class="edit icon"></i></button>
@@ -98,6 +98,7 @@ Menu Detail
 				<h3>New Menu Rate</h3>
 				{!! Form::open(['url' => '/menu/addMenuRate', 'id' => 'createForm', 'class' => 'ui form']) !!}
 				<div class="ui form">
+				<div class="ui error message"></div>
 					{{ Form::hidden('menu_code', $menu->menuCode) }}
 					{{ Form::hidden('menu_rate_code', $newID) }}
 					<div class="two fields">
@@ -128,7 +129,7 @@ Menu Detail
 						{{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
 						{!! Form::close() !!}
 					</div>
-					<div class="ui error message"></div>
+					
 				</div>
 			</div>
 		</div>
@@ -160,7 +161,7 @@ Menu Detail
 	<div class="content">
 		{!! Form::open(['url' => '/menu/addMenuDish', 'id' => 'createForm', 'class' => 'ui form']) !!}
 		<div class="ui form">
-
+			<div class="ui error message"></div>
 
 			{{ Form::hidden('menu_code', $menu->menuCode) }}
 
@@ -169,7 +170,7 @@ Menu Detail
 				{{ Form::select('dish_code', $dishes, null, ['placeholder' => 'Choose Dish', 'class' => 'ui search dropdown']) }}
 			</div>
 		</div>
-		<div class="ui error message"></div>
+		
 	</div>
 	<div class="actions">
 		{{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -185,6 +186,7 @@ Menu Detail
 	<div class="content">
 		{!! Form::open(['url' => '/menu/updateMenuRate', 'id' => 'createForm', 'class' => 'ui form']) !!}
 		<div class="ui form">
+		<div class="ui error message"></div>
 			{{ Form::hidden('menu_rate_code', $menuRate->menuRateCode) }}
 			{{ Form::hidden('menu_code', $menu->menuCode) }}
 			<div class="required field">
@@ -199,8 +201,12 @@ Menu Detail
 				{{ Form::label('amount', 'Amount') }}
 				{{ Form::text('amount', $menuRate->amount, ['class' => 'money','placeholder' => 'Type Amount']) }}
 			</div>
+			<div class="required field">
+				{{ Form::label('effective_date', 'Effective Date') }}
+				{{ Form::text('effective_date', null, ['class' => 'effectiveDate', 'placeholder' => 'Select Date']) }}
+			</div>
 		</div>
-		<div class="ui error message"></div>
+		
 	</div>
 	<div class="actions">
 		{{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -228,6 +234,14 @@ Menu Detail
 @endsection
 
 @section('js')
+<style>
+
+
+        #amount, #pax {
+            text-align: right;
+        }
+
+</style>
 <script>
 	$(document).ready( function(){
 		$('.effectiveDate').datetimepicker();
@@ -285,6 +299,15 @@ Menu Detail
 					prompt : 'Please enter the valid amount'
 				}
 				]
+			},
+			effective_date: {
+				identifier : 'effective_date',
+				rules: [
+				{
+					type : 'empty',
+					prompt : 'Please select effective data'
+				}
+				]
 			}
 		}
 
@@ -320,7 +343,7 @@ Menu Detail
 		$('#menus').addClass("active grey");
 		$('#menu_content').addClass("active");
 		$('#menu').addClass("active");
-		$('.money').mask("##0.00", {reverse: true});
+		$('.money').mask("#,##0.00", {reverse: true});
 		$('.menu .item').tab();
 
 		var table = $('#tblMenu').DataTable();

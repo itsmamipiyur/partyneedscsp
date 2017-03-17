@@ -169,7 +169,8 @@ class MenuController extends Controller
 
  public function menu_update(Request $request)
   {
-    $rules = ['menu_name' => 'required | max:100 '];
+    $rules = ['menu_name' => 'required | max:100|unique:tblMenu,menuName,'.$request->menu_code.',menuCode' ];
+
 
     $id = $request->menu_code;
 
@@ -229,11 +230,12 @@ class MenuController extends Controller
     $rules = [//'menu_code' => 'required',
               'menu_rate_code' => 'required',
               'menu_code' => 'required|unique:tblMenuRate,menuCode,NULL,menuRateCode,servingType,'. Input::get('menu_type') . ',pax,' . Input::get('pax') . ',effectiveDate,' . Input::get('effective_date'),
-              'amount' => 'required|numeric',
+              'amount' => 'required',
               'menu_type' => 'required',
               'effective_date' => 'required|date'];
     $this->validate($request, $rules);
-
+    $amount = preg_replace('/[\,]/', '', $request->amount);
+      $amount = floatval($amount);
     $id = $request->menu_code;
 
     $rate = new MenuRate;
@@ -241,7 +243,7 @@ class MenuController extends Controller
     $rate->menuCode = $request->menu_code;
     $rate->servingType = $request->menu_type;
     $rate->pax = $request->pax;
-    $rate->amount = $request->amount;
+    $rate->amount = $amount;
     $rate->effectiveDate = $request->effective_date;
     $rate->save();
 
@@ -252,11 +254,12 @@ class MenuController extends Controller
   {
     $rules = ['menu_rate_code' => 'required', 'menu_type' => 'required', 'pax' => 'required', 'amount' => 'required'];
     $id = $request->menu_rate_code;
-
+    $amount = preg_replace('/[\,]/', '', $request->amount);
+    $amount = floatval($amount);
     $rate = MenuRate::find($id);
     $rate->servingType = $request->menu_type;
     $rate->pax = $request->pax;
-    $rate->amount = $request->amount;
+    $rate->amount = $amount;
     $rate->save();
 
     return redirect('/menu/'. $request->menu_code)->with('alert-success', 'Menu Rate was successfully updated.');

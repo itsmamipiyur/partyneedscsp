@@ -113,7 +113,7 @@ class DinnerwareTypeController extends Controller
 
   public function dinnerwareType_update(Request $request)
     {
-      $rules = ['dinnerware_type_name' => 'required | max:100'];
+      $rules = ['dinnerware_type_name' => 'required | max:100|unique:tbldinnerwaretype,dinnerwareTypeName,'.$request->dinnerware_type_code.',dinnerwareTypeCode' ];
       $id = $request->dinnerware_type_code;
       $name = $request->dinnerware_type_name;
       $this->validate($request, $rules);

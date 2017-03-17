@@ -52,7 +52,7 @@
 			  	<tr>
 			      <td>{{$rentalPackage->rentalPackageName}}</td>		      
 			      <td>{{$rentalPackage->rentalPackageDesc}}</td>
-			      <td>Php {{$rentalPackage->rentalPackageAmount}}</td>
+			      <td>Php {{number_format($rentalPackage->rentalPackageAmount, 2, '.', ',')}}</td>
 			      <td class="center aligned">
 			      	<a href="{{url('/rentalPackage/'. $rentalPackage->rentalPackageCode)}}" class="ui teal button">Package Details</a>
 					<button class="ui blue button" onclick="$('#update{{$rentalPackage->rentalPackageCode}}').modal('show');"><i class="edit icon"></i> Update</button>
@@ -85,6 +85,22 @@
 	    		<div class="field">
 	    			{{ Form::label('rentalPackage_description', 'Description') }}
           			{{ Form::textarea('rentalPackage_description', $rentalPackage->rentalPackageDesc, ['maxlength' => '200', 'placeholder' => 'Type Package Description', 'rows' => '2']) }}
+	    		</div>
+	    		<div class="row">
+		    		<div class="ui grid">
+		    			<div class="eight wide column">
+		    				<div class="required field">
+				    			{{ Form::label('rentalPackage_duration', 'Duration') }}
+			         			{{ Form::text('rentalPackage_duration', $rentalPackage->rentalPackageDuration, ['maxlength'=>'4', 'placeholder' => 'Duration']) }}
+				    		</div>
+		    			</div>
+		    			<div class="eight wide column">
+		    				<div class="required field">
+				    			{{ Form::label('rentalPackage_unit', 'Unit') }}
+			         			{{ Form::select('rentalPackage_unit', $units, $rentalPackage->rentalPackageUnit, ['placeholder' => 'Choose Unit', 'class' => 'ui fluid dropdown']) }}
+				    		</div>
+		    			</div>
+		    		</div>
 	    		</div>
 	    		<div class="required field">
                     {{ Form::label('amount', 'Amount') }}
@@ -202,6 +218,14 @@
 @endsection
 
 @section('js')
+<style>
+
+
+        #amount, #rentalPackage_duration {
+            text-align: right;
+        }
+
+</style>
 <script>
   $(document).ready( function(){
 
@@ -326,7 +350,7 @@
     	}
     });
 
-    $('.money').mask("##0.00", {reverse: true});
+    $('.money').mask("#,##0.00", {reverse: true});
     var table = $('#tblPackage').DataTable();
     var tableItem = $('#tblItem').DataTable();
   });

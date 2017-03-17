@@ -117,7 +117,7 @@ class DishTypeController extends Controller
 
     public function dishType_update(Request $request){
         $rules = [
-            'dishtype_name' => 'required',
+            'dishtype_name' => 'required|unique:tblDishtype,dishTypeName,'.$request->dishtype_code.',dishTypeCode',
             'dishtype_code' => 'required',
             ];
         $this->validate($request, $rules);

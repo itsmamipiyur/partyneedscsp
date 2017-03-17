@@ -18,7 +18,7 @@ class CateringPackage extends Model
 	protected $casts = ['cateringPackageCode' => 'string'];
 
 	public function menus(){
-		return $this->belongsToMany('App\Menu', 'tblCateringPackageMenu',  'cateringPackageCode', 'menuCode')->withPivot('pax');;
+		return $this->belongsToMany('App\Menu', 'tblCateringPackageMenu',  'cateringPackageCode', 'menuCode')->withPivot('menuRateCode');
 	}
 
 	public function items(){

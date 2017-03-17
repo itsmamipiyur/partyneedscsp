@@ -122,7 +122,7 @@ class DishController extends Controller
 
     public function dish_update(Request $request)
     {
-      $rules = ['dish_name' => 'required | max:100',
+      $rules = ['dish_name' => 'required | max:100|unique:tblDish,dishName,'.$request->dish_code.',dishCode',
                 'dish_type' => 'required'];
 
       $this->validate($request, $rules);

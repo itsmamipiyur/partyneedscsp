@@ -51,7 +51,7 @@ Penalty
       <tr>
         <td>{{$penalty->penaltyName}}</td>
         <td>{{$penalty->penaltyDesc}}</td>
-        <td>Php {{$penalty->amount}}</td>
+        <td>Php {{number_format($penalty->amount, 2, '.', ',')}}</td>
 
         <td class="center aligned">
           <button class="ui blue button" onclick="$('#update{{$penalty->penaltyCode}}').modal('show');"><i class="edit icon"></i> Update</button>
@@ -75,7 +75,7 @@ Penalty
   <div class="content">
     {!! Form::open(['url' => '/penalty/penalty_update', 'id' => 'createForm', 'class' => 'ui form']) !!}
     <div class="ui form">
-
+      <div class="ui error message"></div>
       {{ Form::hidden('penalty_code', $penalty->penaltyCode) }}
       <div class="required field">
         {{ Form::label('penalty_name', 'Name') }}
@@ -94,7 +94,7 @@ Penalty
           {{ Form::text('amount', $penalty->amount, ['maxlength'=>'8',  'class' => 'money', 'placeholder' => 'Amount']) }}
         </div>
       </div>      
-    <div class="ui error message"></div>
+    
     </div>
   </div>
   <div class="actions">
@@ -138,7 +138,7 @@ Penalty
   <div class="content">
     {!! Form::open(['url' => '/penalty', 'id' => 'createForm', 'class' => 'ui form']) !!}
     <div class="ui form">
-
+      <div class="ui error message"></div>
       {{ Form::hidden('penalty_code', $newID, ['placeholder' => 'Type Penalty Code']) }}
 
       <div class="required field">
@@ -159,7 +159,7 @@ Penalty
         </div>
       </div>
     </div>
-    <div class="ui error message"></div>
+    
   </div>
   <div class="actions">
     {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
@@ -170,6 +170,14 @@ Penalty
 @endsection
 
 @section('js')
+<style>
+
+
+        #amount {
+            text-align: right;
+        }
+
+</style>
 <script>
   $(document).ready( function(){
 
@@ -391,7 +399,7 @@ return false;
       }
     });
 
-    $('.money').mask("##0.00", {reverse: true});
+    $('.money').mask("#,##0.00", {reverse: true});
 
   });
 

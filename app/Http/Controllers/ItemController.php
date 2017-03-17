@@ -204,7 +204,7 @@ class ItemController extends Controller
     public function item_update(Request $request)
     {
       $rules = ['item_code' => 'required',
-               'item_name' => 'required',
+               'item_name' => 'required|unique:tblitem,itemName,'.$request->item_code.',itemCode',
                'item_type' => 'required',
                'uom_code' => 'required'];
 
@@ -254,9 +254,11 @@ class ItemController extends Controller
                 'amount' => 'required|max:100'];
 
       $this->validate($request, $rules);
+      $amount = preg_replace('/[\,]/', '', $request->amount);
+      $amount = floatval($amount);
       $itemRate = ItemRate::find($request->item_rate_code);
       //$itemRate->uomCode = $request->unit;
-      $itemRate->amount = $request->amount;
+      $itemRate->amount = $amount;
       $itemRate->save();
 
       return redirect('item/' . $request->item_code)->with('alert-success', 'Item Rate was successfully updated.');
@@ -283,11 +285,13 @@ class ItemController extends Controller
                 'effective_date' => 'required|date'];
 
       $this->validate($request, $rules);
+      $amount = preg_replace('/[\,]/', '', $request->amount);
+      $amount = floatval($amount);
       $itemRate = new ItemRate;
       $itemRate->itemRateCode = $request->item_rate_code;
       $itemRate->itemCode = $request->item_code;
       $itemRate->unitCode = $request->unit;
-      $itemRate->amount = $request->amount;
+      $itemRate->amount = $amount;
       $itemRate->effectiveDate = $request->effective_date;
       $itemRate->save();
 
@@ -300,16 +304,18 @@ class ItemController extends Controller
                 'minimum_quantity' => 'required',
                 'penalty_type' => 'required',
                 'item_code' => 'required|unique:tblitemPenalty,itemCode,NULL,itemPenaltyCode,penaltyType,' . Input::get('penalty_type') .',effectiveDate,' . Input::get('effective_date'),
-                'amount' => 'required|numeric'];
+                'amount' => 'required'];
 
       $this->validate($request, $rules);
+      $amount = preg_replace('/[\,]/', '', $request->amount);
+      $amount = floatval($amount);
       $itemPenalty = new ItemPenalty;
       $itemPenalty->itemPenaltyCode = $request->penalty_code;
       $itemPenalty->itemCode = $request->item_code;
       $itemPenalty->penaltyType = $request->penalty_type;
       $itemPenalty->minQuantity = $request->minimum_quantity;
       $itemPenalty->effectiveDate = $request->effective_date;
-      $itemPenalty->amount = $request->amount;
+      $itemPenalty->amount = $amount;
       $itemPenalty->save();
 
       return redirect('item/' . $request->item_code)->with('alert-success', 'Penalty was successfully saved.');
@@ -323,9 +329,11 @@ class ItemController extends Controller
                 'amount' => 'required|max:100'];
 
       $this->validate($request, $rules);
+      $amount = preg_replace('/[\,]/', '', $request->amount);
+      $amount = floatval($amount);
       $itemPenalty = ItemPenalty::find($request->penalty_code);
       $itemPenalty->minQuantity = $request->minimum_quantity;
-      $itemPenalty->amount = $request->amount;
+      $itemPenalty->amount = $amount;
       $itemPenalty->save();
 
       return redirect('item/' . $request->item_code)->with('alert-success', 'Penalty was successfully updated.');

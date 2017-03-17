@@ -128,7 +128,7 @@ class EventTypeController extends Controller
     public function eventType_update(Request $request)
     {
       $rules = ['event_type_code' => 'required',
-                'event_type_name' => 'required'];
+                'event_type_name' => 'required|unique:tblEventType,eventTypeName,'.$request->event_type_code.',eventTypeCode' ];
 
       $id = $request->event_type_code;
 
