@@ -28,8 +28,8 @@ Penalty
 </div>
 
 <div class="row">
-  <button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Penalty</button>
-  <a href="{{ url('/archive/penalty') }}" class="ui teal button"><i class="archive icon"></i>Archive</a>
+  <button type="button" class="ui green button" onclick="$('#create').modal('show');" style="background-color: rgb(0,128,0);"><i class="add icon"></i>New Penalty</button>
+  <a href="{{ url('/archive/penalty') }}" class="ui teal button" style="background-color: rgb(0,128,128);"><i class="archive icon"></i>Archive</a>
 </div>
 <div class="row">
   <table class="ui brown table" id="tblPenalty">
@@ -98,7 +98,7 @@ Penalty
     </div>
   </div>
   <div class="actions">
-    {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+    {{ Form::button('Save', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
     {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
     {!! Form::close() !!}
   </div>
@@ -111,7 +111,7 @@ Penalty
   </div>
   <div class="actions">
     {!! Form::open(['url' => '/penalty/' . $penalty->penaltyCode, 'method' => 'delete']) !!}
-    {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+    {{ Form::button('Yes', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
     {{ Form::button('No', ['class' => 'ui negative button']) }}
     {!! Form::close() !!}
   </div>
@@ -125,7 +125,7 @@ Penalty
   <div class="actions">
     {!! Form::open(['url' => '/penalty/penalty_restore']) !!}
     {{ Form::hidden('penalty_code', $penalty->penaltyCode) }}
-    {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+    {{ Form::button('Yes', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
     {{ Form::button('No', ['class' => 'ui negative button']) }}
     {!! Form::close() !!}
   </div>
@@ -162,7 +162,7 @@ Penalty
     
   </div>
   <div class="actions">
-    {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+    {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
     {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
     {!! Form::close() !!}
   </div>

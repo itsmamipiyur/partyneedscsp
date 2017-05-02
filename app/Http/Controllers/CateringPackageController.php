@@ -20,26 +20,10 @@ class CateringPackageController extends Controller
   public function index()
   {
      //
-   $ids = \DB::table('tblCateringPackage')
-   ->select('cateringPackageCode')
-   ->orderBy('cateringPackageCode', 'desc')
-   ->first();
-
-   if ($ids == null) {
-     $newID = $this->smartCounter("PKG0000");
-   }else{
-     $newID = $this->smartCounter($ids->cateringPackageCode);
-   }
-
    $cateringPackages = CateringPackage::all();
-   $menus = Menu::orderBy('menuName')->pluck('menuName', 'menuCode');
-   $items = Item::orderBy('itemName')->pluck('itemName', 'itemCode');
 
    return view('maintenance.cateringPackage')
-   ->with('cateringPackages', $cateringPackages)
-   ->with('newID', $newID)
-   ->with('menus', $menus)
-   ->with('items', $items);
+   ->with('cateringPackages', $cateringPackages);
  }
 
  /**
@@ -50,6 +34,23 @@ class CateringPackageController extends Controller
  public function create()
  {
      //
+     $ids = \DB::table('tblCateringPackage')
+     ->select('cateringPackageCode')
+     ->orderBy('cateringPackageCode', 'desc')
+     ->first();
+
+     if ($ids == null) {
+       $newID = $this->smartCounter("PKG0000");
+     }else{
+       $newID = $this->smartCounter($ids->cateringPackageCode);
+     }
+
+     $menus = Menu::orderBy('menuName')->pluck('menuName', 'menuCode');
+     $items = Item::orderBy('itemName')->pluck('itemName', 'itemCode');
+     return view('maintenance.cateringPackageCreate')
+     ->with('newID', $newID)
+     ->with('menus', $menus)
+     ->with('items', $items);
  }
 
  /**
@@ -63,7 +64,9 @@ class CateringPackageController extends Controller
      //
    $rules = ['cateringPackage_code' => 'required',
    'cateringPackage_name' => 'required|unique:tblCateringPackage,cateringPackageName',
-   'amount' => 'required'];
+   'amount' => 'required',
+   'cateringPackage_menu' => 'required|array|min:1',
+   'cateringPackage_item' => 'required|array|min:1'];
 
    $this->validate($request, $rules);
    $amount = preg_replace('/[\,]/', '', $request->amount);
@@ -76,8 +79,18 @@ class CateringPackageController extends Controller
    $cateringPackage->save();
 
    $cateringPackage = CateringPackage::find($request->cateringPackage_code);
-   //$cateringPackage->menus()->attach($request->get('cateringPackage_menu'));
-   //$cateringPackage->items()->attach($request->get('cateringPackage_item'));
+   $menus = Input::get('cateringPackage_menu');
+   $rates = Input::get('rate');
+   $items = Input::get('cateringPackage_item');
+   $quantities = Input::get('quantity');
+
+   foreach($menus as $menu){
+      $cateringPackage->menus()->attach($menu, ['menuRateCode' => $rates[$menu]]);
+   }
+
+   foreach($items as $item){
+      $cateringPackage->items()->attach($item, ['quantity' => $quantities[$item]]);
+   }
 
    return redirect('cateringPackage')
    ->with('alert-success', 'CateringPackage was successfully added.');

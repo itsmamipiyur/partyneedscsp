@@ -31,7 +31,35 @@
           <td>Mami Piyur</td>
           <td>January 25, 2017</td>
           <td>Php 40,500.25</td>
-          <td class="center aligned">Actions</td>
+          <td class="center aligned"><button class="ui icon circular blue button""><i class="minus icon"></i></button>
+          <button class="ui icon circular orange button""><i class="reply mail icon"></i></button></td>
+        </tr>
+
+        <tr>
+          <td>JFINV00002</td>
+          <td>Mark Angelo Sags</td>
+          <td>Feb 14, 2017</td>
+          <td>Php 20,000.25</td>
+          <td class="center aligned"><button class="ui icon circular blue button""><i class="minus icon"></i></button>
+          <button class="ui icon circular orange button""><i class="reply mail icon"></i></button></td>
+        </tr>
+
+        <tr>
+          <td>JFINV00003</td>
+          <td>JoJo Vallega</td>
+          <td>June 14, 2017</td>
+          <td>Php 75,000.00</td>
+          <td class="center aligned"><button class="ui icon circular blue button""><i class="minus icon"></i></button>
+          <button class="ui icon circular orange button""><i class="reply mail icon"></i></button></td>
+        </tr>
+
+        <tr>
+          <td>JFINV00004</td>
+          <td>CyNeil Basilyo</td>
+          <td>March 4, 2017</td>
+          <td>Php 1,500.00</td>
+          <td class="center aligned"><button class="ui icon circular blue button""><i class="minus icon"></i></button>
+          <button class="ui icon circular orange button""><i class="reply mail icon"></i></button></td>
         </tr>
       </tbody>
 		</table>

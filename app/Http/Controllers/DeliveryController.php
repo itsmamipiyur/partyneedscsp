@@ -54,7 +54,7 @@ class DeliveryController extends Controller
     $delivery = new Delivery;
     $delivery->deliveryCode = $request->delivery_code;
     $delivery->deliveryLocation = $request->delivery_location;
-    $delivery->amount = $amount;
+    $delivery->deliveryFee = $amount;
     $delivery->save();
 
     return redirect('delivery')->with('alert-success', 'Delivery Fee was successfully saved.');
@@ -125,7 +125,7 @@ public function delivery_update(Request $request)
       $amount = floatval($amount);
       $delivery = Delivery::find($id);
       $delivery->deliveryLocation = $request->delivery_location;
-      $delivery->amount = $amount;
+      $delivery->deliveryFee = $amount;
       $delivery->save();
 
       return redirect('delivery')->with('alert-success', 'Delivery ' . $id . ' was successfully updated.');

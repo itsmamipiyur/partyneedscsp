@@ -28,8 +28,8 @@
     </div>
 
     <div class="row">
-        <button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Delivery</button>
-        <a href="{{ url('/archive/delivery') }}" class="ui teal button"><i class="archive icon"></i>Archive</a>
+        <button type="button" class="ui green button" onclick="$('#create').modal('show');" style="background-color: rgb(0,128,0);"><i class="add icon"></i>New Delivery</button>
+        <a href="{{ url('/archive/delivery') }}" class="ui teal button" style="background-color: rgb(0,128,128);"><i class="archive icon"></i>Archive</a>
     </div>
     <div class="row">
         <table class="ui table" id="tbldelivery">
@@ -49,7 +49,7 @@
                 @foreach($deliveries as $delivery)
                 <tr>
                   <td>{{$delivery->deliveryLocation}}</td>
-                  <td>Php {{number_format($delivery->amount, 2, '.', ',')}}</td>
+                  <td>Php {{number_format($delivery->deliveryFee, 2, '.', ',')}}</td>
                   <td class="center aligned">
                     <button class="ui blue button" onclick="$('#update{{$delivery->deliveryCode}}').modal('show');"><i class="edit icon"></i> Update</button>
                     @if($delivery->deleted_at == null)
@@ -82,14 +82,14 @@
                     {{ Form::label('amount', 'Delivery Fee') }}
                     <div class="ui center labeled input">
                     <div class="ui label">Php</div>
-                    {{ Form::text('amount', $delivery->amount, ['maxlength'=>'8','class' => 'money', 'placeholder' => 'Fee']) }}
+                    {{ Form::text('amount', $delivery->deliveryFee, ['maxlength'=>'8','class' => 'money', 'placeholder' => 'Fee']) }}
                     </div>
                 </div>
             </div>
             
         </div>
       <div class="actions">
-            {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Save', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
         {!! Form::close() !!}
       </div>
@@ -102,7 +102,7 @@
       </div>
       <div class="actions">
         {!! Form::open(['url' => '/delivery/' . $delivery->deliveryCode, 'method' => 'delete']) !!}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Yes', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
       </div>
@@ -116,7 +116,7 @@
       <div class="actions">
         {!! Form::open(['url' => '/delivery/delivery_restore']) !!}
             {{ Form::hidden('delivery_code', $delivery->deliveryCode) }}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Yes', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
       </div>
@@ -150,7 +150,7 @@
             
         </div>
         <div class="actions">
-              {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+              {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
               {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
             {!! Form::close() !!}
         </div>

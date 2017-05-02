@@ -28,7 +28,7 @@
 	</div>
 
 	<div class="row">
-		<a href="{{ url('/eventType') }}" class="ui brown button"><i class="archive icon"></i>Back to Event Type</a>
+		<a href="{{ url('/eventType') }}" class="ui brown button"><i class="arrow circle left icon"></i>Back to Event Type</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tbleventtype">

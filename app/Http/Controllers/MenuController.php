@@ -283,4 +283,12 @@ class MenuController extends Controller
       return view('archive.menu')
           ->with('menus', $menus);
   }
+
+  public function getMenuRate($id)
+  {
+    $menuRates = \DB::table('tblMenuRate')
+            ->where('menuCode', '=', $id)
+            ->get();
+    return response()->json($menuRates);
+  }
 }

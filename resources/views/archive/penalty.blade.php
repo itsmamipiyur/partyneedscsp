@@ -28,8 +28,8 @@ Penalty
 </div>
 
 <div class="row">
-  <a href="{{ url('/penalty') }}" class="ui teal button"><i class="archive icon"></i>Back to Penalty</a>
-</div>
+    <a href="{{ url('/penalty') }}" class="ui brown button"><i class="arrow circle left icon"></i>Back to Penalty</a>
+  </div>
 <div class="row">
   <table class="ui brown table" id="tblPenalty">
     <thead>

@@ -34,7 +34,7 @@ Menu Detail
 </div>
 <div class="ui bottom attached tab segment active" data-tab="dish">
   <div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Menu Dish</button>
+		<button type="button" class="ui green button" style="background-color: rgb(0,128,0);" onclick="$('#create').modal('show');"><i class="add icon"></i>New Menu Dish</button>
 	</div>
 	<table class="ui table" id="tblMenu">
 		<thead>
@@ -125,7 +125,7 @@ Menu Detail
 							</div>
 						</div>
 					<div class="actions">
-						{{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+						{{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
 						{{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
 						{!! Form::close() !!}
 					</div>
@@ -173,7 +173,7 @@ Menu Detail
 		
 	</div>
 	<div class="actions">
-		{{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+		{{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
 		{{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
 		{!! Form::close() !!}
 	</div>

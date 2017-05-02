@@ -28,8 +28,8 @@
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Rental Package</button>
-		<a href="{{ url('/archive/rentalPackage') }}" class="ui teal button"><i class="archive icon"></i>Archive</a>
+		<button type="button" style="background-color: rgb(0,128,0);" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Rental Package</button>
+		<a href="{{ url('/archive/rentalPackage') }}" style="background-color: rgb(0,128,128);" class="ui teal button"><i class="archive icon"></i>Archive</a>
 
 	</div>
 	<div class="row">
@@ -54,7 +54,7 @@
 			      <td>{{$rentalPackage->rentalPackageDesc}}</td>
 			      <td>Php {{number_format($rentalPackage->rentalPackageAmount, 2, '.', ',')}}</td>
 			      <td class="center aligned">
-			      	<a href="{{url('/rentalPackage/'. $rentalPackage->rentalPackageCode)}}" class="ui teal button">Package Details</a>
+			      	<a href="{{url('/rentalPackage/'. $rentalPackage->rentalPackageCode)}}" style="background-color: rgb(0,128,128);" class="ui teal button">Package Details</a>
 					<button class="ui blue button" onclick="$('#update{{$rentalPackage->rentalPackageCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($rentalPackage->deleted_at == null)
 			      	<button class="ui red button" onclick="$('#delete{{$rentalPackage->rentalPackageCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
@@ -210,7 +210,7 @@
 						
 				<div class="ui error message"></div>
 	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>

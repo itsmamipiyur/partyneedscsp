@@ -73,8 +73,6 @@ class PenaltyController extends Controller
   public function show($id)
   {
       //
-      $penalty = Penalty::find($id);
-      return Response::json($penalty);
   }
 
   /**

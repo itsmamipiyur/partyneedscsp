@@ -63,19 +63,19 @@
         </thead>
         <tbody>
           <tr>
-            <td>LOL LOL LOL LOL</td>
-            <td>LOL LOL LOL LOL</td>
-            <td>LOL LOL LOL LOL</td>
+            <td>Jose & Joan Wedding</td>
+            <td>2017-03-31</td>
+            <td>10:00 AM</td>
           </tr>
           <tr>
-            <td>LOL LOL LOL LOL</td>
-            <td>LOL LOL LOL LOL</td>
-            <td>LOL LOL LOL LOL</td>
+            <td>Saitama 7th Birthday</td>
+            <td>2017-03-18</td>
+            <td>3:00 PM</td>
           </tr>
           <tr>
-            <td>LOL LOL LOL LOL</td>
-            <td>LOL LOL LOL LOL</td>
-            <td>LOL LOL LOL LOL</td>
+            <td>Manila High School Prom Night</td>
+            <td>2017-04-1</td>
+            <td>6:00 PM</td>
           </tr>
         </tbody>
       </table>

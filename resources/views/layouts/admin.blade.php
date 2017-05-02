@@ -111,6 +111,7 @@
 		</div>
 		<div class="item">
 			<strong>QUERIES</strong>
+			<a href="{{url('/query')}}" class="item">Query</a>
 		</div>
 		<div class="item">
 			<strong>REPORTS</strong><br><br>
@@ -144,6 +145,7 @@
 		  })
 		  .sidebar('attach events', '#toggle');
 		$('.ui.accordion').accordion();
+		$('.ui.dropdown').dropdown();
 
 		function startTime() {
 		    var today = new Date();

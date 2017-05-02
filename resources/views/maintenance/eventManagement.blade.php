@@ -28,6 +28,34 @@
 		  	</tr>
 		  </thead>
 
+      <tbody>
+        <tr>
+          <td>2017-03-18</td>
+          <td>Saitama 7th Birthday</td>
+          <td>Birthday</td>
+          <td>Pa b-day ni bunso</td>
+          <td class="center aligned"><button class="ui icon circular blue button""><i class="minus icon"></i></button>
+          <button class="ui icon circular orange button""><i class="reply mail icon"></i></button></td>
+        </tr>
+        <tr>
+          <td>2017-03-31</td>
+          <td>Jose & Joan Wedding</td>
+          <td>Wedding</td>
+          <td>Wedding of the Century</td>
+          <td class="center aligned"><button class="ui icon circular blue button""><i class="minus icon"></i></button>
+          <button class="ui icon circular orange button""><i class="reply mail icon"></i></button></td>
+        </tr>
+
+        <tr>
+          <td>2017-04-1</td>
+          <td>Manila High School Prom Night</td>
+          <td>Promenade</td>
+          <td>JS Prom</td>
+          <td class="center aligned"><button class="ui icon circular blue button""><i class="minus icon"></i></button>
+          <button class="ui icon circular orange button""><i class="reply mail icon"></i></button></td>
+        </tr>
+      </tbody>
+
 		</table>
 	</div>
 

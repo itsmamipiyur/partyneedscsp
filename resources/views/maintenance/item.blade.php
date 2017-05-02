@@ -29,8 +29,8 @@
 	</div>
 
 	<div class="row">
-		<button type="button" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Item</button>
-		<a href="{{url('/archive/item')}}" class="ui teal button"><i class="archive icon"></i>Archive</a>
+		<button type="button" class="ui green button" onclick="$('#create').modal('show');" style="background-color: rgb(0,128,0);"><i class="add icon"></i>New Item</button>
+		<a href="{{url('/archive/item')}}" class="ui teal button" style="background-color: rgb(0,128,128);"><i class="archive icon"></i>Archive</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tblitem">
@@ -62,7 +62,7 @@
 			      		<td>{{$item->itemEquipment->equipmentType->equipmentTypeName}}</td>
 			      @endif
 			      <td class="center aligned">
-			      	<a href="{{url('/item/'. $item->itemCode)}}" class="ui teal button">Item Detail</a>
+			      	<a href="{{url('/item/'. $item->itemCode)}}" style="background-color: rgb(0,128,128);" class="ui teal button">Item Detail</a>
 					<button class="ui blue button" onclick="show('{{$item->itemType}}'); $('#update{{$item->itemCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 					@if($item->deleted_at == null)
 			      	<button class="ui red button" onclick="$('#delete{{$item->itemCode}}').modal('show');"><i class="delete icon"></i> Deactivate</button>
@@ -102,7 +102,7 @@
 	    			{{ Form::label('item_type', 'Item Type') }}
          			{{ Form::select('item_type', $itemTypes, $item->itemType, ['id' => 'itemTypeu', 'placeholder' => 'Choose Item Type', 'class' => 'ui search dropdown']) }}
 	    		</div>
-	    		<div class="required field" id="divDinnType" style="display: none;">
+	    		<div class="required field" id="divDinnTypeu" style="display: none;">
 	    			{{ Form::label('dinnerware_type', 'SubType') }}
 	    		@if($item->itemType == '1')
          			{{ Form::select('dinnerware_type', $dinnTypes, $item->itemDinnerware->dinnerwareTypeCode, ['placeholder' => 'Choose Dinnerware Type', 'class' => 'ui search dropdown']) }}
@@ -110,7 +110,7 @@
 	    			{{ Form::select('dinnerware_type', $dinnTypes, null, ['placeholder' => 'Choose Dinnerware Type', 'class' => 'ui search dropdown']) }}
 	    		@endif 
 	    		</div>
-	    		<div class="required field" id="divEquiType" style="display: none;">
+	    		<div class="required field" id="divEquiTypeu" style="display: none;">
 	    			{{ Form::label('equipment_type', 'SubType') }}
 	    		@if($item->itemType == '2')
          			{{ Form::select('equipment_type', $equiTypes, $item->itemEquipment->equipmentTypeCode, ['placeholder' => 'Choose Equipment Type', 'class' => 'ui search dropdown']) }}
@@ -122,7 +122,7 @@
 	    	
         </div>
 	  <div class="actions">
-            {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
@@ -135,7 +135,7 @@
 	  </div>
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/item/' . $item->itemCode, 'method' => 'delete']) !!}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Yes', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
@@ -149,7 +149,7 @@
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/item/item_restore']) !!}
 	  		{{ Form::hidden('item_code', $item->itemCode) }}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Yes', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
@@ -195,7 +195,7 @@
 	    	
         </div>
 	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
@@ -568,19 +568,19 @@ type   : "regExp[^(?![0-9 '-]*$)[a-zA-Z0-9 '-]+$]",
   	
 //dinneware type
   	if(itemType == '1'){
-		document.getElementById('divDinnType').style.display = "block";
-		document.getElementById('divEquiType').style.display = "none";
+		document.getElementById('divDinnTypeu').style.display = "block";
+		document.getElementById('divEquiTypeu').style.display = "none";
 
 
 
 	}else if(itemType == '2'){
-		document.getElementById('divDinnType').style.display = "none";
-		document.getElementById('divEquiType').style.display = "block";
+		document.getElementById('divDinnTypeu').style.display = "none";
+		document.getElementById('divEquiTypeu').style.display = "block";
 
 		
 	}else{
-		document.getElementById('divDinnType').style.display = "none";
-		document.getElementById('divEquiType').style.display = "none";
+		document.getElementById('divDinnTypeu').style.display = "none";
+		document.getElementById('divEquiTypeu').style.display = "none";
 	}
   }
 </script>

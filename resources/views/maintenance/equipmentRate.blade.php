@@ -93,7 +93,7 @@
 	    	</div>
         </div>
 	  <div class="actions">
-            {{ Form::button('Save', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
@@ -106,7 +106,7 @@
 	  </div>
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/equipmentRate/' . $equipmentRate->strEquiRateCode, 'method' => 'delete']) !!}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
@@ -120,7 +120,7 @@
 	  <div class="actions">
 	  	{!! Form::open(['url' => '/equipmentRate/equipment_restore']) !!}
 	  		{{ Form::hidden('equipment_rate_code', $equipmentRate->strEquiRateCode) }}
-            {{ Form::button('Yes', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('No', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
@@ -166,7 +166,7 @@
 	    	</div>
         </div>
 	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>

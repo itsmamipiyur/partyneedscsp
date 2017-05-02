@@ -23,7 +23,9 @@ Package
 	<h1>Catering Package</h1>
 	<hr>
 </div>
-
+<div class="row">
+	<a href="{{ url('/cateringPackage') }}" class="ui brown button"><i class="arrow circle left icon"></i>Back to Catering Package</a>
+</div>
 <div class="row">
 	<table class="ui table" id="tblPackage">
 		<thead>

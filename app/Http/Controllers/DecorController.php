@@ -70,8 +70,6 @@ class DecorController extends Controller
   public function show($id)
   {
       //
-      $decor = Decor::find($id);
-      return Response::json($decor);
   }
 
   /**

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-	Event Management
+	Rental Management
 @endsection
 
 @section('content')
@@ -27,6 +27,26 @@
 			    <th class="center aligned">Action</th>
 		  	</tr>
 		  </thead>
+
+      <tbody>
+        <tr>
+          <td>Cyriel Neil Basilio</td>
+          <td>1-A Daisy St. Olandes Caloocan City</td>
+          <td>2017-04-16</td>
+          <td>Catering Equipment</td>
+          <td class="center aligned"><button class="ui icon circular blue button""><i class="minus icon"></i></button>
+          <button class="ui icon circular orange button""><i class="reply mail icon"></i></button></td>
+        </tr>
+
+        <tr>
+          <td>Jose Jasper de Padua</td>
+          <td>#22 Maligaya JP Rizal St. Caloocan City</td>
+          <td>2017-03-27</td>
+          <td>Videoke Set</td>
+          <td class="center aligned"><button class="ui icon circular blue button""><i class="minus icon"></i></button>
+          <button class="ui icon circular orange button""><i class="reply mail icon"></i></button></td>
+        </tr>
+      </tbody>
 
 		</table>
 	</div>

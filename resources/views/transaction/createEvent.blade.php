@@ -5,6 +5,16 @@
 @endsection
 
 @section('content')
+@if (count($errors) > 0)
+  <div class="ui message">
+    <div class="header">We had some issues</div>
+    <ul class="list">
+      @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+    </ul>
+</div>
+@endif
 
 <div class="ui three top attached steps">
   <div class="active step" id="stepEventDetail">
@@ -21,16 +31,17 @@
       <div class="description">Choose Event Menu</div>
     </div>
   </div>
-  <!-- <div class="step" id="stepConfirmOrder">
+  <div class="step" id="stepConfirmOrder">
     <i class="info icon"></i>
     <div class="content">
       <div class="title">Confirm Order</div>
       <div class="description">Verify order details</div>
     </div>
-  </div> -->
+  </div>
 </div>
 
 <div class="ui attached segment" id="eventDetail">
+  {!! Form::open(['url' => '/eventManagement/saveEvent', 'class' => 'ui form']) !!}
   <div class="ui form">
     <div class="content">
       <div class="ui horizontal divider">Customer Information</div>
@@ -86,11 +97,11 @@
       <div class="two fields">
         <div class="required field">
           {{ Form::label('eventType', 'Event Type') }}
-          {{ Form::select('eventType', $eventTypes, null, ['placeholder' => 'Choose Event Type', 'class' => 'ui multiple search dropdown', 'multiple' => '']) }}
+          {{ Form::select('eventType[]', $eventTypes, null, ['placeholder' => 'Choose Event Type', 'class' => 'ui multiple search dropdown', 'multiple' => '']) }}
         </div>
         <div class="required field">
           {{ Form::label('decor', 'Decor') }}
-          {{ Form::select('decor', $decors, null, ['placeholder' => 'Choose Decor', 'class' => 'ui multiple search dropdown', 'multiple' => '']) }}
+          {{ Form::select('decor[]', $decors, null, ['placeholder' => 'Choose Decor', 'class' => 'ui multiple search dropdown', 'multiple' => '']) }}
         </div>
       </div>
       <div class="required field">
@@ -101,7 +112,7 @@
   </div>
   <br><br>
   <div class="actions">
-    <button id="nextEventDetail" class="ui fluid teal button">Next</button>
+    <button id="nextEventDetail" class="ui fluid teal button" type="button">Next</button>
   </div>
 </div>
 
@@ -112,9 +123,7 @@
     <div class="four wide column">
       <div class="ui green segment">
         <div class="ui checkbox">
-          <input type="checkbox" name="package" class="package" value="{{$cateringPackage->cateringPackageCode}}">
-          <input type="hidden" name="price" id="packagePrice[{{$cateringPackage->cateringPackageCode}}]" value="{{$cateringPackage->cateringPackageAmount}}">
-          <input type="hidden" name="name" id="packageName[{{$cateringPackage->cateringPackageName}}]" value="{{$cateringPackage->cateringPackageName}}">
+          <input type="checkbox" name="package" class="package" value="{{$cateringPackage->cateringPackageCode}}" data-name="{{$cateringPackage->cateringPackageName}}" data-amount="{{$cateringPackage->amount}}">
           <label><h4>{{$cateringPackage->cateringPackageName}}</h4>PhP {{$cateringPackage->cateringPackageAmount}}</label>
         </div>
         <div class="ui divider"></div>
@@ -141,7 +150,7 @@
     <div class="four wide column">
       <div class="ui blue segment">
         <div class="ui checkbox">
-          <input type="checkbox" name="example" value="{{$menu->menuCode}}">
+          <input type="checkbox" name="menu" class="menu" value="{{$menu->menuCode}}" data-name="{{$menu->menuName}}" data-select="{{$menu->menuCode}}">
           <label><h4>{{$menu->menuName}}</h4></label>
         </div>
         <div class="ui divider"></div>
@@ -153,9 +162,9 @@
         </ul>
         <div class="ui divider"></div>
         <p><b>Rates</b></p>
-        <select class="ui dropdown">
+        <select class="ui dropdown" id="{{$menu->menuCode}}">
           @foreach($menu->rates as $menuRate)
-          <option value="{{$menuRate->menuRateCode}}">Php {{$menuRate->amount}}/{{$menuRate->pax}} pax/{{$menuRate->servingType == '1' ? 'Buffet' : 'Set'}}</option>
+          <option value="{{$menuRate->menuRateCode}}" data-amount="{{$menuRate->amount}}" data-pax="{{$menuRate->pax}}" data-serving="{{$menuRate->servingType == '1' ? 'Buffet' : 'Set'}}">Php {{$menuRate->amount}}/{{$menuRate->pax}} pax/{{$menuRate->servingType == '1' ? 'Buffet' : 'Set'}}</option>
           @endforeach
         </select>
       </div>
@@ -165,16 +174,18 @@
   <br><br>
   <div class="actions">
   <div class="two ui buttons">
-    <button id="prevOrderMenu" class="ui fluid orange button">Previous</button>
-    <button id="nextOrderMenu" class="ui fluid teal button">Next</button>
+    <button id="prevOrderMenu" class="ui fluid orange button" type="button">Previous</button>
+    <button id="nextOrderMenu" class="ui fluid teal button" type="button">Next</button>
   </div>
   </div>
 </div>
 
 <div class="ui attached segment" id="confirmOrder">
-  <table class="ui table" id="tblPackage">
+  <table class="ui table" id="tblMenu">
     <thead>
-      <th>Catering Package</th>
+      <th>Menu</th>
+      <th>Number of Pax</th>
+      <th>Serving Type</th>
       <th>Amount</th>
     </thead>
     <tbody>
@@ -182,11 +193,16 @@
     </tbody>
   </table>
   <div class="two ui buttons">
-    <button id="prevConfirmOrder" class="ui fluid orange button">Previous</button>
-    <button id="submitall" class="ui fluid teal button">Submit</button>
+    <button id="prevConfirmOrder" type="button" class="ui fluid orange button">Previous</button>
+    <button id="submitall" type="submit" class="ui fluid teal button">Submit</button>
   </div>
 </div>
 
+<div class="ui attached segment" id="segmentSubtotal">
+  <h2>SUBTOTAL:</h2>
+  <h3 id="subtotal"></h3>
+</div>
+{!! Form::close() !!}
 @endsection
 
 @section('js')
@@ -202,6 +218,8 @@
     $('#eventStart').datetimepicker();
     $('#eventEnd').datetimepicker();
 
+    $('#segmentSubtotal').hide();
+
     $('#stepCreateOrder').addClass('disabled');
     $('#stepConfirmOrder').addClass('disabled');
 
@@ -210,6 +228,7 @@
       $('#stepEventDetail').removeClass('active');
       $('#stepCreateOrder').addClass('active');
       $('#stepCreateOrder').removeClass('disabled');
+      $('#segmentSubtotal').show();
 
       $('#eventDetail').transition('fly right');
       $('#orderMenu').transition('fly right');
@@ -221,6 +240,7 @@
       $('#stepCreateOrder').removeClass('active');
       $('#stepCreateOrder').addClass('disabled');
 
+      $('#segmentSubtotal').hide();
       $('#eventDetail').transition('fly left');
       $('#orderMenu').transition('fly left');
     });
@@ -244,6 +264,48 @@
       $('#orderMenu').transition('fly right');
       $('#confirmOrder').transition('fly right');
     });
+
+
+    var subtotal = 0;
+
+    $('.menu').on('change', function(){
+      var menuName = $(this).data("name");
+      var selectId = $(this).data("select");
+      var amount = $('#' + selectId.toString()).find(':selected').data('amount');
+      var pax = $('#' + selectId.toString()).find(':selected').data('pax');
+      var servingType = $('#' + selectId.toString()).find(':selected').data('serving');
+      var menuCode = $(this).val();
+
+      console.log(menuName + '-' + amount);
+
+      if ($(this).is(":checked")){
+        subtotal += ($.isNumeric(amount)) ? parseFloat(amount) : 0;
+        console.log("subtotal: " + subtotal);
+
+        alert($('select#'+selectId.toString()).val());
+        $('#' + selectId.toString()).attr('readonly', 'true');
+
+        $("#tblMenu").find('tbody')
+          .append($('<tr>')
+            .attr('id', menuCode)
+            .append($('<td>')
+              .append("<p>" + menuName + "</p>")
+              ).append($('<td>')
+              .append("<p>" + pax + "</p>")
+              ).append($('<td>')
+              .append("<p>" + servingType + "</p>")
+              ).append($('<td>')
+              .append("<p>Php " + amount + "</p>")
+              ));
+      }else{
+        subtotal -= ($.isNumeric(amount)) ? parseFloat(amount) : 0;
+        console.log("subtotal: " + subtotal);
+        $('tr#' + menuCode).remove();
+      }
+
+      $('#subtotal').html("Php " + subtotal);
+    });
+
   });
 </script>
 @endsection

@@ -141,7 +141,7 @@ class EquipmentTypeController extends Controller
       $equipmentType = EquipmentType::onlyTrashed()->where('equipmentTypeCode', '=', $id)->firstOrFail();
       $equipmentType->restore();
 
-      return redirect('equipmentType')->with('alert-success', 'Equipment Type ' . $name . ' was successfully restored.');
+      return redirect('/archive/equipmentType')->with('alert-success', 'Equipment Type ' . $name . ' was successfully restored.');
     }
 
     public function showArchive()

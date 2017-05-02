@@ -138,7 +138,7 @@ class UOMController extends Controller
         $name = $request->uom_symbol;
         $uom = UOM::onlyTrashed()->where('uomCode', '=', $id)->firstOrFail();
         $uom->restore();
-        return redirect('uom/archive')->with('alert-success', 'Unit of Measurement '. $name .' was successfully restored.');
+        return redirect('archive/uom')->with('alert-success', 'Unit of Measurement '. $name .' was successfully restored.');
     }
 
     public function showArchive()

@@ -28,7 +28,7 @@
     </div>
 
     <div class="row">
-        <a href="{{ url('/delivery') }}" class="ui brown button"><i class="archive icon"></i>Back to Delivery</a>
+        <a href="{{ url('/delivery') }}" class="ui brown button"><i class="arrow circle left icon"></i>Back to Delivery</a>
     </div>
     <div class="row">
         <table class="ui table" id="tbldelivery">

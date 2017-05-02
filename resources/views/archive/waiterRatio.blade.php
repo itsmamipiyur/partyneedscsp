@@ -36,7 +36,7 @@
 	</div>
 
 	<div class="row">
-		<a href="{{ url('/waiterRatio') }}" class="ui brown button"><i class="archive icon"></i>Back to Waiter Ratio</a>
+		<a href="{{ url('/waiterRatio') }}" class="ui brown button"><i class="arrow circle left icon"></i>Back to Waiter Ratio</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tblwaiterratio">

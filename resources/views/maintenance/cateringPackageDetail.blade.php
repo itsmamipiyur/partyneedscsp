@@ -31,7 +31,7 @@
 		<div class="ui grid">
 			<div class="eight wide column">
 				<div class="row">
-					<button type="button" class="ui green button" onclick="$('#createMenu').modal('show');"><i class="add icon"></i>Add Package Menu</button>
+					<button type="button" class="ui green button" style="background-color: rgb(0,128,0);" onclick="$('#createMenu').modal('show');"><i class="add icon"></i>Add Package Menu</button>
 				</div>
 				<div class="row">					
 					<table class="ui table" id="tblMenu">
@@ -46,10 +46,9 @@
 						@foreach($cateringPackage->menus as $menu)
 							<tr>
 								<td>{{$menu->menuName}}</td>
-								<td style="text-align: right;">{{$menu->pivot->menuRate}}</td>
+								<td style="text-align: right;">{{$menu->pivot->menuRateCode}}</td>
 								<td class="center aligned">
 									<div class="ui horizontal buttons">
-										<button class="ui blue button" onclick="$('#updateMenu{{$menu->menuCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 										<button class="ui red button" onclick="$('#deleteMenu{{$menu->menuCode}}').modal('show');"><i class="delete icon"></i> Remove</button>
 									</div>
 								</td>
@@ -61,7 +60,7 @@
 			</div>
 			<div class="eight wide column">
 				<div class="row">
-					<button type="button" class="ui orange button" onclick="$('#createItem').modal('show');"><i class="add icon"></i>Add Package Item</button>
+					<button type="button" class="ui orange button" onclick="$('#createItem').modal('show');" style="background-color: rgb(221,110,0);"><i class="add icon"></i>Add Package Item</button>
 				</div>
 				<div class="row">					
 					<table class="ui table" id="tblItem">
@@ -79,7 +78,6 @@
 								<td style="text-align: right;">{{$item->pivot->quantity}}</td>
 								<td class="center aligned">
 									<div class="ui horizontal buttons">
-										<button class="ui blue button" onclick="$('#updateItem{{$item->itemCode}}').modal('show');"><i class="edit icon"></i> Update</button>
 										<button class="ui red button" onclick="$('#deleteItem{{$item->itemCode}}').modal('show');"><i class="delete icon"></i> Remove</button>
 									</div>
 								</td>
@@ -124,7 +122,7 @@
 	  		<div class="ui error message"></div>
 	  </div>
 	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('Cancel', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
@@ -164,7 +162,7 @@
 	  		<div class="ui error message"></div>
 	  </div>
 	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('Cancel', ['class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
@@ -182,19 +180,19 @@
           		{{ Form::hidden('cateringPackage_code', $cateringPackage->cateringPackageCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('menu_code', 'Menu') }}
-         			{{ Form::select('menu_code', $menus, null, ['placeholder' => 'Choose Menu', 'class' => 'ui search dropdown']) }}
+         			{{ Form::select('menu_code', $menus, null, ['id' => 'cateringPackage_menu', 'placeholder' => 'Choose Menu', 'class' => 'ui search dropdown']) }}
 	    		</div>
 	    		<div class="required field">
 	    			<div class="required field">
 	    			{{ Form::label('menu_rate_code', 'Rate') }}
-         			{{ Form::select('menu_rate_code', $menuRates, null, ['placeholder' => 'Choose Rates', 'class' => 'ui search dropdown']) }}
+         			{{ Form::select('menu_rate_code', [], null, ['id' => 'menuRateCode']) }}
 	    		</div>
 	    		</div>
 	    	</div>
 	    	<div class="ui error message"></div>
         </div>
 	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
@@ -219,7 +217,7 @@
 	    	
         </div>
 	  <div class="actions">
-            {{ Form::button('Submit', ['type'=>'submit', 'class'=> 'ui positive button']) }}
+            {{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
             {{ Form::button('Cancel', ['type' =>'reset', 'class' => 'ui negative button']) }}
         {!! Form::close() !!}
 	  </div>
@@ -242,6 +240,21 @@
         }
     });
 
+  	$('#cateringPackage_menu').dropdown({
+		onChange: function(value,text,$choices){
+			alert(value);
+			$.ajax({
+		        type: 'GET',
+		        url: '/menu/getRates/' + value,
+		        success: function (data) {
+		        	console.log(data);
+		            for (var i = 0; i < data.length; i++) {
+		                $('#menuRateCode').append("<option id='"+data[i].menuRateCode+"' value='"+data[i].menuRateCode+"' data-row='"+value+"' data-amount='"+data[i].amount+"'>"+ data[i].pax + " pax/" + (data[i].servingType == '1' ? 'Buffet':'Set') +"</option>");
+		            }
+		        }
+		    });
+    	},
+    });
 
 
 

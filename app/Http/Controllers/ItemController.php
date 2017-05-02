@@ -304,7 +304,8 @@ class ItemController extends Controller
                 'minimum_quantity' => 'required',
                 'penalty_type' => 'required',
                 'item_code' => 'required|unique:tblitemPenalty,itemCode,NULL,itemPenaltyCode,penaltyType,' . Input::get('penalty_type') .',effectiveDate,' . Input::get('effective_date'),
-                'amount' => 'required'];
+                'amount' => 'required',
+                'effective_date' => 'required|date'];
 
       $this->validate($request, $rules);
       $amount = preg_replace('/[\,]/', '', $request->amount);

@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', 'UOMController@index');
 
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/archive/uom', 'UOMController@showArchive');
@@ -36,6 +36,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/archive/delivery', 'DeliveryController@showArchive');
     Route::get('/archive/penalty', 'PenaltyController@showArchive');
 
+    Route::get('/menu/getRates/{id}', 'MenuController@getMenuRate');
+
     Route::resource('dishType', 'DishTypeController');
     Route::resource('penalty', 'PenaltyController');
     Route::resource('waiterRatio', 'WaiterRatioController');
@@ -52,16 +54,20 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('menuRate', 'MenuRateController');
     Route::resource('cateringPackage', 'CateringPackageController');
     Route::resource('rentalPackage', 'RentalPackageController');
-    Route::resource('inventory', 'InventoryController');
+    Route::resource('inventory', 'InventoryController', ['only' => ['index']]);
     Route::resource('eventManagement', 'EventManagementController', ['only' => ['index']]);
     Route::resource('eventFill', 'EventFillController');
     Route::resource('rentalManagement', 'RentalManagementController', ['only' => ['index']]);
     Route::resource('rentalFill', 'RentalFillController');
     Route::resource('billingCollection', 'BillingCollection');
     Route::resource('inventoryRelease', 'InventoryReleaseController');
+    Route::resource('query', 'QueryController');
 
     Route::get('/eventManagement/createEvent', 'EventManagementController@createEvent');
     Route::get('/rentalManagement/createRental', 'RentalManagementController@createRental');
+
+    Route::post('/inventory/addStock', 'InventoryController@addStock');
+    Route::post('/inventory/releaseStock', 'InventoryController@releaseStock');
 
     Route::post('/menu/menu_update', 'MenuController@menu_update');
     Route::post('/menu/addMenuDish', 'MenuController@menu_addDish');

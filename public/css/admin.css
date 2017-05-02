@@ -12,3 +12,12 @@
 .row{
 	margin-bottom: 10px;
 }
+
+button.dark-green{
+	background-color: rgb(0,128,0);
+}
+
+
+{{ Form::button('Submit', ['type' => 'submit', 'class'=> 'ui positive button', 'style' => 'background-color: rgb(0,128,0)']) }}
+
+style="background-color: rgb(0,128,128);"

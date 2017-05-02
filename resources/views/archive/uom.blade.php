@@ -27,7 +27,7 @@
 		<hr>
 	</div>
 	<div class="row">
-		<a href="{{ url('/uom') }}" class="ui brown button"><i class="arrow circle left icon"></i>Back to Maintenance</a>
+		<a href="{{ url('/uom') }}" class="ui brown button"><i class="arrow circle left icon"></i>Back to Unit of Measurement</a>
 	</div>
 	<div class="row">
 		<table class="ui table" id="tbluom">
