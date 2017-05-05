@@ -104,7 +104,7 @@
 		</div>
 		<div class="item">
 			<strong>TRANSACTION</strong><br><br>
-			<a href="{{url('/eventManagement')}}" class="item">Event Management</a>
+			<a href="{{url('/eventBooking')}}" class="item">Event Management</a>
 			<a href="{{url('/rentalManagement')}}" class="item">Rental Management</a>
 			<a href="{{url('/inventory')}}" class="item">Inventory</a>
 			<a href="{{url('/billingCollection')}}" class="item">Billing and Collection</a>

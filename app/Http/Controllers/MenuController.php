@@ -229,7 +229,7 @@ class MenuController extends Controller
   {
     $rules = [//'menu_code' => 'required',
               'menu_rate_code' => 'required',
-              'menu_code' => 'required|unique:tblMenuRate,menuCode,NULL,menuRateCode,servingType,'. Input::get('menu_type') . ',pax,' . Input::get('pax') . ',effectiveDate,' . Input::get('effective_date'),
+              'menu_code' => 'required|unique:tblMenuRate,menuCode,NULL,menuRateCode,servingType,'. Input::get('menu_type') . ',effectiveDate,' . Input::get('effective_date'),
               'amount' => 'required',
               'menu_type' => 'required',
               'effective_date' => 'required|date'];
@@ -242,7 +242,6 @@ class MenuController extends Controller
     $rate->menuRateCode = $request->menu_rate_code;
     $rate->menuCode = $request->menu_code;
     $rate->servingType = $request->menu_type;
-    $rate->pax = $request->pax;
     $rate->amount = $amount;
     $rate->effectiveDate = $request->effective_date;
     $rate->save();
@@ -252,13 +251,12 @@ class MenuController extends Controller
 
   public function menu_updateRate(Request $request)
   {
-    $rules = ['menu_rate_code' => 'required', 'menu_type' => 'required', 'pax' => 'required', 'amount' => 'required'];
+    $rules = ['menu_rate_code' => 'required', 'menu_type' => 'required', 'amount' => 'required'];
     $id = $request->menu_rate_code;
     $amount = preg_replace('/[\,]/', '', $request->amount);
     $amount = floatval($amount);
     $rate = MenuRate::find($id);
     $rate->servingType = $request->menu_type;
-    $rate->pax = $request->pax;
     $rate->amount = $amount;
     $rate->save();
 

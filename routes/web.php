@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('cateringPackage', 'CateringPackageController');
     Route::resource('rentalPackage', 'RentalPackageController');
     Route::resource('inventory', 'InventoryController', ['only' => ['index']]);
-    Route::resource('eventManagement', 'EventManagementController', ['only' => ['index']]);
+    Route::resource('eventBooking', 'EventBookingController', ['only' => ['index']]);
     Route::resource('eventFill', 'EventFillController');
     Route::resource('rentalManagement', 'RentalManagementController', ['only' => ['index']]);
     Route::resource('rentalFill', 'RentalFillController');
@@ -63,7 +63,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('inventoryRelease', 'InventoryReleaseController');
     Route::resource('query', 'QueryController');
 
-    Route::get('/eventManagement/createEvent', 'EventManagementController@createEvent');
+    Route::get('/eventBooking/create/newCustomer', 'EventBookingController@createEventForNewCustomer');
+
+
     Route::get('/rentalManagement/createRental', 'RentalManagementController@createRental');
 
     Route::post('/inventory/addStock', 'InventoryController@addStock');

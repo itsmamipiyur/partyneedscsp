@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddTimestampsToTblCateringPackage' => $baseDir . '/database/migrations/2017_03_16_131017_add_timestamps_to_tblCateringPackage.php',
+    'AddTimestampsToTblCustomer' => $baseDir . '/database/migrations/2017_05_02_133034_add_timestamps_to_tblCustomer.php',
     'AddTimestampsToTblDecor' => $baseDir . '/database/migrations/2017_03_16_142955_add_timestamps_to_tblDecor.php',
     'AddTimestampsToTblDelivery' => $baseDir . '/database/migrations/2017_03_16_130835_add_timestamps_to_tblDelivery.php',
     'AddTimestampsToTblDinnerwareType' => $baseDir . '/database/migrations/2017_03_16_125931_add_timestamps_to_tblDinnerwareType.php',

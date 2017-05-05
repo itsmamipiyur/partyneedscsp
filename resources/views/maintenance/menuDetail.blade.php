@@ -66,7 +66,6 @@ Menu Detail
 				<thead>
 					<tr>
 						<th>Menu Type</th>
-						<th>Number of Pax</th>
 						<th>Amount</th>
 						<th>Effective Date</th>
 						<th class="center aligned">Action</th>
@@ -80,7 +79,6 @@ Menu Detail
 						@elseif( $menuRate->servingType == '2' )
 						<td>Set</td>
 						@endif
-						<td>{{ $menuRate->pax }}</td>
 						<td>Php {{number_format($menuRate->amount, 2, '.', ',')}}</td>
 						<td>{{ $menuRate->effectiveDate }}</td>
 						<td class="center aligned">
@@ -101,15 +99,9 @@ Menu Detail
 				<div class="ui error message"></div>
 					{{ Form::hidden('menu_code', $menu->menuCode) }}
 					{{ Form::hidden('menu_rate_code', $newID) }}
-					<div class="two fields">
-						<div class="required field">
-							{{ Form::label('menu_type', 'Menu Type') }}
-							{{ Form::select('menu_type', $menuTypes, null, ['id' => 'menuTypes', 'placeholder' => 'Choose Menu Type', 'class' => 'ui search dropdown']) }}
-						</div>
-						<div class="required field" id="divQuantitys">
-							{{ Form::label('pax', 'Number of Pax') }}
-							{{ Form::text('pax', null, ['maxlength'=>'9', 'placeholder' => 'Type No. of Pax']) }}
-						</div>
+					<div class="required field">
+						{{ Form::label('menu_type', 'Menu Type') }}
+						{{ Form::select('menu_type', $menuTypes, null, ['id' => 'menuTypes', 'placeholder' => 'Choose Menu Type', 'class' => 'ui search dropdown']) }}
 					</div>
 					<div class="two fields">
 							<div class="required field">
@@ -194,16 +186,12 @@ Menu Detail
 				{{ Form::select('menu_type', $menuTypes, $menuRate->servingType, ['id' => 'servingtype', 'placeholder' => 'Choose Serving Type', 'class' => 'ui search dropdown']) }}
 			</div>
 			<div class="required field">
-				{{ Form::label('pax', 'Number of Pax') }}
-				{{ Form::text('pax', $menuRate->pax, ['maxlength'=>'9', 'placeholder' => 'Type Number of Pax']) }}
-			</div>
-			<div class="required field">
 				{{ Form::label('amount', 'Amount') }}
 				{{ Form::text('amount', $menuRate->amount, ['class' => 'money','placeholder' => 'Type Amount']) }}
 			</div>
 			<div class="required field">
 				{{ Form::label('effective_date', 'Effective Date') }}
-				{{ Form::text('effective_date', null, ['class' => 'effectiveDate', 'placeholder' => 'Select Date']) }}
+				{{ Form::text('effective_date', $menuRate->effectiveDate, ['class' => 'effectiveDate', 'placeholder' => 'Select Date']) }}
 			</div>
 		</div>
 		
