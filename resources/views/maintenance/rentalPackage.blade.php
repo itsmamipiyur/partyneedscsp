@@ -28,7 +28,7 @@
 	</div>
 
 	<div class="row">
-		<button type="button" style="background-color: rgb(0,128,0);" class="ui green button" onclick="$('#create').modal('show');"><i class="add icon"></i>New Rental Package</button>
+		<a href="{{ url('/rentalPackage/create') }}" class="ui green button" style="background-color: rgb(0,128,0);"><i class="add icon"></i>New Catering Package</button>
 		<a href="{{ url('/archive/rentalPackage') }}" style="background-color: rgb(0,128,128);" class="ui teal button"><i class="archive icon"></i>Archive</a>
 
 	</div>

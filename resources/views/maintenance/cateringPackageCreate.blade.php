@@ -274,8 +274,107 @@
   //   $('#menu_content').addClass("active");
   //   $('#menu').addClass("active");
 
-  //   $('.money').mask("#,##0.00", {reverse: true});
-  //   $('.number').mask("##0", {reverse: true});
+     $('.money').mask("#,##0.00", {reverse: true});
+     $('.number').mask("##0", {reverse: true});
   // });
+
+
+
+
+    var formValidationRules =
+  {
+  	cateringPackage_name: {
+				identifier : 'cateringPackage_name',
+				rules: [
+				{
+					type   : 'empty',
+					prompt : 'Please enter a name'
+				},
+				{
+
+					type   : 'regExp[^(?![0-9 -]*$)[a-zA-Z0-9 -]+$]',
+					prompt: "Name can only consist of alphanumeric, spaces and dashes"
+				}
+				]
+			},
+			amount: {
+				identifier : 'amount',
+				rules: [
+				{
+					type   : 'empty',
+					prompt : 'Please enter the amount'
+				}
+
+				]
+			},
+
+			cateringPackage_pax: {
+				identifier : 'cateringPackage_pax',
+				rules: [
+				{
+					type   : 'empty',
+					prompt : 'Please enter the PAX'
+				}
+
+				]
+			},
+
+
+			
+
+    cateringPackage_menu: {
+      identifier : 'cateringPackage_menu',
+      rules: [
+      {
+        type   : 'empty',
+        prompt : 'Please select a menu'
+      }
+      ]
+    },
+    cateringPackage_item: {
+      identifier : 'cateringPackage_item',
+      rules: [
+      {
+        type   : 'empty',
+        prompt : 'Please select a item'
+      }
+      ]
+    },
+    menu_rate_code: {
+				identifier : 'menu_rate_code',
+				rules: [ 
+				
+				{
+				  type   : 'empty',
+				  prompt : 'Please select a menu rate'
+				}
+				]
+			},
+			quantity: {
+				identifier : 'quantity',
+				rules: [ 
+				
+				{
+				  type   : "regExp[^[1-9][0-9]*$]",
+				  prompt : 'Please enter a valid number of Quantity'
+				}
+				]
+			}
+  }
+
+
+
+
+  var formSettings =
+  {
+    onSuccess : function() 
+    {
+      $('.modal').modal('hide');
+    }
+  }
+
+  $('.ui.form').form(formValidationRules, formSettings);
+
+
 </script>
 @endsection

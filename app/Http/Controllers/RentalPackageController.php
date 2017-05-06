@@ -49,7 +49,24 @@ class RentalPackageController extends Controller
   */
  public function create()
  {
-     //
+     $ids = \DB::table('tblRentalPackage')
+     ->select('rentalPackageCode')
+     ->orderBy('rentalPackageCode', 'desc')
+     ->first();
+
+     if ($ids == null) {
+       $newID = $this->smartCounter("RNTPKG-000");
+     }else{
+       $newID = $this->smartCounter($ids->rentalPackageCode);
+     }
+
+     $units = ['1' => 'Hour', '2' => 'Day'];
+     $items = Item::orderBy('itemName')->get();
+
+     return view('maintenance.rentalPackageCreate')
+       ->with('newID', $newID)
+       ->with('items', $items)
+       ->with('units', $units);
  }
 
  /**
