@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class ItemRate extends Model
 {
@@ -15,8 +16,34 @@ class ItemRate extends Model
   protected $dates = ['created_at', 'updated_at', 'deleted_at'];
   protected $casts = ['itemRateCode' => 'string'];
 
-   public function item()
+  public function item()
   {
-      return $this->belongsTo('App\Item', 'itemCode');
+    return $this->belongsTo('App\Item', 'itemCode');
+  }
+
+  public function scopeHour($query)
+  {
+    return $query->where('unitCode', '1')->get();
+  }
+
+  public function scopeDay($query)
+  {
+    return $query->where('unitCode', '2')->get();
+  }
+
+  public function scopeLatestHour($query)
+  {
+    return $query->where([
+        ['unitCode', '1'],
+        ['effectiveDate', '<=' , Carbon::now()]
+      ])->orderBy('effectiveDate', 'desc')->first();
+  }
+
+  public function scopeLatestDay($query)
+  {
+    return $query->where([
+        ['unitCode', '2'],
+        ['effectiveDate', '<=' , Carbon::now()]
+      ])->orderBy('effectiveDate', 'desc')->first();
   }
 }

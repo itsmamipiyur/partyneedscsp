@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('query', 'QueryController');
 
     Route::get('/eventBooking/create/newCustomer', 'EventBookingController@createEventForNewCustomer');
-
+    Route::post('/eventBooking/create/addToTray', 'EventBookingController@addToTray');
 
     Route::get('/rentalManagement/createRental', 'RentalManagementController@createRental');
 

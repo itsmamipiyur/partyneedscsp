@@ -29,4 +29,9 @@ class Item extends Model
   {
       return $this->hasOne('App\UOM', 'uomCode');
   }
+
+  public function rates()
+  {
+      return $this->hasMany('App\ItemRate', 'itemCode');
+  }
 }

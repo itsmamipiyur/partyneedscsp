@@ -37,25 +37,45 @@
 				{{ Form::label('cateringPackage_name', 'Name') }}
 				{{ Form::text('cateringPackage_name', null, ['maxlength'=>'100', 'placeholder' => 'Type Catering Package Name']) }}
 			</div>
+			<div class="required field">
+				{{ Form::label('cateringPackage_pax', 'No. of Pax') }}
+				{{ Form::number('cateringPackage_pax', null, ['placeholder' => 'Type No. of Pax', 'min' => '0']) }}
+			</div>
+		</div>
+		<div class="two fields">
+			<div class="required inline fields">
+				<label>Serving Type</label>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="servingType" checked="checked" id="rdoBuffet" value="1">
+						<label>Buffet</label>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="servingType" id="rdoSet" value="2">
+						<label>Set</label>
+					</div>
+				</div>
+			</div>
 			<div class="field">
 				{{ Form::label('cateringPackage_description', 'Description') }}
 				{{ Form::textarea('cateringPackage_description', null, ['placeholder' => 'Type Catering Package Description', 'rows' => '2']) }}
 			</div>
 		</div>
 		<div class="two fields">
-
 			<div class="required field">
 				{{ Form::label('packageInitAmount', 'Initial Amount') }}
 				<div class="ui center labeled input">
 					<div class="ui label">Php</div>
-					{{ Form::text('packageInitAmount',  null, ['class' => 'money', 'placeholder' => 'This is an autocomputed field.','readonly' => '']) }}
+					{{ Form::text('packageInitAmount',  null, ['style' => 'text-align: right;', 'class' => 'money', 'placeholder' => 'This is an autocomputed field.','readonly' => '']) }}
 				</div>
 			</div>
 			<div class="required field">
 				{{ Form::label('amount', 'Amount') }}
 				<div class="ui center labeled input">
 					<div class="ui label">Php</div>
-					{{ Form::text('amount', null, ['maxlength'=>'12', 'class' => 'money', 'placeholder' => 'Amount']) }}
+					{{ Form::text('amount', null, ['style' => 'text-align: right;','maxlength'=>'12', 'class' => 'money', 'placeholder' => 'Amount']) }}
 				</div>
 			</div>
 		</div>
@@ -64,20 +84,12 @@
 		<div class="ui segment">
 			<div class="required field">
 				{{ Form::label('cateringPackage_menu[]', 'Menu') }}
-				{{ Form::select('cateringPackage_menu[]', $menus, null, ['placeholder' => 'Choose a menu.', 'class' => 'ui fluid search dropdown', 'multiple' => '', 'id' => 'cateringPackage_menu']) }}
-			</div>
-			<div class="required field" id="sit" style="display: none;">
-				<table id="tblItemList" class="ui compact celled definition table">
-					<thead class="full-width">
-						<tr>
-							<th>Menu</th>
-							<th>Pax/Serving</th>
-							<th>Amount</th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
+				<select name="cateringPackage_menu[]" class="ui disabled fluid search dropdown" multiple="" id="cateringPackage_menu">
+					<option value="">Choose a menu...</option>
+					@foreach($menus as $menu)
+					<option value="{{ $menu->menuCode }}" data-buffet="{{ (count($menu->rates()->buffet()) > 0) ? $menu->rates()->latestBuffet()->amount : '0' }}" data-set="{{ (count($menu->rates()->set()) > 0) ? $menu->rates()->latestSet()->amount : '0' }}">{{ $menu->menuName }}</option>
+					@endforeach
+				</select>
 			</div>
 		</div>
 
@@ -85,7 +97,12 @@
 		<div class="ui segment">
 			<div class="required field">
 				{{ Form::label('cateringPackage_item[]', 'Item') }}
-				{{ Form::select('cateringPackage_item[]', $items, null, ['placeholder' => 'Choose an item.', 'class' => 'ui fluid search dropdown', 'multiple' => '', 'id' => 'cateringPackage_item']) }}
+				<select name="cateringPackage_item[]" class="ui fluid search dropdown" multiple="" id="cateringPackage_item">
+					<option value="">Choose an item...</option>
+					@foreach($items as $item)
+					<option value="{{ $item->itemCode }}" data-hour="{{ (count($item->rates()->hour()) > 0) ? $item->rates()->latestHour()->amount : '0' }}" data-day="{{ (count($item->rates()->day()) > 0) ? $item->rates()->latestDay()->amount : '0' }}" id="#itemopt{{ $item->itemCode }}">{{ $item->itemName }}</option>
+					@endforeach
+				</select>
 			</div>
 			<div class="required field" id="lists" style="display: none;">
 				<table id="tblItemLists" class="ui compact celled definition table">
@@ -93,10 +110,18 @@
 						<tr>
 							<th>Item</th>
 							<th>Quantity</th>
+							<th>Duration (in hour)</th>
+							<th class="right aligned">Amount</th>
 						</tr>
 					</thead>
 					<tbody>
 					</tbody>
+					<tfoot>
+						<tr class="summary">
+							<td colspan="3" class="right aligned">Subtotal:</td>
+							<td class="right aligned" id="totsub"><strong>0.00</strong></td>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 		</div>
@@ -111,85 +136,84 @@
 @endsection
 
 @section('js')
-<style>
-
-
-        #amount, #packageInitAmount{
-            text-align: right;
-        }
-
-</style>
 <script>
+	var subtotalMenu = 0;
+	var subtotalItem = 0;
 	var amount = 0;
-	function addAmount(value){
-    	var amount = $("#"+value).attr('data-amount');
-    	var row = $("#"+value).attr('data-row');
-    	alert(amount + ' ' + row);
-    	$('#amount' + row).html(amount);
+	var type = "";
+	var pax = "hehehe";
+
+	function computeSubtotal(value, amount){
+		amount = parseFloat(amount);
+    	var qty = (($("input#quantity"+value).val() == '') ? 0 : parseFloat($("input#quantity"+value).val()));
+    	var hr = (($("input#hour"+value).val() == '') ? 0 : parseFloat($("input#hour"+value).val()));
+    	$('td#subt'+value).html(((amount*qty)*hr).toFixed(2));
+
+    	$('#tblItemLists').sumtr({
+    		formatValue : function(val) { 
+    			subtotalItem = parseFloat(val.toFixed(2)); 
+    			return  val.toFixed(2); 
+    		},
+    	});
+
+    	console.log(subtotalItem);
+    	var totalSub = subtotalMenu - subtotalItem;
+	    dispSubt = Math.abs(totalSub.toFixed(2));
+		$('#packageInitAmount').val(dispSubt);
     }
 
-  $(document).ready( function(){
 
-  	$('.ui.modal').modal({
-        onApprove : function() {
-          //Submits the semantic ui form
-          //And pass the handling responsibilities to the form handlers,
-          // e.g. on form validation success
-          //$('.ui.form').submit();
-          console.log('approve');
-          //Return false as to not close modal dialog
-          return false;
-        }
-    });
+	$('#cateringPackage_pax').on('blur', function(){
+		if( $(this).val() == '' || $(this).val() == '0'){
+			$('#cateringPackage_menu').parent().addClass('disabled');
+			$('#cateringPackage_menu').dropdown('clear');
+			subtotalMenu = 0;
+			var totalSub = subtotalMenu - subtotalItem;
+	    	dispSubt = Math.abs(totalSub.toFixed(2));
+		    $('#packageInitAmount').val(dispSubt);
+		}else{
+			$('#cateringPackage_menu').parent().removeClass('disabled');
+		}
+	});
 
-    var subtotal = 0;
+	$('#cateringPackage_menu').dropdown({
+	    onAdd: function(value, text, choice) {
+	      pax = (($('#cateringPackage_pax').val() != '') ? $('#cateringPackage_pax').val() : 0);
+	      if($('#rdoBuffet').is(':checked')){
+	      	amount =  $(this).children('option[value=' + $(choice).data('value') + ']').data('buffet');
+	      	type = "Buffet";
+	      }else if($('#rdoSet').is(':checked')){
+	      	amount =  $(this).children('option[value=' + $(choice).data('value') + ']').data('set');
+	      	type = "Set";
+	      }
 
-    $('#cateringPackage_menu').dropdown({
-		onAdd: function(value,text,$addedChoice){
+	      subtotalMenu += (parseFloat(amount) * parseInt(pax));
+	      var totalSub = Math.abs(subtotalMenu - subtotalItem);
+	      var dispSubt = totalSub.toFixed(2);
+	      $('#packageInitAmount').val(dispSubt);
+	    },
+	    onRemove: function(value, text, choice) {
+	      pax = (($('#cateringPackage_pax').val() != '') ? $('#cateringPackage_pax').val() : 0);
+	      if($('#rdoBuffet').is(':checked')){
+	      	amount =  $(this).children('option[value=' + $(choice).data('value') + ']').data('buffet');
+	      	type = "Buffet";
+	      }else if($('#rdoSet').is(':checked')){
+	      	amount =  $(this).children('option[value=' + $(choice).data('value') + ']').data('set');
+	      	type = "Set";
+	      }
+	      console.log(pax);
+	      subtotalMenu -= (parseFloat(amount) * parseInt(pax));
+	      var totalSub = subtotalMenu - subtotalItem;
+	      dispSubt = Math.abs(totalSub.toFixed(2));
+		  $('#packageInitAmount').val(dispSubt);
+	    },
+	});
 
-			document.getElementById('sit').style.display = "block";
-			$("#tblItemList").find('tbody')
-			.append($('<tr>')
-				.attr('id', value)
-				.append($('<td>')
-					.append("<p>" + text + "</p>")
-					).append($('<td>')
-					.append($('<select>')
-						.attr('name', 'rate[' + value + ']')
-						.attr('id', 'rate' + value)
-						.attr('required', 'true')
-						.attr('class', 'menuRates')
-						.attr('onchange', 'addAmount(this.value)')
-						.append("<option value='' data-row='"+value+"' data-amount='0.00'>Select a rate</option>")
-						)
-					).append($('<td>')
-					.append($('<label>')
-						.attr('id', 'amount' + value)
-						.html('0.00')
-						)
-					));
-
-			$.ajax({
-		        type: 'GET',
-		        url: '/menu/getRates/' + value,
-		        success: function (data) {
-		        	console.log(data);
-		            for (var i = 0; i < data.length; i++) {
-		                $('tr#' + value).find('select#rate' +  value).append("<option id='"+data[i].menuRateCode+"' value='"+data[i].menuRateCode+"' data-row='"+value+"' data-amount='"+data[i].amount+"'>"+ data[i].pax + " pax/" + (data[i].servingType == '1' ? 'Buffet':'Set') +"</option>");
-		            }
-		        }
-		    });
-    	},
-    	onRemove: function(value,text,$addedChoice){
-    		$('#' + value).remove();
-    		if($('tr', $('table#tblItemList').find('tbody')).length < 1){
-    			document.getElementById('sit').style.display = "none";
-    		}
-    	}
-    });
-
-    $('#cateringPackage_item').dropdown({
-		onAdd: function(value,text,$addedChoice){
+	$('#cateringPackage_item').dropdown({
+		onAdd: function(value, text, choice){
+			console.log(value);
+			var amount =  $(this).children('option[value=' + $(choice).data('value') + ']').data('hour');
+			console.log(amount);
 
 			document.getElementById('lists').style.display = "block";
 			$("#tblItemLists").find('tbody')
@@ -204,105 +228,54 @@
 						.attr('required', 'true')
 						.attr('placeholder', 'Type Quantity')
 						.attr('type', 'number')
+						.attr('min', '0')
+						.attr('onBlur', 'computeSubtotal("' + value + '", ' + amount + ')')
 						)
-					));
-    	},
-    	onRemove: function(value,text,$addedChoice){
-    		$('#item' + value).remove();
+					).append($('<td>')
+					.append($('<input>')
+						.attr('name', 'hour[' + value + ']')
+						.attr('id', 'hour' + value)
+						.attr('required', 'true')
+						.attr('placeholder', 'Type Hour')
+						.attr('type', 'number')
+						.attr('min', '0')
+						.attr('onBlur', 'computeSubtotal("' + value + '", ' + amount + ')' )
+						)
+					).append($('<td>')
+						.attr('id', 'subt' + value)
+						.attr('class', 'sum right aligned')
+						.html('0.00')));
+		},
+		onRemove: function(value, text, choice){
+    		$('#tblItemLists').sumtr({
+	    		formatValue : function(val) { 
+	    			subtotalItem -= parseFloat(val.toFixed(2));
+	    			console.log('hehehe : ' + subtotalItem);  
+	    			return subtotalItem.toFixed(2); 
+	    		},
+	    	});
+
+			$('#item' + value).remove();
     		if($('tr', $('table#tblItemLists').find('tbody')).length < 1){
     			document.getElementById('lists').style.display = "none";
+    			subtotalItem = 0;
+    			$('td#totsub').html('0.00');
     		}
-    	}
-    });
 
 
-  var formValidationRules =
-  {
-  	cateringPackage_name: {
-				identifier : 'cateringPackage_name',
-				rules: [
-				{
-					type   : 'empty',
-					prompt : 'Please enter a name'
-				},
-				{
+	    	var totalSub = subtotalMenu - subtotalItem;
+	    	dispSubt = Math.abs(totalSub.toFixed(2));
+		    $('#packageInitAmount').val(dispSubt);
+		},
+	});
 
-					type   : 'regExp[^(?![0-9 -]*$)[a-zA-Z0-9 -]+$]',
-					prompt: "Name can only consist of alphanumeric, spaces and dashes"
-				}
-				]
-			},
-			amount: {
-				identifier : 'amount',
-				rules: [
-				{
-					type   : 'empty',
-					prompt : 'Please enter the amount'
-				}
+  // $(document).ready( function(){
+  //   $('#menus').addClass("active grey");
+  //   $('#menu_content').addClass("active");
+  //   $('#menu').addClass("active");
 
-				]
-			},
-    cateringPackage_menu: {
-      identifier : 'cateringPackage_menu',
-      rules: [
-      {
-        type   : 'empty',
-        prompt : 'Please select a menu'
-      }
-      ]
-    },
-    cateringPackage_item: {
-      identifier : 'cateringPackage_item',
-      rules: [
-      {
-        type   : 'empty',
-        prompt : 'Please select a item'
-      }
-      ]
-    },
-    menu_rate_code: {
-				identifier : 'menu_rate_code',
-				rules: [ 
-				
-				{
-				  type   : 'empty',
-				  prompt : 'Please select a menu rate'
-				}
-				]
-			},
-			quantity: {
-				identifier : 'quantity',
-				rules: [ 
-				
-				{
-				  type   : "regExp[^[1-9][0-9]*$]",
-				  prompt : 'Please enter a valid number of Quantity'
-				}
-				]
-			}
-  }
-
-
-
-
-  var formSettings =
-  {
-    onSuccess : function() 
-    {
-      $('.modal').modal('hide');
-    }
-  }
-
-  $('.ui.form').form(formValidationRules, formSettings);
-    $('#menus').addClass("active grey");
-    $('#menu_content').addClass("active");
-    $('#menu').addClass("active");
-
-    $('.money').mask("#,##0.00", {reverse: true});
-    $('.number').mask("##0", {reverse: true});
-
-    var table = $('#tblMenu').DataTable();
-    var tableItem = $('#tblItem').DataTable();
-  });
+  //   $('.money').mask("#,##0.00", {reverse: true});
+  //   $('.number').mask("##0", {reverse: true});
+  // });
 </script>
 @endsection

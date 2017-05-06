@@ -136,6 +136,7 @@
 	<script type="text/javascript" src="{{asset('js/jquery.dataTables.js')}}"></script>
 	<script type="text/javascript" src="{{asset('js/dataTables.semanticui.js')}}"></script>
 	<script type="text/javascript" src="{{asset('js/mask.js')}}"></script>
+	<script type="text/javascript" src="{{asset('js/jquery.sumtr.js')}}"></script>
 	<script type="text/javascript" src="{{asset('js/jquery.datetimepicker.full.js')}}"></script>
 
 	<script type="text/javascript">
@@ -145,7 +146,7 @@
 		  })
 		  .sidebar('attach events', '#toggle');
 		$('.ui.accordion').accordion();
-		$('.ui.dropdown').dropdown();
+		// $('.ui.dropdown').dropdown();
 
 		function startTime() {
 		    var today = new Date();

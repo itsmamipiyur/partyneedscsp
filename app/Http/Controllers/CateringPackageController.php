@@ -45,12 +45,13 @@ class CateringPackageController extends Controller
        $newID = $this->smartCounter($ids->cateringPackageCode);
      }
 
-     $menus = Menu::orderBy('menuName')->pluck('menuName', 'menuCode');
-     $items = Item::orderBy('itemName')->pluck('itemName', 'itemCode');
+     $menus = Menu::orderBy('menuName')->get();
+     $items = Item::orderBy('itemName')->get();
+
      return view('maintenance.cateringPackageCreate')
-     ->with('newID', $newID)
-     ->with('menus', $menus)
-     ->with('items', $items);
+       ->with('newID', $newID)
+       ->with('menus', $menus)
+       ->with('items', $items);
  }
 
  /**
@@ -65,8 +66,12 @@ class CateringPackageController extends Controller
    $rules = ['cateringPackage_code' => 'required',
    'cateringPackage_name' => 'required|unique:tblCateringPackage,cateringPackageName',
    'amount' => 'required',
+   'servingType' => 'required',
    'cateringPackage_menu' => 'required|array|min:1',
-   'cateringPackage_item' => 'required|array|min:1'];
+   'cateringPackage_item' => 'required|array|min:1',
+   'quantity' => 'required|array|min:1',
+   'hour' => 'required|array|min:1',
+   'cateringPackage_pax' => 'required|numeric'];
 
    $this->validate($request, $rules);
    $amount = preg_replace('/[\,]/', '', $request->amount);
@@ -75,25 +80,28 @@ class CateringPackageController extends Controller
    $cateringPackage->cateringPackageCode = $request->cateringPackage_code;
    $cateringPackage->cateringPackageName = $request->cateringPackage_name;
    $cateringPackage->cateringPackageDesc = $request->cateringPackage_description;
+   $cateringPackage->cateringPackagePax = $request->cateringPackage_pax;
+   $cateringPackage->cateringPackageServingType = $request->servingType;
    $cateringPackage->cateringPackageAmount = $amount;
    $cateringPackage->save();
 
    $cateringPackage = CateringPackage::find($request->cateringPackage_code);
    $menus = Input::get('cateringPackage_menu');
-   $rates = Input::get('rate');
    $items = Input::get('cateringPackage_item');
    $quantities = Input::get('quantity');
+   $duration = Input::get('hour');
+
 
    foreach($menus as $menu){
-      $cateringPackage->menus()->attach($menu, ['menuRateCode' => $rates[$menu]]);
+      $cateringPackage->menus()->attach($menu);
    }
 
    foreach($items as $item){
-      $cateringPackage->items()->attach($item, ['quantity' => $quantities[$item]]);
+      $cateringPackage->items()->attach($item, ['quantity' => $quantities[$item], 'duration' => $duration[$item]]);
    }
 
    return redirect('cateringPackage')
-   ->with('alert-success', 'CateringPackage was successfully added.');
+   ->with('alert-success', 'Catering Package was successfully added.');
  }
 
  /**
@@ -108,12 +116,10 @@ class CateringPackageController extends Controller
   $cateringPackage = CateringPackage::find($id);
   $menus = CateringPackage::availableMenus($id)->pluck('menuName', 'menuCode');
   $items = CateringPackage::availableItems($id)->pluck('itemName', 'itemCode');
-  $menuRates = CateringPackage::availableMenuRates($id)->pluck('amount', 'menuRateCode');
 
   return view('maintenance.cateringPackageDetail')
   ->with('cateringPackage', $cateringPackage)
   ->with('menus', $menus)
-  ->with('menuRates', $menuRates)
   ->with('items', $items);
 }
 
@@ -186,11 +192,10 @@ class CateringPackageController extends Controller
   public function cateringPackage_addMenu(Request $request)
   {
     $rules = ['cateringPackage_code' => 'required',
-              'menu_code' => 'required',
-              'menu_rate' => 'required'];
+              'menu_code' => 'required'];
     $id = $request->cateringPackage_code;
     $cateringPackage = CateringPackage::find($id);
-    $cateringPackage->menus()->attach($request->menu_code, ['menuRateCode' => $request->menu_rate_code]);
+    $cateringPackage->menus()->attach($request->menu_code);
 
     return redirect('/cateringPackage/'.$id)->with('alert-success', 'Catering Package Dish was successfully added.');
   }
@@ -199,10 +204,11 @@ class CateringPackageController extends Controller
   {
     $rules = ['cateringPackage_code' => 'required',
               'item_code' => 'required',
-              'quantity' => 'required|digits:11'];
+              'quantity' => 'required|digits:11',
+              'duration' => 'required'];
     $id = $request->cateringPackage_code;
     $cateringPackage = CateringPackage::find($id);
-    $cateringPackage->items()->attach($request->item_code, ['quantity' => $request->quantity]);
+    $cateringPackage->items()->attach($request->item_code, ['quantity' => $request->quantity, 'duration' => $request->duration]);
 
     return redirect('/cateringPackage/'.$id)->with('alert-success', 'Catering Package Item was successfully added.');
   }
@@ -232,11 +238,10 @@ class CateringPackageController extends Controller
   public function cateringPackage_updateMenu(Request $request)
   {
     $rules = ['cateringPackage_code' => 'required',
-              'menu_code' => 'required',
-              'pax' => 'required'];
+              'menu_code' => 'required'];
     $id = $request->cateringPackage_code;
     $cateringPackage = CateringPackage::find($id);
-    $cateringPackage->menus()->updateExistingPivot($request->menu_code, ['pax' => $request->pax]);
+    $cateringPackage->menus()->updateExistingPivot($request->menu_code);
 
     return redirect('/cateringPackage/'.$id)->with('alert-success', 'Catering Package Menu was successfully updated.');
   }
@@ -245,10 +250,11 @@ class CateringPackageController extends Controller
   {
     $rules = ['cateringPackage_code' => 'required',
               'item_code' => 'required',
-              'quantity' => 'required'];
+              'quantity' => 'required',
+              'duration' => 'required'];
     $id = $request->cateringPackage_code;
     $cateringPackage = CateringPackage::find($id);
-    $cateringPackage->items()->updateExistingPivot($request->item_code, ['quantity' => $request->quantity]);
+    $cateringPackage->items()->updateExistingPivot($request->item_code, ['quantity' => $request->quantity, 'duration' => '$request->duration']);
 
     return redirect('/cateringPackage/'.$id)->with('alert-success', 'Catering Package Item was successfully updated.');
   }

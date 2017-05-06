@@ -38,7 +38,6 @@
 					  <thead>
 					    <tr>
 						    <th>Menu</th>
-						    <th style="text-align: right;">Rate</th>
 						    <th class="center aligned">Action</th>
 					  	</tr>
 					  </thead>
@@ -46,7 +45,6 @@
 						@foreach($cateringPackage->menus as $menu)
 							<tr>
 								<td>{{$menu->menuName}}</td>
-								<td style="text-align: right;">{{$menu->pivot->menuRateCode}}</td>
 								<td class="center aligned">
 									<div class="ui horizontal buttons">
 										<button class="ui red button" onclick="$('#deleteMenu{{$menu->menuCode}}').modal('show');"><i class="delete icon"></i> Remove</button>
@@ -68,6 +66,7 @@
 					    <tr>
 						    <th>Item</th>
 						    <th style="text-align: right;">Quantity</th>
+						    <th style="text-align: right;">Duration</th>
 						    <th class="center aligned">Action</th>
 					  	</tr>
 					  </thead>
@@ -76,6 +75,7 @@
 							<tr>
 								<td>{{$item->itemName}}</td>
 								<td style="text-align: right;">{{$item->pivot->quantity}}</td>
+								<td style="text-align: right;">{{$item->pivot->duration}} hr</td>
 								<td class="center aligned">
 									<div class="ui horizontal buttons">
 										<button class="ui red button" onclick="$('#deleteItem{{$item->itemCode}}').modal('show');"><i class="delete icon"></i> Remove</button>
@@ -176,17 +176,10 @@
 	  <div class="content">
 	    {!! Form::open(['url' => '/cateringPackage/addMenu', 'id' => 'createForm', 'class' => 'ui form']) !!}
 	    	<div class="ui form">
-	    		
           		{{ Form::hidden('cateringPackage_code', $cateringPackage->cateringPackageCode) }}
 	    		<div class="required field">
 	    			{{ Form::label('menu_code', 'Menu') }}
          			{{ Form::select('menu_code', $menus, null, ['id' => 'cateringPackage_menu', 'placeholder' => 'Choose Menu', 'class' => 'ui search dropdown']) }}
-	    		</div>
-	    		<div class="required field">
-	    			<div class="required field">
-	    			{{ Form::label('menu_rate_code', 'Rate') }}
-         			{{ Form::select('menu_rate_code', [], null, ['id' => 'menuRateCode']) }}
-	    		</div>
 	    		</div>
 	    	</div>
 	    	<div class="ui error message"></div>
@@ -209,9 +202,15 @@
 	    			{{ Form::label('item_code', 'Item') }}
          			{{ Form::select('item_code', $items, null, ['placeholder' => 'Choose Item', 'class' => 'ui search dropdown']) }}
 	    		</div>
-	    		<div class="required field">
-	    			{{ Form::label('quantity', 'Quantity') }}
-         			{{ Form::text('quantity', null, ['maxlength'=>'7', 'placeholder' => 'Specify quantity...']) }}
+	    		<div class="two fields">
+	    			<div class="required field">
+		    			{{ Form::label('quantity', 'Quantity') }}
+	         			{{ Form::text('quantity', null, ['maxlength'=>'7', 'placeholder' => 'Specify quantity...']) }}
+		    		</div>
+		    		<div class="required field">
+		    			{{ Form::label('duration', 'Duration (hour)') }}
+	         			{{ Form::text('duration', null, ['maxlength'=>'7', 'placeholder' => 'Specify duration in hours...']) }}
+		    		</div>
 	    		</div>
 	    	</div>
 	    	
