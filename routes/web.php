@@ -63,8 +63,13 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('inventoryRelease', 'InventoryReleaseController');
     Route::resource('query', 'QueryController');
 
-    Route::get('/eventBooking/create/newCustomer', 'EventBookingController@createEventForNewCustomer');
+    Route::get('/eventBooking/create/newCustomer', 'EventBookingController@createCustomer');
+    Route::get('/eventBooking/create/orderFood', 'EventBookingController@orderFood');
+    Route::get('/eventBooking/create/eventDetail', 'EventBookingController@createEventDetail');
+    Route::post('/eventBooking/process/quotation', 'EventBookingController@processQuotation');
+    Route::post('/eventBooking/create/newCustomer', 'EventBookingController@storeCustomer');
     Route::post('/eventBooking/create/addToTray', 'EventBookingController@addToTray');
+    Route::post('/eventBooking/create/addPackageToTray', 'EventBookingController@addPackageToTray');
 
     Route::get('/rentalManagement/createRental', 'RentalManagementController@createRental');
 
