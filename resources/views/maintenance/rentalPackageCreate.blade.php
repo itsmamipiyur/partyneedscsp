@@ -42,20 +42,22 @@
 				{{ Form::textarea('cateringPackage_description', null, ['placeholder' => 'Type Catering Package Description', 'rows' => '2']) }}
 			</div>
 		</div>
+
+
 		<div class="two fields">
-			
-				<div class="required field">
+			<div class="required field">
 	    			{{ Form::label('rentalPackage_duration', 'Duration') }}
-         			{{ Form::text('rentalPackage_duration', '', ['maxlength'=>'4', 'placeholder' => 'Duration']) }}
+         			{{ Form::text('rentalPackage_duration', '', ['id' => 'rentalPackage_duration', 'maxlength'=>'4', 'placeholder' => 'Duration']) }}
 	    		</div>
 
 	    		<div class="required field">
 	    			{{ Form::label('rentalPackage_unit', 'Unit') }}
-         			{{ Form::select('rentalPackage_unit', $units, null, ['placeholder' => 'Choose Unit', 'class' => 'ui fluid dropdown']) }}
+         			{{ Form::select('rentalPackage_unit', $units, null, ['id' => 'rentalPackage_unit', 'placeholder' => 'Choose Unit', 'class' => 'ui fluid dropdown']) }}
 	    		</div>
-			
-			
 		</div>
+
+
+
 		<div class="two fields">
 			<div class="required field">
 				{{ Form::label('packageInitAmount', 'Initial Amount') }}
@@ -125,11 +127,38 @@
 	var amount = 0;
 	var pax = "hehehe";
 
+
+
+
+
+	
+
+
 	function computeSubtotal(value, amount){
 		amount = parseFloat(amount);
     	var qty = (($("input#quantity"+value).val() == '') ? 0 : parseFloat($("input#quantity"+value).val()));
-    	var hr = (($("input#hour"+value).val() == '') ? 0 : parseFloat($("input#hour"+value).val()));
+    	var hr = parseFloat($('#rentalPackage_duration').val());
+
+
+  //   	$('#rentalPackage_unit').change(function() {
+		// var status = this.value;
+	 //     if(status == 1){
+	 //     	hr = parseFloat($('#rentalPackage_duration').val()* 1);
+	 //     }else if(status == 2){
+	 //     	hr = parseFloat($('#rentalPackage_duration').val()* 24);
+	 //     }
+
+		// });
+
+
+
+
     	$('td#subt'+value).html(((amount*qty)*hr).toFixed(2));
+    	// var hr = (($("rentalPackage_duration").val() == '') ? 0 : parseFloat($("rentalPackage_duration").val()));
+
+    	// $('td#subt'+value).html(((amount*qty)*hr).toFixed(2));
+
+
 
     	$('#tblItemLists').sumtr({
     		formatValue : function(val) { 
@@ -149,7 +178,7 @@
 
 	
 
-	$('#cateringPackage_item').dropdown({
+	$('#rentalPackage_item').dropdown({
 		onAdd: function(value, text, choice){
 			console.log(value);
 			var amount =  $(this).children('option[value=' + $(choice).data('value') + ']').data('hour');
@@ -171,7 +200,16 @@
 						.attr('min', '0')
 						.attr('onBlur', 'computeSubtotal("' + value + '", ' + amount + ')')
 						)
-					
+					).append($('<td>')
+					.append($('<input>')
+						.attr('name', 'hour[' + value + ']')
+						.attr('id', 'hour' + value)
+						.attr('required', 'true')
+						.attr('placeholder', 'Type Hour')
+						.attr('type', 'number')
+						.attr('min', '0')
+						.attr('onBlur', 'computeSubtotal("' + value + '", ' + amount + ')' )
+						)
 					).append($('<td>')
 						.attr('id', 'subt' + value)
 						.attr('class', 'sum right aligned')
@@ -194,13 +232,11 @@
     		}
 
 
-	    	var totalSub = subtotalItem;
+	    	var totalSub = subtotalMenu - subtotalItem;
 	    	dispSubt = Math.abs(totalSub.toFixed(2));
 		    $('#packageInitAmount').val(dispSubt);
 		},
 	});
-
- 
 
 
 

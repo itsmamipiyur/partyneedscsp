@@ -6,43 +6,32 @@
 
 @section('content')
 <h1>Create Customer</h1>
-<form class="ui form" action="/eventBooking/create/newCustomer" method="post">
+<form class="ui form" action="/rentalBooking/create/newCustomer" method="post">
   {{ csrf_field() }}
   <div class="ui raised segment">
-  @if (count($errors) > 0)
-  <div class="ui message">
-      <div class="header">We had some issues</div>
-      <ul class="list">
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-      </ul>
-  </div>
-  @endif
-  <div class="ui error message"></div>
     <h4 class="ui dividing header">Customer Information</h4>
     <div class="field">
       <label>Name</label>
       <div class="three fields">
         <div class="required field">
-          <input type="text" placeholder="First Name" name="first_name" id='fname'>
+          <input type="text" placeholder="First Name" name="first_name" id="fname">
         </div>
         <div class="field">
           <input type="text" placeholder="Middle Name" name="middle_name">
         </div>
         <div class="required field">
-          <input type="text" placeholder="Last Name" name="last_name" id='lname'>
+          <input type="text" placeholder="Last Name" name="last_name" id="fname">
         </div>
       </div>
     </div>
     <div class="two fields">
       <div class="required field">
         <label>Billing Address</label>
-        <textarea rows="2" placeholder="Type Billing Address" name="billing_address" id='add'></textarea>
+        <textarea rows="2" placeholder="Type Billing Address" name="billing_address" id="add"></textarea>
       </div>
       <div class="required field">
         <label>Contact Number</label>
-        <input type="text" placeholder="Type Contact Number" name="contact_no" id='contact' maxlength="11" minlength="7">
+        <input type="text" placeholder="Type Contact Number" name="contact_no" id="contact">
       </div>
     </div>
     <div class="ui center aligned buttons">
@@ -159,8 +148,6 @@
   }
 
   $('.ui.form').form(formValidationRules, formSettings);
-
-
 
 
   $('select.dropdown').dropdown();
