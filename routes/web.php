@@ -57,8 +57,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('rentalPackage', 'RentalPackageController');
     Route::resource('inventory', 'InventoryController', ['only' => ['index']]);
     Route::resource('eventBooking', 'EventBookingController', ['only' => ['index']]);
-    Route::resource('eventFill', 'EventFillController');
-    Route::resource('rentalManagement', 'RentalManagementController', ['only' => ['index']]);
+    Route::resource('rentalBooking', 'RentalBookingController', ['only' => ['index']]);
     Route::resource('rentalFill', 'RentalFillController');
     Route::resource('billingCollection', 'BillingCollection');
     Route::resource('inventoryRelease', 'InventoryReleaseController');
@@ -73,7 +72,21 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/orderFood/addToTray', 'EventOrderController@addToTray');
     Route::post('/orderFood/destroyTray', 'EventOrderController@destroyTray');
 
-    Route::get('/rentalManagement/createRental', 'RentalManagementController@createRental');
+
+
+
+    Route::get('/rentalBooking/create/newCustomer', 'RentalBookingController@createCustomer');
+    Route::get('/rentalBooking/create/rentItem', 'RentalBookingController@rentItem');
+    Route::get('/rentalBooking/create/rentalDetail', 'RentalBookingController@createRentalDetail');
+    Route::post('/rentalBooking/process/quotation', 'RentalBookingController@processQuotation');
+    Route::post('/rentalBooking/create/newCustomer', 'RentalBookingController@storeCustomer');
+    Route::post('/rentalBooking/create/addToTray', 'RentalBookingController@addToTray');
+    Route::post('/rentalBooking/create/addPackageToTray', 'RentalBookingController@addPackageToTray');
+
+
+
+
+
 
     Route::post('/inventory/addStock', 'InventoryController@addStock');
     Route::post('/inventory/releaseStock', 'InventoryController@releaseStock');

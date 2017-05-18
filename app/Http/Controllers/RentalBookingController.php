@@ -8,14 +8,14 @@ use App\RentalManagement;
 use App\EventType;
 use App\Decor;
 use App\Delivery;
-use App\Menu;
 use App\Item;
+use App\ItemRate;
 use App\RentalPackage;
 use App\Customer;
 use Cart;
 use Session;
 
-class RentalManagementController extends Controller
+class RentalBookingController extends Controller
 {
     public function index()
   {
@@ -63,7 +63,7 @@ class RentalManagementController extends Controller
             Session::put('custCode', $newID);
         }
 
-        return redirect('/rentalbooking/create/rentItem');
+        return redirect('/rentalBooking/create/rentItem');
     }
 
 
@@ -76,43 +76,55 @@ class RentalManagementController extends Controller
         $rentalPackages = RentalPackage::all();
 
         return view('transaction.rentItem')
-            ->with('item', $items)
+            ->with('items', $items)
             ->with('customer', $customer)
             ->with('rentalPackages', $rentalPackages);
     }
-    
-
-  //   public function createRental()
-  // {
-  //   $decors = Decor::orderBy('decorName')->pluck('decorName', 'decorCode');
-  //     $eventTypes = EventType::orderBy('eventTypeName')->pluck('eventTypeName', 'eventTypeCode');
-  //     $deliveries = Delivery::orderBy('deliveryLocation')->pluck('deliveryLocation', 'deliveryCode');
-  //     $rentalPackages = RentalPackage::all();
-  //     $menus = Menu::all();
-  //     $items = Item::all();
-  //     $servingTypes = ['1' => 'Buffet', '2' => 'Set'];
-
-  //   return view('transaction.createRental')
-  //     ->with('deliveries', $deliveries)
-  //     ->with('eventTypes', $eventTypes)
-  //     ->with('rentalPackages', $rentalPackages)
-  //       ->with('decors', $decors)
-  //       ->with('menus', $menus)
-  //     ->with('items', $items)
-  //       ->with('servingTypes', $servingTypes);
-  // }
 
 
-   public function createRentalDetail()
+    public function addToTray(Request $request)
+    {
+        $rules = ['itemCode' => 'required', 'qty' => 'required|numeric', 'rate' => 'required', 'duration' => 'required|numeric'];
+
+        $this->validate($request, $rules);
+        $item = Item::find($request->itemCode);
+        $itemRate = ItemRate::find($request->rate);
+        $options = ['unitType' => $itemRate->unitType];
+        $duration = ['duration' => $item->duration];
+
+        Cart::instance('order')->add($request->itemCode, $item->itemName, $request->qty, $itemRate->amount, $options, $duration);
+
+        return back();
+    }
+
+
+    public function addPackageToTray(Request $request)
+    {
+        $rules = ['packageCode' => 'required'];
+
+        $this->validate($request, $rules);
+        $package = RentalPackage::find($request->packageCode);
+
+        Cart::instance('package')->add($package->rentalPackageCode, $package->rentalPackageName, 1, $package->rentalPackageAmount);
+
+        return back();
+    }
+
+        public function createRentalDetail()
     {
         $deliveries = Delivery::all();
         $decors = Decor::all();
         $types = EventType::all();
 
-        return view('transaction.createRentalDetail')
-            ->with('deliveries', $deliveries);
-
+        return view('transaction.createEventDetail')
+            ->with('deliveries', $deliveries)
+            ->with('decors', $decors)
+            ->with('types', $types);
     }
+    
+
+
+
 }
 
 
