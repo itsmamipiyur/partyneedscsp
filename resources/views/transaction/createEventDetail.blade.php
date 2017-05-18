@@ -18,7 +18,7 @@
 @endif
 <form class="ui form" action="/eventBooking/process/quotation" method="post">
   {{ csrf_field() }}
-
+  <input type="hidden" name="event_code" value="{{ $event_code }}">
   <div class="ui raised segment">
     <h4 class="ui dividing header">Event Information</h4>
     <div class="required field">
@@ -28,7 +28,7 @@
     <div class="two fields">
       <div class="required field">
         <label>Event Start</label>
-        <input type="datetime-local" name="event_start">
+        <input type="datetime-local" name="event_start" min="{{ Carbon\Carbon::today()->format('Y-m-d h:m:s') }}">
       </div>
       <div class="required field">
         <label>Event End</label>

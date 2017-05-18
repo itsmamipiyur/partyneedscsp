@@ -17,17 +17,23 @@
     <th>Event Code</th>
     <th>Event Title</th>
     <th>Customer Name</th>
-    <th>Event Date</th>
+    <th>Event Start</th>
+    <th>Event End</th>
     <th>Status</th>
     <th>Actions</th>
   </thead>
   <tbody>
-    <td>EVNT012934</td>
-    <td>Ellen deGeneres Day</td>
-    <td>Ellen deGeneres</td>
-    <td>December 20, 2012 11:59</td>
-    <td>Going</td>
-    <td><br></td>
+    @foreach($events as $event)
+    <tr>
+      <td>{{ $event->eventCode }}</td>
+      <td>{{ $event->eventTitle }}</td>
+      <td>{{ $event->customer->customerFirst }} {{ $event->customer->customerMiddle }} {{ $event->customer->customerLast }}</td>
+      <td>{{ Carbon\Carbon::parse($event->eventStart)->format('d F Y h:m A') }}</td>
+      <td>{{ Carbon\Carbon::parse($event->eventEnd)->format('d F Y h:m A') }}</td>
+      <td>Going</td>
+      <td><a href="/eventBooking/{{$event->eventCode}}" class="ui small blue button">View</a></td>
+    </tr>
+    @endforeach
   </tbody>
 </table>
 

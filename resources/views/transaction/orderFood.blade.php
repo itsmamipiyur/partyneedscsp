@@ -6,9 +6,6 @@
 
 @section('content')
 <h1>Order Food</h1>
-@if(Session::has('custCode'))
-  <h4>Customer: {{ $customer->customerFirst }} {{ $customer->customerMiddle }} {{ $customer->customerLast }}</h4>
-@endif
 <div class="ui grid">
   <div class="ten wide column">
     <div class="row">
@@ -37,30 +34,6 @@
             </div>
           </div>
           @endif
-          @endforeach
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="ui raised segment">
-        <h4 class="ui dividing header">Avail Catering Package</h4>
-        <div class="ui three raised cards">
-          @foreach($cateringPackages as $package)
-          <div class="card">
-            <div class="content">
-              <div class="header">{{ $package->cateringPackageName }}</div>
-              <div class="meta">
-                <strong>Capacity:</strong> {{ $package->cateringPackagePax }} pax <br>
-                <strong>Amount:</strong> Php {{ $package->cateringPackageAmount }}
-              </div>
-              <div class="description">
-                {{ $package->cateringPackageDesc }}
-              </div>
-            </div>
-            <div class="extra content">
-              <button class="ui green inverted fluid button" onclick="$('#package{{ $package->cateringPackageCode }}').modal('show')">Add to Tray</button>
-            </div>
-          </div>
           @endforeach
         </div>
       </div>
@@ -102,42 +75,15 @@
         </table>
       </div>
     </div>
-    <div class="row">
-      <div class="ui segment">
-        <h4 class="ui dividing header">Your Catering Package Order</h4>
-        <table class="ui table">
-          <thead>
-            <th>Qty</th>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Subtotal</th>
-          </thead>
-          <tbody>
-            @foreach(Cart::instance('package')->content() as $row)
-            <tr>
-              <td>{{ $row->qty }}</td>
-              <td>{{ $row->name }}</td>
-              <td>Php {{ $row->price }}</td>
-              <td>Php {{ $row->subtotal }}</td>
-            </tr>
-            @endforeach
-          </tbody>
-          <tfoot>
-            <tr>
-              <th colspan="3" class="right aligned"><strong>Total</strong></td>
-              <td colspan="2" class="right aligned">Php {{ Cart::instance('package')->subtotal() }}</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
-    <div class="row">
-      <div class="ui red segment">
-        <h3><strong>Total:</strong> Php {{ Cart::subtotal() }}</h3>
-      </div>
-    </div>
-    <a class="ui green button" id="proceed_btn" href="/eventBooking/create/eventDetail">Proceed</a>
-  </div>
+    <form action="/orderFood/" method="post">
+      {{ csrf_field() }}
+      <input type="hidden" name="eventCode" value="{{ $eventCode }}">
+      <input type="submit" value="Submit Order" class="ui green button">
+    </form>
+    <form action="/orderFood/destroyTray" method="post">
+      {{ csrf_field() }}
+      <input type="submit" value="Clear Tray" class="ui red button">
+    </form>
 </div>
 
 <!--modal-->
@@ -156,7 +102,7 @@
         </ul>
       </div>
       <div class="six wide column">
-        <form class="ui form" action="/eventBooking/create/addToTray" method="post">
+        <form class="ui form" action="/orderFood/addToTray" method="post">
           {{ csrf_field() }}
           <div class="two fields">
             <input type="hidden" name="menuCode" value="{{ $menu->menuCode }}">
@@ -179,38 +125,6 @@
 </div>
 </div>
 @endif
-@endforeach
-
-@foreach($cateringPackages as $package)
-<div class="ui modal" id="package{{ $package->cateringPackageCode }}">
-  <div class="header">Add to Cart {{ $package->cateringPackageName }}</div>
-  <div class="content">
-    <div class="ui grid">
-      <div class="ten wide column">
-        <div class="ui horizontal divider">Menu</div>
-        <ul>
-          @foreach($package->menus as $menu)
-          <li>{{$menu->menuName}}</li>
-          @endforeach
-        </ul>
-        <div class="ui horizontal divider">Items</div>
-        <ul>
-          @foreach($package->items as $item)
-          <li>{{$item->itemName}} - {{ $item->pivot->quantity }} - {{$item->pivot->duration}} hr</li>
-          @endforeach
-        </ul>
-      </div>
-      <div class="six wide column">
-        <form class="ui form" action="/eventBooking/create/addPackageToTray" method="post">
-          {{ csrf_field() }}
-          <input type="hidden" name="packageCode" value="{{ $package->cateringPackageCode }}">
-          <button type="submit" class="ui green button right aligned">Submit</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
 @endforeach
 
 @endsection

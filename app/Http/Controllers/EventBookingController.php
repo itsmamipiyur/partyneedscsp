@@ -11,20 +11,38 @@ use App\Menu;
 use App\MenuRate;
 use App\CateringPackage;
 use App\Customer;
-use Cart;
-use Session;
+use App\Event;
 
 class EventBookingController extends Controller
 {
     //
     public function index()
     {
-    	return view('transaction.eventbooking');
+      $events = Event::all();
+    	return view('transaction.eventbooking')
+        ->with('events', $events);
     }
 
     public function createCustomer()
     {
-    	return view('transaction.createCustomer');
+      $deliveries = Delivery::all();
+      $decors = Decor::all();
+      $types = EventType::all();
+      $idss = \DB::table('tblEvent')
+           ->select('eventCode')
+           ->orderBy('eventCode', 'desc')
+           ->first();
+
+       if ($idss == null) {
+         $newID = $this->smartCounter("EVNT0000");
+       }else{
+         $newID = $this->smartCounter($idss->eventCode);
+       }
+    	return view('transaction.createCustomer')
+        ->with('deliveries', $deliveries)
+        ->with('decors', $decors)
+        ->with('types', $types)
+        ->with('event_code', $newID);
     }
 
     public function storeCustomer(Request $request)
@@ -35,6 +53,7 @@ class EventBookingController extends Controller
                   'contact_no' => 'required'];
 
         $this->validate($request, $rules);
+
         $idss = \DB::table('tblCustomer')
              ->select('customerCode')
              ->orderBy('customerCode', 'desc')
@@ -56,69 +75,8 @@ class EventBookingController extends Controller
         $customer->customerContact = $request->contact_no;
         $customer->save();
 
-        if (!Session::has('custCode')) {
-            Session::put('custCode', $newID);
-        }
-
-        return redirect('/eventBooking/create/orderFood');
-    }
-
-    public function createEventDetail()
-    {
-        $deliveries = Delivery::all();
-        $decors = Decor::all();
-        $types = EventType::all();
-
-        return view('transaction.createEventDetail')
-            ->with('deliveries', $deliveries)
-            ->with('decors', $decors)
-            ->with('types', $types);
-    }
-
-    public function orderFood()
-    {
-        $custCode = Session::get('custCode');
-
-        $customer = Customer::find($custCode);
-        $menus = Menu::all();
-        $cateringPackages = CateringPackage::all();
-
-        return view('transaction.orderFood')
-            ->with('menus', $menus)
-            ->with('customer', $customer)
-            ->with('cateringPackages', $cateringPackages);
-    }
-
-    public function addToTray(Request $request)
-    {
-        $rules = ['menuCode' => 'required', 'no_pax' => 'required|numeric', 'rate' => 'required'];
-
-        $this->validate($request, $rules);
-        $menu = Menu::find($request->menuCode);
-        $menuRate = MenuRate::find($request->rate);
-
-        $options = ['servingType' => $menuRate->servingType];
-
-        Cart::instance('order')->add($request->menuCode, $menu->menuName, $request->no_pax, $menuRate->amount, $options);
-
-        return back();
-    }
-
-    public function addPackageToTray(Request $request)
-    {
-        $rules = ['packageCode' => 'required'];
-
-        $this->validate($request, $rules);
-        $package = CateringPackage::find($request->packageCode);
-
-        Cart::instance('package')->add($package->cateringPackageCode, $package->cateringPackageName, 1, $package->cateringPackageAmount);
-
-        return back();
-    }
-
-    public function processQuotation(Request $request)
-    {
-        $rules = ['event_title' => 'required',
+        $eventRules = ['event_code' => 'required',
+                  'event_title' => 'required',
                   'event_start' => 'required',
                   'event_end' => 'required',
                   'event_types' => 'required|array|min:1',
@@ -126,22 +84,30 @@ class EventBookingController extends Controller
                   'event_address' => 'required',
                   'event_delivery' => 'required'];
 
-        $this->validate($request, $rules);
+        $this->validate($request, $eventRules);
 
-        $types = EventType::find($request->event_types);
-        $decors = Decor::find($request->event_decors);
-        $delivery = Delivery::find($request->event_delivery);
-        $customer = Customer::find(Session::get('custCode'));
+        $event = new Event;
+        $event->eventCode = $request->event_code;
+        $event->customerCode = $newID;
+        $event->eventTitle = $request->event_title;
+        $event->eventStart = $request->event_start;
+        $event->eventEnd = $request->event_end;
+        $event->eventAddress = $request->event_address;
+        $event->deliveryId = $request->event_delivery;
+        $event->save();
 
-        return redirect('eventBooking/viewQuotation')
-            ->with('eventDetail', $request->all())
-            ->with('types', $types)
-            ->with('decors', $decors)
-            ->with('delivery', $delivery);
+        $event = Event::find($request->event_code);
+        $event->decors()->attach($request->get('event_decors'));
+        $event->types()->attach($request->get('event_types'));
+
+        return redirect('/eventBooking/' . $request->event_code);
     }
 
-    public function viewQuotation()
+    public function viewEventDetail($id)
     {
-        return view('transaction.viewQuotation');
+      $event = Event::find($id);
+
+      return view('transaction.eventDetail')
+        ->with('event', $event);
     }
 }

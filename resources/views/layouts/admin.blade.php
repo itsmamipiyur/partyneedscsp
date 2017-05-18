@@ -88,6 +88,7 @@
 				  <div class="content">
 				    <a href="{{url('/eventType')}}" class="item">Event Type</a>
 				    <a href="{{url('/decor')}}" class="item">Decor</a>
+				    <a href="{{url('/manpower')}}" class="item">Manpower</a>
 				    <a href="{{url('/waiterRatio')}}" class="item">Waiter Ratio</a>
 				  </div>
 

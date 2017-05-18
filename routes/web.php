@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('penalty', 'PenaltyController');
     Route::resource('waiterRatio', 'WaiterRatioController');
     Route::resource('eventType', 'EventTypeController');
+    Route::resource('manpower', 'ManpowerController');
     Route::resource('dish', 'DishController');
     Route::resource('menu', 'MenuController');
     Route::resource('uom', 'UOMController');
@@ -64,12 +65,13 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('query', 'QueryController');
 
     Route::get('/eventBooking/create/newCustomer', 'EventBookingController@createCustomer');
-    Route::get('/eventBooking/create/orderFood', 'EventBookingController@orderFood');
-    Route::get('/eventBooking/create/eventDetail', 'EventBookingController@createEventDetail');
-    Route::post('/eventBooking/process/quotation', 'EventBookingController@processQuotation');
+    Route::get('/eventBooking/{id}', 'EventBookingController@viewEventDetail');
     Route::post('/eventBooking/create/newCustomer', 'EventBookingController@storeCustomer');
-    Route::post('/eventBooking/create/addToTray', 'EventBookingController@addToTray');
-    Route::post('/eventBooking/create/addPackageToTray', 'EventBookingController@addPackageToTray');
+
+    Route::get('/orderFood', 'EventOrderController@orderFood');
+    Route::post('/orderFood', 'EventOrderController@storeOrder');
+    Route::post('/orderFood/addToTray', 'EventOrderController@addToTray');
+    Route::post('/orderFood/destroyTray', 'EventOrderController@destroyTray');
 
     Route::get('/rentalManagement/createRental', 'RentalManagementController@createRental');
 
@@ -104,6 +106,9 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::post('/eventType/eventType_update', 'EventTypeController@eventType_update');
     Route::post('/eventType/eventType_restore', 'EventTypeController@eventType_restore');
+
+    Route::post('/manpower/manpower_update', 'ManpowerController@manpower_update');
+    Route::post('/manpower/manpower_restore', 'ManpowerController@manpower_restore');
 
     Route::post('/item/item_update', 'ItemController@item_update');
     Route::post('/item/item_restore', 'ItemController@item_restore');
