@@ -76,19 +76,31 @@
   <thead>
     <th>Order Number</th>
     <th>Created At</th>
-    <th>Total Pax</th>
-    <th>Actions</th>
+    <th>Menu</th>
+    <th class="right aligned">Subtotal</th>
   </thead>
   <tbody>
     @foreach($event->orders as $order)
     <tr>
       <td>{{ $order->eventOrderCode }}</td>
-      <td>{{ $order->created_at->diffForHumans() }}</td>
-      <td><br></td>
-      <td><br></td>
+      <td>{{ Carbon\Carbon::parse($order->created_at)->format('d F Y h:m A') }} ({{ $order->created_at->diffForHumans() }})</td>
+      <td>
+        <ul>
+        @foreach($order->menus as $menu)
+          <li>{{ $menu->menuName }} - {{ $menu->pivot->pax }} pax - {{ $menu->pivot->servingType == 1 ? 'Buffet' : 'Set' }}</li>
+        @endforeach
+        </ul>
+      </td>
+      <td class="right aligned">Php {{ $order->subtotal }}</td>
     </tr>
     @endforeach
   </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="3" class="right aligned"><h3>Total Amount:</h3></td>
+      <td class="right aligned"><h3>Php {{ $total->amount }}</h3></td>
+    </tr>
+  </tfoot>
 </table>
 
 @endsection

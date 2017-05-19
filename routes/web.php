@@ -64,16 +64,15 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('query', 'QueryController');
 
     Route::get('/eventBooking/create/newCustomer', 'EventBookingController@createCustomer');
+    Route::get('/eventBooking/create/existingCustomer', 'EventBookingController@existingCustomer');
     Route::get('/eventBooking/{id}', 'EventBookingController@viewEventDetail');
     Route::post('/eventBooking/create/newCustomer', 'EventBookingController@storeCustomer');
+    Route::post('/eventBooking/create/existingCustomer', 'EventBookingController@storeEventDetails');
 
     Route::get('/orderFood', 'EventOrderController@orderFood');
     Route::post('/orderFood', 'EventOrderController@storeOrder');
     Route::post('/orderFood/addToTray', 'EventOrderController@addToTray');
     Route::post('/orderFood/destroyTray', 'EventOrderController@destroyTray');
-
-
-
 
     Route::get('/rentalBooking/create/newCustomer', 'RentalBookingController@createCustomer');
     Route::get('/rentalBooking/create/rentItem', 'RentalBookingController@rentItem');
@@ -82,11 +81,6 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/rentalBooking/create/newCustomer', 'RentalBookingController@storeCustomer');
     Route::post('/rentalBooking/create/addToTray', 'RentalBookingController@addToTray');
     Route::post('/rentalBooking/create/addPackageToTray', 'RentalBookingController@addPackageToTray');
-
-
-
-
-
 
     Route::post('/inventory/addStock', 'InventoryController@addStock');
     Route::post('/inventory/releaseStock', 'InventoryController@releaseStock');

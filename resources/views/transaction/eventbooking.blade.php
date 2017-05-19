@@ -30,7 +30,7 @@
       <td>{{ $event->customer->customerFirst }} {{ $event->customer->customerMiddle }} {{ $event->customer->customerLast }}</td>
       <td>{{ Carbon\Carbon::parse($event->eventStart)->format('d F Y h:m A') }}</td>
       <td>{{ Carbon\Carbon::parse($event->eventEnd)->format('d F Y h:m A') }}</td>
-      <td>Going</td>
+      <td>Approved</td>
       <td><a href="/eventBooking/{{$event->eventCode}}" class="ui small blue button">View</a></td>
     </tr>
     @endforeach
@@ -44,7 +44,7 @@
       <div class="ui large buttons">
         <a class="ui green button" href="/eventBooking/create/newCustomer">New Customer</a>
         <div class="or"></div>
-        <a class="ui blue button">Existing Customer</a>
+        <a class="ui blue button" href="/eventBooking/create/existingCustomer">Existing Customer</a>
       </div>
     </div>
   </div>

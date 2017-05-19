@@ -15,11 +15,20 @@ class EventOrder extends Model
 
   public function menus()
   {
-  	return $this->belongsToMany('App\Menu', 'tblEventOrderDetail', 'eventOrderCode', 'menuCode');
+  	return $this->belongsToMany('App\Menu', 'tblEventOrderDetail', 'eventOrderCode', 'menuCode')->withPivot('pax', 'servingType');
   }
 
   public function event()
   {
     return $this->belongsTo('App\Event', 'eventCode');
+  }
+
+  public function rates()
+  {
+    return $this->belongsToMany('App\MenuRate', 'tblEventOrderDetail', 'eventOrderCode', 'menuRateCode');
+  }
+
+  public function getSubtotalAttribute() {
+    return $this->rates()->select(\DB::raw('sum( tblEventOrderDetail.pax * tblMenuRate.amount ) as subtotal'))->pluck('subtotal')->first();
   }
 }
